@@ -1,46 +1,58 @@
 package it.unicam.cs.pa.chessboardGame.games.Dama;
 
-import it.unicam.cs.pa.chessboardGame.structure.*;
 
+import it.unicam.cs.pa.chessboardGame.structure.game;
+import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
+import it.unicam.cs.pa.chessboardGame.structure.player;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.Collection;
+
 
 /**
  * 8x8 checkers:
- * Italian checkers - In ancient Rome, it was called "ludus dominarum" (master/sister game). It is safe to assume that Julius Caesar was also familiar with the game and its related pyramid-shaped defensive strategy, given the defensive strategy of the legions narrated in De bello Gallico.[source-less] It is played on an 8x8 checkerboard, similar to the chess board in chess, with the only difference being that it is rotated ninety degrees (the canton, i.e., the black corner square, goes to the bottom right). There are 12 checkers per player, and the player with the light pieces ("the white") starts. Pawns cannot eat the ladies, nor can they eat backwards. In the case of multiple chances to take, there is an obligation to take in the order of priority: where there are the most pieces, where there are the most valuable pieces (ladies) and where the most valuable pieces meet first. With the same number of pieces, if there is a possibility of taking with both pawn and checkers, it is obligatory to take with checkers. It is played mainly in Italy and some North African countries.
+ * Italian checkers - It is played on a 8x8 checkerboard, similar to the chess board in chess, with the only difference being that it is rotated ninety degrees (the canton, i.e., the black corner square, goes to the bottom right). There are 12 checkers per players, and the players with the light pieces ('the white') starts. Pawns cannot eat the ladies, nor can they eat backwards. In the case of multiple chances to take, there is an obligation to take in the order of priority: where there are the most pieces, where there are the most valuable pieces (ladies) and where the most valuable pieces meet first. With the same number of pieces, if there is a possibility of taking with both pawn and checkers, it is obligatory to take with checkers. It is played mainly in Italy and some North African countries.
  *
  * @author Matteo Brachetta
- * @version 0.0
+ * @version 0.1
  */
 public class damaGame implements game {
+    private final String information;
     private final UUID id;
+    private final String name;
 
-    public damaGame() {
+    private Map<String, player> players;
+    private gameBoard board;
+
+    public damaGame(damaBoard board, String descInformation) {
         this.id = UUID.randomUUID();
+        this.name = "Dama";
+        this.players = new HashMap<>();
+        this.board = board;
+        this.information = descInformation;
     }
 
     @Override
-    public pawnBoard getBoard() {
-        //TODO: Implement damaGame.getBoard
-        return null;
+    public gameBoard getBoard() {
+        return this.board;
     }
 
     @Override
-    public void setBoard(pawnBoard newBoard) {
-        //TODO: Implement damaGame.getBoard
-
+    public void setBoard(gameBoard newBoard) {
+        this.board = newBoard;
     }
 
     @Override
     public String getId() {
-        //TODO: Implement damaGame.getId
-        return null;
+        return this.id.toString();
     }
 
     @Override
     public String getName() {
-        //TODO: Implement damaGame.getName
-        return null;
+        return this.name;
     }
 
     @Override
@@ -51,19 +63,39 @@ public class damaGame implements game {
 
     @Override
     public void setPlayers(List<player> players) {
-        //TODO: Implement damaGame.setPlayers
-
+        if (players == null)
+            throw new NullPointerException("players is null");
+        if (players.size() == 0)
+            throw new IllegalArgumentException("players is empty");
+        this.players.clear();
+        players.forEach(player -> this.players.put(player.getId(), player));
     }
 
     @Override
-    public List<player> getPlayers() {
-        //TODO: Implement damaGame.getPlayers
-        return null;
+    public Collection<player> getPlayers() {
+        return this.players.values();
     }
 
     @Override
     public player getPlayer(String idPlayer) {
-        //TODO: Implement damaGame.getPlayer
-        return null;
+        if (idPlayer == null)
+            throw new NullPointerException("players id is null");
+        if (idPlayer.isEmpty())
+            throw new IllegalArgumentException("players id is empty");
+        return this.players.get(idPlayer);
+    }
+
+    @Override
+    public void addPlayer(player player) {
+        if (players == null)
+            throw new NullPointerException("players is null");
+        if (this.players.containsKey(player.getId()))
+            throw new IllegalArgumentException("players is already contained  ");
+        this.players.put(player.getId(), player);
+    }
+
+    @Override
+    public String getInformationGame() {
+        return this.information;
     }
 }
