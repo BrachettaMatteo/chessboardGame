@@ -20,8 +20,7 @@ public class easyBot implements player {
 
     @Override
     public String getId() {
-        //TODO: implement easyBot.getId
-        return null;
+        return this.id.toString();
     }
 
     @Override
@@ -47,4 +46,5 @@ public class easyBot implements player {
         //TODO: implement easyBot.getName
         return null;
     }
+
 }

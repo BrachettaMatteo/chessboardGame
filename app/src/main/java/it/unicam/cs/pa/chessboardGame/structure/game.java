@@ -38,11 +38,11 @@ public interface game {
     String getName();
 
     /**
-     * get win player
+     * get live win player
      *
      * @return player win
      */
-    player getWin();
+    player getLiveWin();
 
     /**
      * setting player for game
@@ -55,6 +55,7 @@ public interface game {
 
     /**
      * get list of player game
+     *
      * @return all players for game
      */
     Collection<player> getPlayers();
@@ -84,4 +85,5 @@ public interface game {
      * @return the information game
      */
     String getInformationGame();
+
 }

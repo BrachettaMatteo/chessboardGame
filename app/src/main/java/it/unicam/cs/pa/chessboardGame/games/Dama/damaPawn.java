@@ -1,71 +1,89 @@
 package it.unicam.cs.pa.chessboardGame.games.Dama;
 
-import it.unicam.cs.pa.chessboardGame.structure.*;
+
+import it.unicam.cs.pa.chessboardGame.structure.movement;
+import it.unicam.cs.pa.chessboardGame.structure.pawn;
+import it.unicam.cs.pa.chessboardGame.structure.player;
 
 import java.util.UUID;
 
 /**
  * @author Matteo Brachetta
- * @version 0.0
+ * @version 0.1
  */
 public class damaPawn implements pawn {
-    private final UUID id;
 
-    public damaPawn() {
+    private final UUID id;
+    private final player owner;
+    private int hierarchy;
+    private movement moves;
+    private final String name;
+    private boolean life;
+
+    public damaPawn(int hierarchy, movement movement, String name, player owner) {
         this.id = UUID.randomUUID();
+        this.hierarchy = hierarchy;
+        this.moves = movement;
+        this.name = name;
+        this.life = true;
+        this.owner = owner;
     }
 
     @Override
     public int getHierarchy() {
-        //TODO: implement damaPawn.getHierarchy
-        return 0;
+        return this.hierarchy;
     }
 
     @Override
     public void setHierarchy(int hierarchy) {
-        //TODO: implement damaPawn.setHierarchy
+        if (hierarchy > 0)
+            this.hierarchy = hierarchy;
+        throw new IllegalArgumentException("the hierarchy is too small");
 
     }
 
     @Override
     public void setMovement(movement movement) {
-        //TODO: implement damaPawn.setMovement
+        if (movement == null)
+            throw new NullPointerException("movement is null");
+        this.moves = movement;
 
     }
 
     @Override
     public movement getMovement() {
-        //TODO: implement damaPawn.getMovement
-        return null;
+        return this.moves;
     }
 
     @Override
     public String getId() {
-        //TODO: implement damaPawn.getId
-        return null;
+        return this.id.toString();
     }
 
     @Override
     public String getName() {
-        //TODO: implement damaPawn.getName
-        return null;
+        return this.name;
     }
 
     @Override
     public boolean getLife() {
-        //TODO: implement damaPawn.getLife
-        return false;
+        return this.life;
     }
 
     @Override
     public void setLife(boolean life) {
-        //TODO: implement damaPawn.setLife
+        this.life = life;
 
     }
 
     @Override
     public player getOwner() {
-        //TODO: implement damaPawn.getOwner
-        return null;
+        return this.owner;
     }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
 }

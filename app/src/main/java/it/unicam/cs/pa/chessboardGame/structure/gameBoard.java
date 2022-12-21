@@ -1,5 +1,7 @@
 package it.unicam.cs.pa.chessboardGame.structure;
 
+import java.util.List;
+
 /**
  * Board for pawn, It responsible for correct mange pawn
  *
@@ -7,6 +9,7 @@ package it.unicam.cs.pa.chessboardGame.structure;
  * @version 0.0
  */
 public interface gameBoard {
+
 
     /**
      * get pawn in to position game

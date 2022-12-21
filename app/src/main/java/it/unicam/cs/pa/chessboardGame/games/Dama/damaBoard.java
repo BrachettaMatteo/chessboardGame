@@ -2,12 +2,11 @@ package it.unicam.cs.pa.chessboardGame.games.Dama;
 
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
 import it.unicam.cs.pa.chessboardGame.structure.pawn;
+import it.unicam.cs.pa.chessboardGame.structure.player;
 import it.unicam.cs.pa.chessboardGame.structure.position;
+import it.unicam.cs.pa.chessboardGame.games.Dama.movements.classicMovement;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -15,6 +14,7 @@ import java.util.UUID;
  * @version 0.1
  */
 public class damaBoard implements gameBoard {
+
 
     /**
      * board identifier
@@ -30,11 +30,59 @@ public class damaBoard implements gameBoard {
     private Map<String, pawn> eliminated;
 
 
-    public damaBoard() {
+    public damaBoard(int column, int row, player player1, player player2) {
         this.id = UUID.randomUUID();
         this.board = new HashMap<>();
         this.eliminated = new HashMap<>();
+        this.createChess(column, row);
+        this.createPawnForPlayers(player1, player2);
+
     }
+
+    private void createPawnForPlayers(player player1, player player2) {
+        this.createWhitePawn(player1);
+        this.createBlackPawn(player2);
+    }
+
+    private void createBlackPawn(player player) {
+
+        for (int col = 1; col <= 3; col++)
+            if (col % 2 == 0)
+                for (int row = 2; row <= 8; row += 2)
+                    this.addPawn(new position(col, row),
+                            new damaPawn(0, new classicMovement(), "*", player));
+            else for (int row = 1; row <= 8; row += 2)
+                this.addPawn(new position(col, row),
+                        new damaPawn(0, new classicMovement(), "*", player));
+
+    }
+
+    private void createWhitePawn(player player) {
+        for (int col = 8; col >= 6; col--)
+            if (col % 2 == 0)
+                for (int row = 2; row <= 8; row += 2)
+                    this.addPawn(new position(col, row),
+                            new damaPawn(0, new classicMovement(), "•", player));
+            else
+                for (int row = 1; row <= 8; row += 2)
+                    this.addPawn(new position(col, row),
+                            new damaPawn(0, new classicMovement(), "•", player));
+
+    }
+
+
+    /**
+     * create a board column x row
+     *
+     * @param column column of board
+     * @param row    row of board
+     */
+    private void createChess(int column, int row) {
+        for (int c = 1; c <= column; c++)
+            for (int r = 1; r <= row; r++)
+                this.board.put(new position(c, r), null);
+    }
+
 
     @Override
     public pawn getPawn(position position) {
@@ -81,7 +129,7 @@ public class damaBoard implements gameBoard {
 
     @Override
     public boolean addPawn(position position, pawn pawn) {
-        if (this.isFree(position) && this.pawnIsPresent(pawn.getId())) {
+        if (this.isFree(position)) {
             this.board.put(position, pawn);
             return this.board.containsKey(pawn);
         }
@@ -143,5 +191,28 @@ public class damaBoard implements gameBoard {
     public String getId() {
         return this.id.toString();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder out = new StringBuilder();
+        int c = 0;
+        List<position> positionList = new ArrayList<>(this.board.keySet());
+        Collections.sort(positionList);
+        for (position p : positionList) {
+            if (p.getColumn() != c)
+                out.append("\n");
+            String namePawn = "";
+            if (this.board.get(p) == null) {
+                namePawn = " ";
+            } else {
+                namePawn = this.board.get(p).toString();
+            }
+           String cell = "|" + namePawn + "|";
+            out.append(cell);
+            c = p.getColumn();
+        }
+        return out.toString();
+    }
+
 
 }

@@ -1,6 +1,6 @@
 package it.unicam.cs.pa.chessboardGame.games.Dama;
 
-
+import it.unicam.cs.pa.chessboardGame.defaultBot.easyBot;
 import it.unicam.cs.pa.chessboardGame.structure.game;
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
 import it.unicam.cs.pa.chessboardGame.structure.player;
@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.Collection;
-
 
 /**
  * 8x8 checkers:
@@ -27,11 +26,19 @@ public class damaGame implements game {
     private Map<String, player> players;
     private gameBoard board;
 
-    public damaGame(damaBoard board, String descInformation) {
+    public damaGame(String descInformation, player player1, player player2) {
+
+        if (player1 == null) player1 = new easyBot();
+        if (player2 == null) player2 = new easyBot();
+
         this.id = UUID.randomUUID();
         this.name = "Dama";
         this.players = new HashMap<>();
-        this.board = board;
+
+        this.players.put(player1.getId(), player1);
+        this.players.put(player2.getId(), player2);
+        this.board = new damaBoard(8, 8, player1, player2);
+
         this.information = descInformation;
     }
 
@@ -56,9 +63,17 @@ public class damaGame implements game {
     }
 
     @Override
-    public player getWin() {
-        //TODO: Implement damaGame.getWin
-        return null;
+    public player getLiveWin() {
+        player player = null;
+        int score = 0;
+        for (player p : this.players.values()) {
+            if (score > p.getScore()) {
+                score = p.getScore();
+                player = p;
+            }
+        }
+        return player;
+
     }
 
     @Override

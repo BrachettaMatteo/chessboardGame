@@ -1,7 +1,7 @@
 package it.unicam.cs.pa.chessboardGame.structure;
 
 /**
- * player, he's responsible to squad game, the squad pawn.
+ * player, he's responsible to squad pawn of game
  *
  * @author Matteo Brachetta
  */
