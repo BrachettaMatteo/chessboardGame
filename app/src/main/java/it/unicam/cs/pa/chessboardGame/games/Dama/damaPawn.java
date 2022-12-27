@@ -5,6 +5,7 @@ import it.unicam.cs.pa.chessboardGame.structure.movement;
 import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.player;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -84,6 +85,14 @@ public class damaPawn implements pawn {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof damaPawn damaPawn)) return false;
+
+        return Objects.equals(id, damaPawn.id);
     }
 
 }

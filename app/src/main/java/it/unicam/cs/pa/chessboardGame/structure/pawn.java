@@ -1,5 +1,7 @@
 package it.unicam.cs.pa.chessboardGame.structure;
 
+import it.unicam.cs.pa.chessboardGame.games.Dama.damaPlayer;
+
 /**
  * Represents the pawn of the game. He is responsible for the proper functioning of the pawn.
  *
@@ -54,6 +56,7 @@ public interface pawn {
 
     /**
      * get life
+     *
      * @return true if pawn is life else the pawn is dead and return false
      */
     boolean getLife();
@@ -69,4 +72,6 @@ public interface pawn {
      * @return owner for pawn if not owner return null
      */
     player getOwner();
+
+
 }

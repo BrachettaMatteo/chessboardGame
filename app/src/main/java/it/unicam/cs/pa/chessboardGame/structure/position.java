@@ -62,7 +62,7 @@ public class position implements Comparable<position> {
 
     @Override
     public String toString() {
-        return "[" + row + " - " + column +
+        return "[" + column + " - " + row +
                 ']';
     }
 

@@ -1,5 +1,7 @@
 package it.unicam.cs.pa.chessboardGame.games.Dama;
 
+import it.unicam.cs.pa.chessboardGame.games.Dama.movements.classicMovement;
+import it.unicam.cs.pa.chessboardGame.structure.position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +18,8 @@ class damaBoardTest {
     @DisplayName("pawn to position Test")
     @Test
     void getPawn() {
+        damaPlayer player = new damaPlayer("test1");
+        damaBoard db = new damaBoard(8, 8, player, null);
 
     }
 
