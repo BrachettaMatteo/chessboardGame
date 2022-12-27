@@ -52,7 +52,7 @@ public interface pawn {
      *
      * @return pawn name
      */
-    String getName();
+    String getSymbol();
 
     /**
      * get life

@@ -18,14 +18,14 @@ public class damaPawn implements pawn {
     private final player owner;
     private int hierarchy;
     private movement moves;
-    private final String name;
+    private final String symbol;
     private boolean life;
 
-    public damaPawn(int hierarchy, movement movement, String name, player owner) {
+    public damaPawn(int hierarchy, movement movement, String symbol, player owner) {
         this.id = UUID.randomUUID();
         this.hierarchy = hierarchy;
         this.moves = movement;
-        this.name = name;
+        this.symbol = symbol;
         this.life = true;
         this.owner = owner;
     }
@@ -62,8 +62,8 @@ public class damaPawn implements pawn {
     }
 
     @Override
-    public String getName() {
-        return this.name;
+    public String getSymbol() {
+        return this.symbol;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class damaPawn implements pawn {
 
     @Override
     public String toString() {
-        return this.name;
+        return this.symbol;
     }
 
     @Override

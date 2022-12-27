@@ -25,7 +25,7 @@ public interface gameBoard {
      * @param idPawn identifier pawn
      * @return pawn pawn
      * @throws IllegalArgumentException if the pawn not present in board
-     * @throws NullPointerException     if the idPawn is null
+     * @throws IllegalArgumentException if the idPawn is empty
      */
     pawn getPawn(String idPawn);
 
@@ -45,6 +45,7 @@ public interface gameBoard {
      * @param pawn     pawn to update
      * @return true the position update
      * @throws IllegalArgumentException if position not present in game
+     * @throws IllegalArgumentException if pawn not present in game
      */
     boolean updatePosition(position position, pawn pawn);
 
@@ -86,13 +87,12 @@ public interface gameBoard {
      * @param idPawn identifier pawn
      * @return position to pawn
      * @throws IllegalArgumentException if pawn not present
-     * @throws NullPointerException     if pawn is null
      * @throws IllegalArgumentException if identifier pawn is empty
      */
     position getPositionPawn(String idPawn);
 
     /**
-     * free position for empty chees
+     * free position for empty chess
      *
      * @param position position for free
      * @throws IllegalArgumentException if position not present
@@ -114,4 +114,10 @@ public interface gameBoard {
      */
     String getId();
 
+    /**
+     * get all pawn present on board
+     *
+     * @return list of pawn the board
+     */
+    List<pawn> getPawns();
 }

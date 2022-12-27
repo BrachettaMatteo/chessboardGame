@@ -113,4 +113,8 @@ public class damaGame implements game {
     public String getInformationGame() {
         return this.information;
     }
+
+    public void restart() {
+        this.board.clearBoard();
+    }
 }

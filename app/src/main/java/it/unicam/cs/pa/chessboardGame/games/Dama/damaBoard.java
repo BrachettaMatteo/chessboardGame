@@ -6,15 +6,19 @@ import it.unicam.cs.pa.chessboardGame.structure.player;
 import it.unicam.cs.pa.chessboardGame.structure.position;
 import it.unicam.cs.pa.chessboardGame.games.Dama.movements.classicMovement;
 
-import java.util.*;
-
+import java.util.List;
+import java.util.UUID;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Objects;
 
 /**
  * @author Matteo Brachetta
  * @version 0.1
  */
 public class damaBoard implements gameBoard {
-
 
     /**
      * board identifier
@@ -29,6 +33,11 @@ public class damaBoard implements gameBoard {
      */
     private Map<String, pawn> eliminated;
 
+    private player whitePlayer;
+    private final String SymbolWhite = "•";
+    private player blackPlayer;
+    private final String symbolBlack = "*";
+
 
     public damaBoard(int column, int row, player player1, player player2) {
         this.id = UUID.randomUUID();
@@ -39,6 +48,7 @@ public class damaBoard implements gameBoard {
 
     }
 
+    @Override
     public List<pawn> getPawns() {
         return this.board.values().stream().filter(Objects::nonNull).toList();
     }
@@ -49,30 +59,20 @@ public class damaBoard implements gameBoard {
     }
 
     private void createBlackPawn(player player) {
-
-        for (int column = 8; column > 8-3; column--) {
-            if (column % 2 == 1)
-                for (int row = 2; row <= 8; row += 2)
-                    this.addPawn(new position(row, column),
-                            new damaPawn(0, new classicMovement(), "*", player));
-            else for (int row = 1; row <= 8; row += 2)
-                this.addPawn(new position(row, column),
-                        new damaPawn(0, new classicMovement(), "*", player));
+        for (int row = 8; row > 8 - 3; row--) {
+            if (row % 2 == 0) for (int column = 2; column <= 8; column += 2)
+                this.addPawn(new position(column, row), new damaPawn(0, new classicMovement(), this.symbolBlack, player));
+            else for (int column = 1; column <= 8; column += 2)
+                this.addPawn(new position(column, row), new damaPawn(0, new classicMovement(), this.symbolBlack, player));
         }
-
-
-
     }
 
     private void createWhitePawn(player player) {
-        for (int column = 1; column < 1+3; column++) {
-            if (column % 2 == 0)
-                for (int row = 2; row <= 8; row += 2)
-                    this.addPawn(new position(row, column),
-                            new damaPawn(0, new classicMovement(), "•", player));
-            else for (int row = 1; row <= 8; row += 2)
-                this.addPawn(new position(row, column),
-                        new damaPawn(0, new classicMovement(), "•", player));
+        for (int row = 1; row < 1 + 3; row++) {
+            if (row % 2 == 0) for (int column = 2; column <= 8; column += 2)
+                this.addPawn(new position(column, row), new damaPawn(0, new classicMovement(), this.SymbolWhite, player));
+            else for (int column = 1; column <= 8; column += 2)
+                this.addPawn(new position(column, row), new damaPawn(0, new classicMovement(), this.SymbolWhite, player));
         }
     }
 
@@ -91,51 +91,45 @@ public class damaBoard implements gameBoard {
 
     @Override
     public pawn getPawn(position position) {
-        if (board.containsKey(position))
-            return this.board.get(position);
+        if (board.containsKey(position)) return this.board.get(position);
         throw new IllegalArgumentException("position not correct");
     }
 
     @Override
     public pawn getPawn(String idPawn) {
-        if (idPawn == null)
-            throw new NullPointerException("the idPawn is null");
+        if (idPawn.isEmpty()) throw new IllegalArgumentException("the idPawn is null");
         if (this.pawnIsPresent(idPawn))
-            return this.board.values().stream().filter(pawn -> pawn.getId().equals(idPawn)).toList().get(0);
-
-        throw new IllegalArgumentException("the idPawn not present in board");
+            return this.getPawns().stream().filter(pawn -> pawn.getId().equals(idPawn)).findAny().orElse(null);
+        else throw new IllegalArgumentException("the idPawn not present in board");
 
 
     }
 
     @Override
     public boolean isFree(position position) {
-        if (this.board.containsKey(position))
-            return this.board.get(position) == null;
+        if (this.board.containsKey(position)) return this.board.get(position) == null;
         throw new IllegalArgumentException("position not present");
     }
 
     @Override
     public boolean updatePosition(position position, pawn pawn) {
-        if (this.board.containsKey(position)) {
-            this.freePosition(this.getPositionPawn(pawn.getId()));
-            if (this.isFree(position))
-                this.board.put(position, pawn);
-            else {
-                this.goDeletionPawn(this.board.get(position).getId());
-                this.board.put(position, pawn);
-            }
-            return this.board.get(position) == pawn;
-        }
-        throw new IllegalArgumentException("position isn't correct");
+        if (this.pawnIsPresent(pawn.getId())) {
+            if (this.board.containsKey(position)) {
+                if (!this.isFree(position)) this.goDeletionPawn(position);
 
+                this.freePosition(this.getPositionPawn(pawn.getId()));
+                this.addPawn(position, pawn);
+                return this.board.get(position) == pawn;
+            } else throw new IllegalArgumentException("the position isn't correct");
+        }
+        throw new IllegalArgumentException("the pawn isn't present");
     }
 
     @Override
     public boolean addPawn(position position, pawn pawn) {
         if (this.isFree(position)) {
             this.board.put(position, pawn);
-            return this.board.containsKey(pawn);
+            return this.getPawn(position) == pawn;
         }
         return false;
     }
@@ -145,8 +139,7 @@ public class damaBoard implements gameBoard {
         if (this.pawnIsPresent(idPawn)) {
             this.eliminated.put(idPawn, this.getPawn(idPawn));
             this.freePosition(this.getPositionPawn(idPawn));
-        }
-        throw new IllegalArgumentException("the pawn isn't present");
+        } else throw new IllegalArgumentException("the pawn isn't present");
     }
 
 
@@ -156,8 +149,7 @@ public class damaBoard implements gameBoard {
             pawn p = this.board.get(position);
             this.eliminated.put(p.getId(), p);
             this.freePosition(position);
-        }
-        throw new IllegalArgumentException("the position isn't correct");
+        } else throw new IllegalArgumentException("the position isn't correct");
 
     }
 
@@ -168,7 +160,6 @@ public class damaBoard implements gameBoard {
 
     @Override
     public position getPositionPawn(String idPawn) {
-        if (idPawn == null) throw new NullPointerException("the idPawn is null");
         if (idPawn.isEmpty()) throw new IllegalArgumentException("the identifier pawn is empty");
 
         if (this.pawnIsPresent(idPawn)) {
@@ -181,14 +172,13 @@ public class damaBoard implements gameBoard {
 
     @Override
     public void freePosition(position position) {
-        if (this.board.containsKey(position))
-            this.board.put(position, null);
-        throw new IllegalArgumentException("position isn't correct");
+        if (this.board.containsKey(position)) this.board.put(position, null);
+        else throw new IllegalArgumentException("position isn't correct");
     }
 
     @Override
     public boolean pawnIsPresent(String idPawn) {
-        return this.board.values().stream().filter(Objects::nonNull).noneMatch(p -> p.getId().equals(idPawn));
+        return this.board.values().stream().filter(Objects::nonNull).toList().stream().anyMatch(pawn -> pawn.getId().equals(idPawn));
     }
 
     @Override
@@ -200,45 +190,21 @@ public class damaBoard implements gameBoard {
     public String toString() {
         List<position> positionList = new ArrayList<>(this.board.keySet());
         List<position> row = new ArrayList<>();
-        int currentRow = Collections.max(positionList).getColumn();
+        int currentRow = Collections.max(positionList).getRow();
         StringBuilder out = new StringBuilder();
         while (currentRow >= Collections.min(positionList).getColumn()) {
             int finalI = currentRow;
             row.clear();
             row.addAll(positionList.stream().filter(position -> position.getRow() == finalI).sorted().toList());
-//            out.append(row);
-//            out.append("\n");
             String builder = "";
             out.append("|");
             for (position r : row)
-                out.append(
-                        builder = this.getPawn(r) == null ? " |" : this.getPawn(r) + "|"
-                );
+                out.append(builder = this.getPawn(r) == null ? " |" : this.getPawn(r) + "|");
 
             out.append("\n");
             currentRow--;
         }
 
         return out.toString();
-       /* StringBuilder out = new StringBuilder();
-        int c = 0;
-
-
-        for (position p : positionList) {
-            if (p.getColumn() != c)
-                out.append("\n");
-            String namePawn = "";
-            if (this.board.get(p) == null) {
-                namePawn = " ";
-            } else {
-              namePawn = this.board.get(p).toString();
-            }
-            String cell = "|" + namePawn + "|";
-            out.append(cell);
-            c = p.getColumn();
-        }
-        return out.toString();*/
     }
-
-
 }

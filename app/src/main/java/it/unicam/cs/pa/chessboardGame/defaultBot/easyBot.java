@@ -43,7 +43,7 @@ public class easyBot implements player {
 
     @Override
     public String getName() {
-        //TODO: implement easyBot.getName
+        //TODO: implement easyBot.getSymbol
         return null;
     }
 
