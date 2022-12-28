@@ -39,7 +39,8 @@ public class damaPawn implements pawn {
     public void setHierarchy(int hierarchy) {
         if (hierarchy > 0)
             this.hierarchy = hierarchy;
-        throw new IllegalArgumentException("the hierarchy is too small");
+        else
+            throw new IllegalArgumentException("the hierarchy is too small");
 
     }
 
