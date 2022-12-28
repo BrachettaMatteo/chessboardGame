@@ -33,9 +33,11 @@ public class position implements Comparable<position> {
      * @throws IllegalArgumentException row is < 0
      */
     public void setRow(int row) {
-        if (row < 0)
-            throw new IllegalArgumentException("row isn't <0");
-        this.row = row;
+        if (row >= 0)
+            this.row = row;
+        else
+            throw new IllegalArgumentException("row is less 0");
+
     }
 
     /**
@@ -55,9 +57,11 @@ public class position implements Comparable<position> {
      * @throws IllegalArgumentException column is < 0
      */
     public void setColumn(int column) {
-        if (column < 0)
+        if (column >= 0)
+            this.column = column;
+        else
             throw new IllegalArgumentException("column is < 0");
-        this.column = column;
+
     }
 
     @Override
