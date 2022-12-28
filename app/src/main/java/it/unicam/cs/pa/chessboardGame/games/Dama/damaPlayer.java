@@ -36,6 +36,8 @@ public class damaPlayer implements player {
 
     @Override
     public void removeScore(int score) {
+        if (score < 0)
+            throw new IllegalArgumentException("the score is less 0");
         if (score > this.score)
             this.score = 0;
 
@@ -62,5 +64,6 @@ public class damaPlayer implements player {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
+
 
 }

@@ -29,6 +29,7 @@ public interface player {
      * remove score for score player game
      *
      * @param score score for remove to total
+     * @throws IllegalArgumentException the score is less 0
      */
     void removeScore(int score);
 
