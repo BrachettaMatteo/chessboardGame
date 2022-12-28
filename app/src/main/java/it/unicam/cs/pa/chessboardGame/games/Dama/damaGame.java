@@ -1,15 +1,18 @@
 package it.unicam.cs.pa.chessboardGame.games.Dama;
 
-import it.unicam.cs.pa.chessboardGame.defaultBot.easyBot;
+import it.unicam.cs.pa.chessboardGame.games.Dama.defaultBot.easyBotDama;
 import it.unicam.cs.pa.chessboardGame.structure.game;
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
 import it.unicam.cs.pa.chessboardGame.structure.player;
 
+import java.util.UUID;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 /**
  * 8x8 checkers:
@@ -23,18 +26,18 @@ public class damaGame implements game {
     private final UUID id;
     private final String name;
 
-    private Map<String, player> players;
+    private final Map<String, damaPlayer> players;
+
     private gameBoard board;
 
-    public damaGame(String descInformation, player player1, player player2) {
+    public damaGame(String descInformation, damaPlayer player1, damaPlayer player2) {
 
-        if (player1 == null) player1 = new easyBot();
-        if (player2 == null) player2 = new easyBot();
+        if (player1 == null) player1 = new easyBotDama();
+        if (player2 == null) player2 = new easyBotDama();
 
         this.id = UUID.randomUUID();
         this.name = "Dama";
         this.players = new HashMap<>();
-
         this.players.put(player1.getId(), player1);
         this.players.put(player2.getId(), player2);
         this.board = new damaBoard(8, 8, player1, player2);
@@ -64,16 +67,7 @@ public class damaGame implements game {
 
     @Override
     public player getLiveWin() {
-        player player = null;
-        int score = 0;
-        for (player p : this.players.values()) {
-            if (score > p.getScore()) {
-                score = p.getScore();
-                player = p;
-            }
-        }
-        return player;
-
+        return this.players.values().stream().max(Comparator.comparing(damaPlayer::getScore)).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
@@ -83,12 +77,12 @@ public class damaGame implements game {
         if (players.size() == 0)
             throw new IllegalArgumentException("players is empty");
         this.players.clear();
-        players.forEach(player -> this.players.put(player.getId(), player));
+        players.forEach(player -> this.players.put(player.getId(), (damaPlayer) player));
     }
 
     @Override
     public Collection<player> getPlayers() {
-        return this.players.values();
+        return new ArrayList<>(this.players.values());
     }
 
     @Override
@@ -97,7 +91,9 @@ public class damaGame implements game {
             throw new NullPointerException("players id is null");
         if (idPlayer.isEmpty())
             throw new IllegalArgumentException("players id is empty");
-        return this.players.get(idPlayer);
+        if (this.players.containsKey(idPlayer))
+            return this.players.get(idPlayer);
+        else throw new IllegalArgumentException("the player isn't contained");
     }
 
     @Override
@@ -106,7 +102,7 @@ public class damaGame implements game {
             throw new NullPointerException("players is null");
         if (this.players.containsKey(player.getId()))
             throw new IllegalArgumentException("players is already contained  ");
-        this.players.put(player.getId(), player);
+        this.players.put(player.getId(), (damaPlayer) player);
     }
 
     @Override
@@ -114,7 +110,10 @@ public class damaGame implements game {
         return this.information;
     }
 
+    @Override
     public void restart() {
+        for (damaPlayer p : this.players.values())
+            p.removeScore(p.getScore());
         this.board.clearBoard();
     }
 }

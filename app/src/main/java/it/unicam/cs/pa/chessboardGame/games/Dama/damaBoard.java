@@ -27,24 +27,29 @@ public class damaBoard implements gameBoard {
     /**
      * Map content all pawn and relative position
      */
-    private Map<position, pawn> board;
+    private final Map<position, pawn> board;
     /**
      * Map content all eliminated pawn
      */
-    private Map<String, pawn> eliminated;
+    private final Map<String, pawn> eliminated;
 
-    private player whitePlayer;
-    private final String SymbolWhite = "•";
-    private player blackPlayer;
-    private final String symbolBlack = "*";
+
+
+    private final int size;
+
+    private final player whitePlayer;
+    private final player blackPlayer;
 
 
     public damaBoard(int column, int row, player player1, player player2) {
         this.id = UUID.randomUUID();
         this.board = new HashMap<>();
         this.eliminated = new HashMap<>();
+        this.size = column;
         this.createChess(column, row);
-        this.createPawnForPlayers(player1, player2);
+        this.blackPlayer = player2;
+        this.whitePlayer = player1;
+        this.createPawnForPlayers();
 
     }
 
@@ -53,26 +58,28 @@ public class damaBoard implements gameBoard {
         return this.board.values().stream().filter(Objects::nonNull).toList();
     }
 
-    private void createPawnForPlayers(player player1, player player2) {
-        this.createWhitePawn(player1);
-        this.createBlackPawn(player2);
+    private void createPawnForPlayers() {
+        this.createWhitePawn();
+        this.createBlackPawn();
     }
 
-    private void createBlackPawn(player player) {
+    private void createBlackPawn() {
         for (int row = 8; row > 8 - 3; row--) {
+            String symbolBlack = "*";
             if (row % 2 == 0) for (int column = 2; column <= 8; column += 2)
-                this.addPawn(new position(column, row), new damaPawn(0, new classicMovement(), this.symbolBlack, player));
+                this.addPawn(new position(column, row), new damaPawn(0, new classicMovement(), symbolBlack, this.blackPlayer));
             else for (int column = 1; column <= 8; column += 2)
-                this.addPawn(new position(column, row), new damaPawn(0, new classicMovement(), this.symbolBlack, player));
+                this.addPawn(new position(column, row), new damaPawn(0, new classicMovement(), symbolBlack, this.blackPlayer));
         }
     }
 
-    private void createWhitePawn(player player) {
+    private void createWhitePawn() {
         for (int row = 1; row < 1 + 3; row++) {
+            String symbolWhite = "•";
             if (row % 2 == 0) for (int column = 2; column <= 8; column += 2)
-                this.addPawn(new position(column, row), new damaPawn(0, new classicMovement(), this.SymbolWhite, player));
+                this.addPawn(new position(column, row), new damaPawn(0, new classicMovement(), symbolWhite, this.whitePlayer));
             else for (int column = 1; column <= 8; column += 2)
-                this.addPawn(new position(column, row), new damaPawn(0, new classicMovement(), this.SymbolWhite, player));
+                this.addPawn(new position(column, row), new damaPawn(0, new classicMovement(), symbolWhite, this.whitePlayer));
         }
     }
 
@@ -196,15 +203,25 @@ public class damaBoard implements gameBoard {
             int finalI = currentRow;
             row.clear();
             row.addAll(positionList.stream().filter(position -> position.getRow() == finalI).sorted().toList());
-            String builder = "";
             out.append("|");
             for (position r : row)
-                out.append(builder = this.getPawn(r) == null ? " |" : this.getPawn(r) + "|");
+                out.append( this.getPawn(r) == null ? " |" : this.getPawn(r) + "|");
 
             out.append("\n");
             currentRow--;
         }
 
         return out.toString();
+    }
+
+    @Override
+    public void restart() {
+        this.clearBoard();
+        this.createChess(this.size, this.size);
+        this.createPawnForPlayers();
+    }
+    @Override
+    public List<pawn> getEliminated() {
+        return eliminated.values().stream().toList();
     }
 }

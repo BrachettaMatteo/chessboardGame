@@ -30,6 +30,7 @@ public class damaPlayer implements player {
     public void addScore(int score) {
         if (score > 0)
             this.score = score;
+        else throw new IllegalArgumentException("error score");
 
     }
 

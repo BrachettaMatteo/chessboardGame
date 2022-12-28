@@ -120,4 +120,16 @@ public interface gameBoard {
      * @return list of pawn the board
      */
     List<pawn> getPawns();
+
+    /**
+     * restart game, position pawn in init position.
+     */
+    void restart();
+
+    /**
+     * get deleted pawn
+     *
+     * @return list content all pawn element.
+     */
+    List<pawn> getEliminated();
 }

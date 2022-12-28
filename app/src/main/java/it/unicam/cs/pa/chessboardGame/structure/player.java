@@ -21,6 +21,7 @@ public interface player {
      * increment player score game
      *
      * @param score score add total score
+     * @throws IllegalArgumentException the score is less than 0
      */
     void addScore(int score);
 

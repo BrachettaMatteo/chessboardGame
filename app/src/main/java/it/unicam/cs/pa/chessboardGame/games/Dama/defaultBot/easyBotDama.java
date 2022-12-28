@@ -1,6 +1,6 @@
-package it.unicam.cs.pa.chessboardGame.defaultBot;
+package it.unicam.cs.pa.chessboardGame.games.Dama.defaultBot;
 
-import it.unicam.cs.pa.chessboardGame.structure.*;
+import it.unicam.cs.pa.chessboardGame.games.Dama.damaPlayer;
 
 import java.util.UUID;
 
@@ -10,11 +10,12 @@ import java.util.UUID;
  * @author Matteo Brachetta
  * @version 0.0
  */
-public class easyBot implements player {
+public class easyBotDama extends damaPlayer {
 
     private final UUID id;
 
-    public easyBot() {
+    public easyBotDama() {
+        super("easyBot");
         this.id = UUID.randomUUID();
     }
 
@@ -25,25 +26,25 @@ public class easyBot implements player {
 
     @Override
     public int getScore() {
-        //TODO: implement easyBot.getScore
+        //TODO: implement easyBotDama.getScore
         return 0;
     }
 
     @Override
     public void addScore(int score) {
-        //TODO: implement easyBot.addScore
+        //TODO: implement easyBotDama.addScore
 
     }
 
     @Override
     public void removeScore(int score) {
-        //TODO: implement easyBot.removeScore
+        //TODO: implement easyBotDama.removeScore
 
     }
 
     @Override
     public String getName() {
-        //TODO: implement easyBot.getSymbol
+        //TODO: implement easyBotDama.getSymbol
         return null;
     }
 

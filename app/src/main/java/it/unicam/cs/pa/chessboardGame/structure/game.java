@@ -67,6 +67,7 @@ public interface game {
      * @return player player game
      * @throws IllegalArgumentException if id is empty
      * @throws NullPointerException     if idPlayer is null
+     * @throws IllegalArgumentException if player isn't contained
      */
     player getPlayer(String idPlayer);
 
@@ -86,4 +87,8 @@ public interface game {
      */
     String getInformationGame();
 
+    /**
+     * restart game, restart board
+     */
+    void restart();
 }

@@ -1,12 +1,14 @@
 package it.unicam.cs.pa.chessboardGame.games.Dama;
 
-import it.unicam.cs.pa.chessboardGame.defaultBot.easyBot;
+import it.unicam.cs.pa.chessboardGame.games.Dama.defaultBot.easyBotDama;
 import it.unicam.cs.pa.chessboardGame.games.Dama.movements.classicMovement;
 import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -22,11 +24,11 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
  * @version 0.1
  */
 class damaBoardTest {
-    position errorPositionBoard = new position(100, 100);
-    position correctPosition = new position(5, 5);
-    damaPlayer playerPawnWhite = new damaPlayer("white player test");
-    damaPlayer playerPawnBlack = new damaPlayer("black player test");
-    damaPawn dp = new damaPawn(0, new classicMovement(), "r", playerPawnBlack);
+    private final position errorPositionBoard = new position(100, 100);
+    private final position correctPosition = new position(5, 5);
+    private final damaPlayer playerPawnWhite = new damaPlayer("white player test");
+    private final damaPlayer playerPawnBlack = new damaPlayer("black player test");
+    private final damaPawn dp = new damaPawn(0, new classicMovement(), "r", playerPawnBlack);
 
 
     @DisplayName("pawn to position Test")
@@ -61,7 +63,7 @@ class damaBoardTest {
     @DisplayName("check position empty Test")
     @Test
     void isFree() {
-        damaGame dg = new damaGame("test", new easyBot(), new easyBot());
+        damaGame dg = new damaGame("test", new easyBotDama(), new easyBotDama());
 
         assertTrue(dg.getBoard().isFree(new position(4, 4)));
         assertFalse(dg.getBoard().isFree(new position(1, 1)));
@@ -72,7 +74,7 @@ class damaBoardTest {
     @DisplayName("update position Test")
     @Test
     void updatePosition() {
-        damaGame dg = new damaGame("test", new easyBot(), new easyBot());
+        damaGame dg = new damaGame("test", new easyBotDama(), new easyBotDama());
         damaPawn dpError = new damaPawn(0, new classicMovement(), "r", playerPawnBlack);
 
         dg.getBoard().addPawn(new position(4, 4), dp);
@@ -86,7 +88,7 @@ class damaBoardTest {
     @DisplayName("add Pawn Test")
     @Test
     void addPawn() {
-        damaGame dg = new damaGame("test", new easyBot(), new easyBot());
+        damaGame dg = new damaGame("test", new easyBotDama(), new easyBotDama());
 
         //the pawn is insert if only position is free
         assertTrue(dg.getBoard().addPawn(correctPosition, dp));
@@ -98,7 +100,7 @@ class damaBoardTest {
     @DisplayName("delete pawn to identifier Test")
     @Test
     void goDeletionPawn() {
-        damaGame dg = new damaGame("test", new easyBot(), new easyBot());
+        damaGame dg = new damaGame("test", new easyBotDama(), new easyBotDama());
 
         dg.getBoard().addPawn(correctPosition, dp);
         dg.getBoard().goDeletionPawn(dp.getId());
@@ -110,7 +112,7 @@ class damaBoardTest {
     @DisplayName("delete pawn to position Test")
     @Test
     void testGoDeletionPawn() {
-        damaGame dg = new damaGame("test", new easyBot(), new easyBot());
+        damaGame dg = new damaGame("test", new easyBotDama(), new easyBotDama());
 
         dg.getBoard().addPawn(correctPosition, dp);
         dg.getBoard().goDeletionPawn(correctPosition);
@@ -122,7 +124,7 @@ class damaBoardTest {
     @DisplayName("clear all pawn test")
     @Test
     void clearBoard() {
-        damaGame dg = new damaGame("test", new easyBot(), new easyBot());
+        damaGame dg = new damaGame("test", new easyBotDama(), new easyBotDama());
 
         dg.getBoard().addPawn(correctPosition, dp);
 
@@ -195,4 +197,52 @@ class damaBoardTest {
         assertEquals(25, dg.getBoard().getPawns().size());
         assertTrue(dg.getBoard().getPawns().contains(dp));
     }
+
+    @DisplayName("restart test")
+    @Test
+    void restart() {
+        damaGame dg = new damaGame("test", playerPawnWhite, playerPawnBlack);
+
+        dg.getBoard().addPawn(correctPosition, dp);
+        dg.getBoard().restart();
+
+        List<pawn> lp = dg.getBoard().getPawns();
+        assertEquals(24, lp.size());
+        //check black pawn
+        assertEquals(12, lp.stream().filter(pawn -> pawn.getOwner() == playerPawnBlack).toList().size());
+        //check white pawn
+        assertEquals(12, lp.stream().filter(pawn -> pawn.getOwner().equals(playerPawnWhite)).toList().size());
+
+        //check black position
+        for (int row = 8; row > 8 - 3; row--)
+            if (row % 2 == 0) for (int column = 2; column <= 8; column += 2)
+                assertFalse(dg.getBoard().isFree(new position(column, row)));
+            else for (int column = 1; column <= 8; column += 2)
+                assertFalse(dg.getBoard().isFree(new position(column, row)));
+
+        //check white position
+        for (int row = 1; row < 1 + 3; row++) {
+            if (row % 2 == 0) for (int column = 2; column <= 8; column += 2)
+                assertFalse(dg.getBoard().isFree(new position(column, row)));
+            else for (int column = 1; column <= 8; column += 2)
+                assertFalse(dg.getBoard().isFree(new position(column, row)));
+        }
+
+    }
+
+    @DisplayName("get eliminated test")
+    @Test
+    void getEliminated() {
+        damaGame dg = new damaGame("test", playerPawnWhite, playerPawnBlack);
+
+        dg.getBoard().addPawn(correctPosition, dp);
+
+        assertTrue(dg.getBoard().getEliminated().isEmpty());
+
+        dg.getBoard().goDeletionPawn(dp.getId());
+        assertEquals(1, dg.getBoard().getEliminated().size());
+        assertTrue(dg.getBoard().getEliminated().contains(dp));
+
+    }
+
 }
