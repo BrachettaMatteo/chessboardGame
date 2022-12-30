@@ -1,6 +1,5 @@
 package it.unicam.cs.pa.chessboardGame.games.Dama;
 
-import it.unicam.cs.pa.chessboardGame.games.Dama.movements.classicMovement;
 import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.position;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +27,7 @@ class DamaBoardTest {
     private final position correctPosition = new position(5, 5);
     private final damaPlayer playerPawnWhite = new damaPlayer("white player test");
     private final damaPlayer playerPawnBlack = new damaPlayer("black player test");
-    private final damaPawn dp = new damaPawn(0, new classicMovement(), "r", playerPawnBlack);
+    private final damaPawn dp = new damaPawn(0, null, "r", playerPawnBlack, false);
     private damaGame dg = new damaGame("test", playerPawnWhite, playerPawnBlack);
 
     @BeforeEach
@@ -59,6 +58,7 @@ class DamaBoardTest {
 
         assertThrows(IllegalArgumentException.class, () -> dg.getBoard().getPawn(""));
 
+
         assertThrows(IllegalArgumentException.class, () -> dg.getBoard().getPawn(dp.getId()));
 
     }
@@ -75,7 +75,7 @@ class DamaBoardTest {
     @DisplayName("Update position Test")
     @Test
     void updatePosition() {
-        damaPawn dpError = new damaPawn(0, new classicMovement(), "r", playerPawnBlack);
+        damaPawn dpError = new damaPawn(0, null, "r", playerPawnBlack, false);
 
         dg.getBoard().addPawn(new position(4, 4), dp);
 

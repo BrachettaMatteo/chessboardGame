@@ -2,18 +2,17 @@ package it.unicam.cs.pa.chessboardGame.games.Dama.movements;
 
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
 import it.unicam.cs.pa.chessboardGame.structure.movement;
-import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.position;
 
 public class damaMovement implements movement {
     @Override
-    public void forwardRight(gameBoard boardGame, pawn pawn) {
-
+    public void forwardRight() {
+        //TODO: implement damaMovement.forwardRight
     }
 
     @Override
-    public position forwardLeft(position positionStart, gameBoard boardGame) {
-        return movement.super.forwardLeft(positionStart, boardGame);
+    public void forwardLeft() {
+        //TODO: implement damaMovement.forwardLeft
     }
 
     @Override

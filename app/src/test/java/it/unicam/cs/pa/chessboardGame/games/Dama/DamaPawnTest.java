@@ -1,6 +1,5 @@
 package it.unicam.cs.pa.chessboardGame.games.Dama;
 
-import it.unicam.cs.pa.chessboardGame.games.Dama.movements.classicMovement;
 import it.unicam.cs.pa.chessboardGame.games.Dama.movements.damaMovement;
 import it.unicam.cs.pa.chessboardGame.structure.movement;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,11 +22,13 @@ class DamaPawnTest {
     private final damaPlayer damaPlayer = new damaPlayer("player Test");
     private final int hierarchy = 0;
     private final String symbol = "T";
-    private final movement defaultMove = new classicMovement();
+
+    damaGame dg = new damaGame("test", damaPlayer, null);
 
     @BeforeEach
     void setUp() {
-        basicDamaPawn = new damaPawn(hierarchy, defaultMove, symbol, damaPlayer);
+        dg = new damaGame("test", damaPlayer, null);
+        basicDamaPawn = new damaPawn(hierarchy, null, symbol, damaPlayer, true);
     }
 
     @DisplayName("Get hierarchy Test")
@@ -58,7 +59,10 @@ class DamaPawnTest {
     @DisplayName("Get movement Test")
     @Test
     void getMovement() {
-        assertEquals(defaultMove, basicDamaPawn.getMovement());
+        movement newMove = new damaMovement();
+        basicDamaPawn.setMovement(newMove);
+
+        assertEquals(newMove, basicDamaPawn.getMovement());
     }
 
     @DisplayName("Get symbol Test")
@@ -90,7 +94,7 @@ class DamaPawnTest {
     @Test
     void Equals() {
         assertEquals(basicDamaPawn, basicDamaPawn);
-        damaPawn notEqualPawn = new damaPawn(hierarchy, defaultMove, symbol, damaPlayer);
+        damaPawn notEqualPawn = new damaPawn(hierarchy, dg.getBoard(), symbol, damaPlayer, true);
         assertNotEquals(notEqualPawn, basicDamaPawn);
     }
 }

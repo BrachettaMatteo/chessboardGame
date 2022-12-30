@@ -3,6 +3,7 @@ package it.unicam.cs.pa.chessboardGame.games.Dama;
 import it.unicam.cs.pa.chessboardGame.games.Dama.defaultBot.easyBotDama;
 import it.unicam.cs.pa.chessboardGame.structure.game;
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
+import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.player;
 
 import java.util.UUID;
@@ -115,5 +116,9 @@ public class damaGame implements game {
         for (damaPlayer p : this.players.values())
             p.removeScore(p.getScore());
         this.board.clearBoard();
+    }
+
+    public List<pawn> getSquad(player player) {
+        return this.board.getPawns().stream().filter(pawn -> pawn.getOwner() == player).toList();
     }
 }

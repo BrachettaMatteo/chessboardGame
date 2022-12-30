@@ -27,12 +27,6 @@ public class App {
         new App().games.forEach((g) -> System.out.println("- " + g.getName()));
         System.out.println("!-----------------------------!");
 
-        damaPlayer player = new damaPlayer("test1");
-        damaBoard db = new damaBoard(8, 8, player, null);
-        System.out.println(db);
-
-
-
     }
 
 }

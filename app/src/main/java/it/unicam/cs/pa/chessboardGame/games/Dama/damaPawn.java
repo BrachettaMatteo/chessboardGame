@@ -1,6 +1,9 @@
 package it.unicam.cs.pa.chessboardGame.games.Dama;
 
 
+import it.unicam.cs.pa.chessboardGame.games.Dama.movements.blackMovements;
+import it.unicam.cs.pa.chessboardGame.games.Dama.movements.whiteMovements;
+import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
 import it.unicam.cs.pa.chessboardGame.structure.movement;
 import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.player;
@@ -16,18 +19,20 @@ public class damaPawn implements pawn {
 
     private final UUID id;
     private final player owner;
+    private final boolean type;
     private int hierarchy;
     private movement moves;
     private final String symbol;
     private boolean life;
 
-    public damaPawn(int hierarchy, movement movement, String symbol, player owner) {
+    public damaPawn(int hierarchy, gameBoard board, String symbol, player owner, boolean isWhite) {
         this.id = UUID.randomUUID();
         this.hierarchy = hierarchy;
-        this.moves = movement;
         this.symbol = symbol;
+        this.type = isWhite;
         this.life = true;
         this.owner = owner;
+        this.moves = isWhite ? new whiteMovements(board, this) : new blackMovements(board, this);
     }
 
     @Override
@@ -96,4 +101,7 @@ public class damaPawn implements pawn {
         return Objects.equals(id, damaPawn.id);
     }
 
+    public boolean getType() {
+        return this.type;
+    }
 }

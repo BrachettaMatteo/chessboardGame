@@ -25,17 +25,18 @@ public interface movement {
      * @return the new position of pawn
      * @throws UnsupportedOperationException if the movement not supported for pawn
      */
-    default void forwardRight(gameBoard boardGame, pawn pawn) {
+    /*default void forwardRight(gameBoard boardGame, pawn pawn) {
+        throw new UnsupportedOperationException("movement is not allowed");
+    }*/
+    default void forwardRight() {
         throw new UnsupportedOperationException("movement is not allowed");
     }
-
     /**
      * move the pawn to forward-left. if the pawn isn't forward not implement return null
      *
-     * @return the new position of pawn
      * @throws UnsupportedOperationException if the movement not supported for pawn
      */
-    default position forwardLeft(position positionStart, gameBoard boardGame) {
+    default void forwardLeft() {
         throw new UnsupportedOperationException("movement is not allowed");
     }
 
