@@ -132,6 +132,8 @@ public class damaBoard implements gameBoard {
 
     @Override
     public boolean addPawn(position position, pawn pawn) {
+        if (this.pawnIsPresent(pawn.getId()))
+            throw new IllegalArgumentException("The pawn is present");
         if (this.isFree(position)) {
             this.board.put(position, pawn);
             return this.getPawn(position) == pawn;

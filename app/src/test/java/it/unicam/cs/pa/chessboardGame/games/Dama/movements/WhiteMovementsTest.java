@@ -9,7 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class WhiteMovementsTest {
     private final damaPlayer playerWhiteTest = new damaPlayer("player white Test");
@@ -35,6 +36,7 @@ class WhiteMovementsTest {
     @DisplayName("Simple forward right test")
     @Test
     void simpleForwardRightTest() {
+
         gd.getBoard().clearBoard();
 
         //move forward and the forward box is empty
@@ -46,6 +48,8 @@ class WhiteMovementsTest {
         gd.getBoard().addPawn(new position(6, 6), damaPawnBlack1);
         damaPawnWhite1.getMovement().forwardRight();
         assertEquals(new position(7, 7), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        //check eliminated
+        assertTrue(gd.getBoard().getEliminated().contains(damaPawnBlack1));
 
         //move forward and the forward box is occupation to friend pawn
         gd.getBoard().updatePosition(new position(4, 4), damaPawnWhite1);
@@ -69,11 +73,12 @@ class WhiteMovementsTest {
         gd.getBoard().addPawn(new position(2, 6), damaPawnBlack1);
         damaPawnWhite1.getMovement().forwardLeft();
         assertEquals(new position(1, 7), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        assertTrue(gd.getBoard().getEliminated().contains(damaPawnBlack1));
 
         //move forward and the forward box is occupation to friend pawn
-        gd.getBoard().clearBoard();
-        gd.getBoard().addPawn(new position(4, 6), damaPawnWhite1);
-        gd.getBoard().addPawn(new position(3, 7), damaPawnBlack2);
+        gd.getBoard().updatePosition(new position(4, 6), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(3, 7), damaPawnWhite2);
+        damaPawnWhite1.getMovement().forwardLeft();
         assertEquals(new position(4, 6), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
     }
 
@@ -84,37 +89,105 @@ class WhiteMovementsTest {
         gd.getBoard().clearBoard();
 
         gd.getBoard().addPawn(new position(4, 2), damaPawnWhite1);
-
         gd.getBoard().addPawn(new position(3, 3), damaPawnBlack1);
         gd.getBoard().addPawn(new position(1, 5), damaPawnBlack2);
+
         damaPawnWhite1.getMovement().forwardLeft();
         assertEquals(new position(2, 6), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        assertTrue(gd.getBoard().getEliminated().contains(damaPawnBlack1));
+        assertTrue(gd.getBoard().getEliminated().contains(damaPawnBlack2));
+        //check eliminated
+        assertTrue(gd.getBoard().getEliminated().contains(damaPawnBlack1));
+        assertTrue(gd.getBoard().getEliminated().contains(damaPawnBlack2));
 
-        gd.getBoard().clearBoard();
-
-        gd.getBoard().addPawn(new position(5, 2), damaPawnWhite1);
-
+        gd.getBoard().updatePosition(new position(5, 2), damaPawnWhite1);
         gd.getBoard().addPawn(new position(6, 3), damaPawnBlack1);
         gd.getBoard().addPawn(new position(8, 5), damaPawnBlack2);
         damaPawnWhite1.getMovement().forwardRight();
 
         assertEquals(new position(7, 6), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        //check eliminated
+        assertTrue(gd.getBoard().getEliminated().contains(damaPawnBlack1));
+        assertTrue(gd.getBoard().getEliminated().contains(damaPawnBlack2));
 
     }
 
     @Test
     @DisplayName("Multi forward right Test")
     void MultiForwardRightTest() {
-        // TODO: implement WhiteMovementsTest.MultiForwardRightTest
-        throw new UnsupportedOperationException("Not yet implemented");
+        gd.getBoard().clearBoard();
+
+        gd.getBoard().addPawn(new position(3, 1), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(5, 3), damaPawnBlack1);
+        gd.getBoard().addPawn(new position(7, 5), damaPawnBlack2);
+
+        damaPawnWhite1.getMovement().forwardRight();
+
+        //check position
+        assertEquals(new position(8, 6), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        //check deletion pawn
+        assertTrue(gd.getBoard().getEliminated().contains(damaPawnBlack1));
+        assertTrue(gd.getBoard().getEliminated().contains(damaPawnBlack2));
+
+        gd.getBoard().updatePosition(new position(3, 1), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(5, 3), damaPawnBlack1);
+        gd.getBoard().addPawn(new position(7, 5), damaPawnWhite2);
+
+        damaPawnWhite1.getMovement().forwardRight();
+
+        //check position
+        assertEquals(new position(6, 4), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        //check deletion pawn
+        assertTrue(gd.getBoard().getEliminated().contains(damaPawnBlack1));
+
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(6, 4), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(7, 5), damaPawnBlack1);
+        gd.getBoard().addPawn(new position(7, 7), damaPawnBlack2);
+
+        damaPawnWhite1.getMovement().forwardRight();
+
+        //check position
+        assertEquals(new position(6, 8), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        //check deletion pawn
+        gd.getBoard().addPawn(new position(5, 3), damaPawnBlack1);
+        gd.getBoard().addPawn(new position(7, 5), damaPawnWhite2);
     }
 
     @Test
     @DisplayName("Multi forward left Test")
     void MultiForwardLeftTest() {
-        // TODO: implement WhiteMovementsTest.MultiForwardLeftTest
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
+        gd.getBoard().clearBoard();
 
+        gd.getBoard().addPawn(new position(6, 1), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(4, 3), damaPawnBlack1);
+        gd.getBoard().addPawn(new position(2, 5), damaPawnBlack2);
+
+        damaPawnWhite1.getMovement().forwardLeft();
+
+        assertEquals(new position(1, 6), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        gd.getBoard().addPawn(new position(5, 3), damaPawnBlack1);
+        gd.getBoard().addPawn(new position(7, 5), damaPawnWhite2);
+
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(3, 4), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(2, 5), damaPawnBlack1);
+        gd.getBoard().addPawn(new position(2, 7), damaPawnWhite2);
+        damaPawnWhite1.getMovement().forwardLeft();
+
+        assertEquals(new position(1, 6), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        gd.getBoard().addPawn(new position(5, 3), damaPawnBlack1);
+
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(3, 4), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(2, 5), damaPawnBlack1);
+        gd.getBoard().addPawn(new position(2, 7), damaPawnBlack2);
+
+        damaPawnWhite1.getMovement().forwardLeft();
+
+        assertEquals(new position(3, 8), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        gd.getBoard().addPawn(new position(5, 3), damaPawnBlack1);
+        gd.getBoard().addPawn(new position(7, 5), damaPawnWhite2);
+    }
 
 }

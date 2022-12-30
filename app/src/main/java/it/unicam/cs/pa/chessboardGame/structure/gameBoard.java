@@ -54,9 +54,9 @@ public interface gameBoard {
      *
      * @param position position adding pawn
      * @param pawn     pawn to add
+     * @return true if added else false
      * @throws IllegalArgumentException if position not present in game
      * @throws IllegalArgumentException if pawn present in game
-     * @throws IllegalArgumentException if position is occupied
      */
     boolean addPawn(position position, pawn pawn);
 

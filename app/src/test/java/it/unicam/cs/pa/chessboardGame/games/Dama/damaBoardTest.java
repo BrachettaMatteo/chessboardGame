@@ -90,8 +90,9 @@ class DamaBoardTest {
     void addPawn() {
         //the pawn is insert if only position is free
         assertTrue(dg.getBoard().addPawn(correctPosition, dp));
-        assertFalse(dg.getBoard().addPawn(correctPosition, dp));
-
+        damaPawn dp1 = new damaPawn(0, dg.getBoard(), "*", playerPawnWhite, true);
+        assertFalse(dg.getBoard().addPawn(correctPosition, dp1));
+        assertThrows(IllegalArgumentException.class, () -> dg.getBoard().addPawn(correctPosition, dp));
         assertThrows(IllegalArgumentException.class, () -> dg.getBoard().addPawn(errorPositionBoard, dp));
     }
 
