@@ -49,7 +49,7 @@ class DamaPawnTest {
     @DisplayName("Set movement Test")
     @Test
     void setMovement() {
-        movement newMove = new damaMovement();
+        movement newMove = new damaMovement(dg.getBoard(), basicDamaPawn);
         basicDamaPawn.setMovement(newMove);
 
         assertEquals(newMove, basicDamaPawn.getMovement());
@@ -59,7 +59,7 @@ class DamaPawnTest {
     @DisplayName("Get movement Test")
     @Test
     void getMovement() {
-        movement newMove = new damaMovement();
+        movement newMove = new damaMovement(dg.getBoard(), basicDamaPawn);
         basicDamaPawn.setMovement(newMove);
 
         assertEquals(newMove, basicDamaPawn.getMovement());

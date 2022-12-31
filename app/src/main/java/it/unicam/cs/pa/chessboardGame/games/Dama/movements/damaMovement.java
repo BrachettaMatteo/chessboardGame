@@ -1,27 +1,33 @@
 package it.unicam.cs.pa.chessboardGame.games.Dama.movements;
 
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
-import it.unicam.cs.pa.chessboardGame.structure.movement;
-import it.unicam.cs.pa.chessboardGame.structure.position;
+import it.unicam.cs.pa.chessboardGame.structure.pawn;
 
-public class damaMovement implements movement {
-    @Override
-    public void forwardRight() {
-        //TODO: implement damaMovement.forwardRight
+/**
+ * dama Movement of pawn
+ *
+ * @author Matteo Brachetta
+ * @version 0.1
+ */
+public class damaMovement extends defaultMovements {
+
+    public damaMovement(gameBoard gb, pawn pawn) {
+        super(gb, pawn);
     }
 
     @Override
-    public void forwardLeft() {
-        //TODO: implement damaMovement.forwardLeft
+    public void backRight() {
+        super.directionRow = super.BOTTOM;
+        this.directionColumn = super.RIGHT;
+        this.checkBasicMove();
     }
 
     @Override
-    public position backRight(position positionStart, gameBoard boardGame) {
-        return movement.super.backRight(positionStart, boardGame);
-    }
-
-    @Override
-    public position backLeft(position positionStart, gameBoard boardGame) {
-        return movement.super.backLeft(positionStart, boardGame);
+    public void backLeft() {
+        super.directionRow = super.BOTTOM;
+        this.directionColumn = super.LEFT;
+        this.checkBasicMove();
     }
 }
+
+

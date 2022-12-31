@@ -1,8 +1,7 @@
 package it.unicam.cs.pa.chessboardGame.games.Dama;
 
 
-import it.unicam.cs.pa.chessboardGame.games.Dama.movements.blackMovements;
-import it.unicam.cs.pa.chessboardGame.games.Dama.movements.whiteMovements;
+import it.unicam.cs.pa.chessboardGame.games.Dama.movements.defaultMovements;
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
 import it.unicam.cs.pa.chessboardGame.structure.movement;
 import it.unicam.cs.pa.chessboardGame.structure.pawn;
@@ -13,7 +12,7 @@ import java.util.UUID;
 
 /**
  * @author Matteo Brachetta
- * @version 0.1
+ * @version 0.1.1
  */
 public class damaPawn implements pawn {
 
@@ -32,7 +31,7 @@ public class damaPawn implements pawn {
         this.type = isWhite;
         this.life = true;
         this.owner = owner;
-        this.moves = isWhite ? new whiteMovements(board, this) : new blackMovements(board, this);
+        this.moves = new defaultMovements(board, this);
     }
 
     @Override

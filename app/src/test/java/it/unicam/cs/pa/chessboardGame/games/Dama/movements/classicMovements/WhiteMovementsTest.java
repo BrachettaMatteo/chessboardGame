@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.chessboardGame.games.Dama.movements;
+package it.unicam.cs.pa.chessboardGame.games.Dama.movements.classicMovements;
 
 import it.unicam.cs.pa.chessboardGame.games.Dama.damaGame;
 import it.unicam.cs.pa.chessboardGame.games.Dama.damaPawn;
@@ -14,6 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Test of white pawn
+ *
+ * @author Matteo Brachetta
+ * @version 0.2
+ */
 class WhiteMovementsTest {
     private final damaPlayer playerWhiteTest = new damaPlayer("player white Test");
     private damaPawn damaPawnWhite1;
