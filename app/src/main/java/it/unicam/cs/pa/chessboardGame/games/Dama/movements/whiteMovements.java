@@ -6,6 +6,12 @@ import it.unicam.cs.pa.chessboardGame.structure.movement;
 import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.position;
 
+/**
+ * Movement white pawn
+ *
+ * @author Matteo Brachetta
+ * @version 0.1
+ */
 public class whiteMovements implements movement {
     private final gameBoard gb;
     private final pawn pawn;
@@ -38,8 +44,7 @@ public class whiteMovements implements movement {
     private void checkBasicMove() {
         position currentPosition = this.gb.getPositionPawn(pawn.getId());
         position nextPosition = this.getNewPosition(currentPosition, direction);
-        position nextPosition1 = this.getNewPosition(nextPosition, direction);
-        if (this.gb.isFree(nextPosition) && this.gb.isFree(nextPosition1))
+        if (this.gb.isFree(nextPosition))
             this.gb.updatePosition(nextPosition, this.pawn);
         if (this.notFriend(nextPosition))
             this.capture(nextPosition);
@@ -66,9 +71,10 @@ public class whiteMovements implements movement {
      * @param nextPosition position for check new possible capture
      */
     private void capture(position nextPosition) {
-        if (this.checkDama(nextPosition))
-            this.gb.updatePosition(nextPosition, pawn);
-        else {
+        if (this.checkDama(nextPosition)) {
+            if (this.gb.isFree(nextPosition))
+                this.gb.updatePosition(nextPosition, pawn);
+        } else {
             position nextPosition1 = this.getNewPosition(nextPosition, direction);
             if (this.gb.isFree(nextPosition))
                 if (this.gb.isFree(nextPosition1))
@@ -87,9 +93,7 @@ public class whiteMovements implements movement {
      * @return true if pawn dama else false
      */
     private boolean checkDama(position positionToCheck) {
-        if (positionToCheck.getRow() == 8)
-            return this.gb.isFree(positionToCheck);
-        return false;
+        return positionToCheck.getRow() == 8;
     }
 
     /**
