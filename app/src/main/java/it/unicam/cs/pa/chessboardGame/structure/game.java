@@ -91,4 +91,18 @@ public interface game {
      * restart game, restart board
      */
     void restart();
+
+    /**
+     * start game
+     */
+    void start();
+
+    /**
+     * return the win player
+     *
+     * @return the player win or null
+     */
+    player getWin();
+
+    player nextPlayer();
 }

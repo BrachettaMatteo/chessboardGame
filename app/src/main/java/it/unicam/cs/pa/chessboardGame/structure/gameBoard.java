@@ -132,4 +132,6 @@ public interface gameBoard {
      * @return list content all pawn element.
      */
     List<pawn> getEliminated();
+
+    List<pawn> getPawnToMove(String idPlayer);
 }

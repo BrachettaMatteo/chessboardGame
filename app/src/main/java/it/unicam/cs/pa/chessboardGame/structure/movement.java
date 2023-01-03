@@ -84,4 +84,14 @@ public interface movement {
         throw new UnsupportedOperationException("movement is not allowed");
     }
 
+    /**
+     * move the pawn to new position. New position is select to random from possible moves
+     *
+     * @throws UnsupportedOperationException if the movement not supported for pawn
+     */
+    default void randomMove() {
+        throw new UnsupportedOperationException("movement is not allowed");
+    }
+
+    boolean isAvailableToMove();
 }

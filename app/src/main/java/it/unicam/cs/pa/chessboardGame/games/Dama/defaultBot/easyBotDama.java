@@ -42,10 +42,5 @@ public class easyBotDama extends damaPlayer {
 
     }
 
-    @Override
-    public String getName() {
-        //TODO: implement easyBotDama.getSymbol
-        return null;
-    }
 
 }

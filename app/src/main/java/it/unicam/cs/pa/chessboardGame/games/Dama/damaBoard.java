@@ -63,7 +63,7 @@ public class damaBoard implements gameBoard {
 
     private void createBlackPawn() {
         for (int row = 8; row > 8 - 3; row--) {
-            String symbolBlack = "*";
+            String symbolBlack = "•";
             if (row % 2 == 0) for (int column = 2; column <= 8; column += 2)
                 this.addPawn(new position(column, row), new damaPawn(0, this, symbolBlack, this.blackPlayer, false));
             else for (int column = 1; column <= 8; column += 2)
@@ -73,7 +73,7 @@ public class damaBoard implements gameBoard {
 
     private void createWhitePawn() {
         for (int row = 1; row < 1 + 3; row++) {
-            String symbolWhite = "•";
+            String symbolWhite = "*";
             if (row % 2 == 0) for (int column = 2; column <= 8; column += 2)
                 this.addPawn(new position(column, row), new damaPawn(0, this, symbolWhite, this.whitePlayer, true));
             else for (int column = 1; column <= 8; column += 2)
@@ -225,5 +225,13 @@ public class damaBoard implements gameBoard {
     @Override
     public List<pawn> getEliminated() {
         return eliminated.values().stream().toList();
+    }
+
+    @Override
+    public List<pawn> getPawnToMove(String idPlayer) {
+
+        List<pawn> pp = new ArrayList<>(this.getPawns().stream().filter(pawn -> pawn.getOwner().getId().equals(idPlayer)).toList());
+        return pp.stream().filter(pawn::isAvailableToMove).toList();
+
     }
 }

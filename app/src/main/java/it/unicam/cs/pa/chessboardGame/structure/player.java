@@ -1,5 +1,7 @@
 package it.unicam.cs.pa.chessboardGame.structure;
 
+import java.util.List;
+
 /**
  * player, he's responsible to squad pawn of game
  *

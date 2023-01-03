@@ -2,10 +2,7 @@ package it.unicam.cs.pa.chessboardGame.games.Dama;
 
 
 import it.unicam.cs.pa.chessboardGame.games.Dama.movements.defaultMovements;
-import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
-import it.unicam.cs.pa.chessboardGame.structure.movement;
-import it.unicam.cs.pa.chessboardGame.structure.pawn;
-import it.unicam.cs.pa.chessboardGame.structure.player;
+import it.unicam.cs.pa.chessboardGame.structure.*;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -102,5 +99,11 @@ public class damaPawn implements pawn {
 
     public boolean getType() {
         return this.type;
+    }
+
+    @Override
+    public boolean isAvailableToMove() {
+        return this.moves.isAvailableToMove();
+
     }
 }

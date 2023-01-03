@@ -10,9 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test of white pawn
@@ -44,6 +42,10 @@ class WhiteMovementsTest {
     @DisplayName("Simple forward right test")
     @Test
     void simpleForwardRightTest() {
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(8, 1), damaPawnWhite1);
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().forwardRight());
+        assertEquals(new position(8, 1), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
 
         gd.getBoard().clearBoard();
 
@@ -70,6 +72,11 @@ class WhiteMovementsTest {
     @DisplayName("Simple forward left test")
     @Test
     void simpleForwardLeftTest() {
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(1, 1), damaPawnWhite1);
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().forwardLeft());
+        assertEquals(new position(1, 1), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+
         gd.getBoard().clearBoard();
 
         //move forward and the forward box is empty

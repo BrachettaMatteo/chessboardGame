@@ -1,7 +1,9 @@
 package it.unicam.cs.pa.chessboardGame.games.Dama;
 
+import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.player;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
