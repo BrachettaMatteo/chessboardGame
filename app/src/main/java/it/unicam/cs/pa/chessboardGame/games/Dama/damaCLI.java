@@ -11,6 +11,7 @@ public class damaCLI {
     protected damaGame dg;
     protected damaBoard board;
     protected ArrayList<damaPlayer> order;
+
     protected damaPlayer player;
     private final String symbol;
     private final Scanner scanner;
@@ -19,8 +20,8 @@ public class damaCLI {
         this.dg = damaGame;
         this.board = (damaBoard) dg.getBoard();
         this.order = new ArrayList<>(dg.getPlayers().stream().map(el -> (damaPlayer) el).toList());
-        this.player = this.order.stream().filter(damaPlayer -> !(damaPlayer instanceof easyBotDama)).findFirst().get();
-        this.symbol = this.board.getPawns().stream().filter(pawn -> pawn.getOwner() == this.player).findFirst().get().getSymbol();
+        this.player = this.order.stream().filter(damaPlayer -> !(damaPlayer instanceof easyBotDama)).findFirst().orElse(null);
+        this.symbol = this.board.getPawns().stream().filter(pawn -> pawn.getOwner() == this.player).findFirst().orElse(null).getSymbol();
         scanner = new Scanner(System.in);
         this.startGame();
     }
@@ -46,11 +47,13 @@ public class damaCLI {
             listPawnToMove.get(rand.nextInt(listPawnToMove.size())).getMovement().randomMove();
         } else {
             pawn selectPawn = this.requestPawnInput(listPawnToMove);
-            this.requestMovementPawn(selectPawn);
+            boolean coorectMove = false;
+            while (!coorectMove)
+                coorectMove = this.requestMovementPawn(selectPawn);
         }
     }
 
-    private void requestMovementPawn(pawn selectPawn) {
+    private boolean requestMovementPawn(pawn selectPawn) {
         damaPawn dp = (damaPawn) selectPawn;
         System.out.println("insert movement");
         String move = scanner.next();
@@ -58,34 +61,38 @@ public class damaCLI {
             case "L":
                 try {
                     dp.getMovement().forwardLeft();
-                    System.out.println("execute left");
-                    break;
+                    return true;
                 } catch (Exception e) {
-                    System.out.println(e);
+                    System.out.println(e.getMessage());
+                    return false;
                 }
 
             case "R":
                 try {
                     dp.getMovement().forwardRight();
-                    break;
+                    return true;
                 } catch (Exception e) {
-                    System.out.println(e);
+                    System.out.println(e.getMessage());
+                    return false;
                 }
             case "BR": {
                 if (dp.getMovement() instanceof damaMovement) {
                     dp.getMovement().backRight();
-                    break;
+                    return true;
+
                 }
             }
             case "LR":
                 if (dp.getMovement() instanceof damaMovement) {
                     dp.getMovement().backLeft();
-                    break;
+                    return true;
+
                 }
             default:
-                this.requestMovementPawn(dp);
+                return false;
         }
     }
+
 
     /**
      * instruction for insert adn verify input

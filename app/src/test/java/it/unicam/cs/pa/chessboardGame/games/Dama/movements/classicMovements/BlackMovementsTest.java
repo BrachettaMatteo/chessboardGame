@@ -86,7 +86,7 @@ class BlackMovementsTest {
 
         gd.getBoard().clearBoard();
         gd.getBoard().addPawn(new position(4, 8), damaPawnBlack1);
-        damaPawnBlack1.getMovement().forwardLeft();
+       damaPawnBlack1.getMovement().forwardLeft();
 
         assertEquals(new position(5, 7), gd.getBoard().getPositionPawn(damaPawnBlack1.getId()));
 
@@ -101,7 +101,7 @@ class BlackMovementsTest {
         gd.getBoard().clearBoard();
         gd.getBoard().addPawn(new position(4, 8), damaPawnBlack1);
         gd.getBoard().addPawn(new position(5, 7), damaPawnBlack2);
-
+        System.out.println(gd.getBoard());
         assertEquals(new position(4, 8), gd.getBoard().getPositionPawn(damaPawnBlack1.getId()));
     }
 

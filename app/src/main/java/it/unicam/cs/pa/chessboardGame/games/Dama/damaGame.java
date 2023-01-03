@@ -3,7 +3,6 @@ package it.unicam.cs.pa.chessboardGame.games.Dama;
 import it.unicam.cs.pa.chessboardGame.games.Dama.defaultBot.easyBotDama;
 import it.unicam.cs.pa.chessboardGame.structure.game;
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
-import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.player;
 
 import java.util.*;
@@ -24,7 +23,7 @@ public class damaGame implements game {
 
     private gameBoard board;
 
-    private List<damaPlayer> orderPlayer;
+    private final List<damaPlayer> orderPlayer;
 
     public damaGame(String descInformation, damaPlayer player1, damaPlayer player2) {
 
@@ -149,9 +148,7 @@ public class damaGame implements game {
         this.board.clearBoard();
     }
 
-    public List<pawn> getSquad(player player) {
-        return this.board.getPawns().stream().filter(pawn -> pawn.getOwner() == player).toList();
-    }
+
 
     @Override
     public player getWin() {

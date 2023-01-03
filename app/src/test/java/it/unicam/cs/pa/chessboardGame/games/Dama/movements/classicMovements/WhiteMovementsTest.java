@@ -93,7 +93,7 @@ class WhiteMovementsTest {
         //move forward and the forward box is occupation to friend pawn
         gd.getBoard().updatePosition(new position(4, 6), damaPawnWhite1);
         gd.getBoard().addPawn(new position(3, 7), damaPawnWhite2);
-        damaPawnWhite1.getMovement().forwardLeft();
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().forwardLeft());
         assertEquals(new position(4, 6), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
     }
 
