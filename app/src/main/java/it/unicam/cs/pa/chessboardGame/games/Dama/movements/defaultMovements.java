@@ -3,7 +3,6 @@ package it.unicam.cs.pa.chessboardGame.games.Dama.movements;
 import it.unicam.cs.pa.chessboardGame.games.Dama.damaPawn;
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
 import it.unicam.cs.pa.chessboardGame.structure.movement;
-import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.position;
 
 /**
@@ -13,7 +12,6 @@ import it.unicam.cs.pa.chessboardGame.structure.position;
  * @version 0.2
  */
 public class defaultMovements implements movement {
-
     final int RIGHT = 1;
     final int LEFT = -1;
     final int TOP = 1;
@@ -65,12 +63,10 @@ public class defaultMovements implements movement {
     protected void checkBasicMove() {
         position currentPosition = this.gb.getPositionPawn(pawn.getId());
         position nextPosition = this.getNewPosition(currentPosition, directionColumn);
-        System.out.println(currentPosition);
         try {
             if (this.gb.isFree(nextPosition))
                 this.gb.updatePosition(nextPosition, this.pawn);
             if (this.notFriend(nextPosition)) {
-                System.out.println("move execute");
                 this.capture(nextPosition);
             }
         } catch (Exception e) {
@@ -86,9 +82,9 @@ public class defaultMovements implements movement {
      */
     protected boolean notFriend(position positionToPawn) {
         try {
-            return ((damaPawn) this.gb.getPawn(positionToPawn)).getType() != ((damaPawn) this.pawn).getType();
+            return ((damaPawn) this.gb.getPawn(positionToPawn)).getType() != this.pawn.getType();
         } catch (Exception e) {
-            return true;
+            return false;
         }
     }
 
@@ -103,17 +99,43 @@ public class defaultMovements implements movement {
                 this.pawn.setMovement(new damaMovement(this.gb, this.pawn));
                 this.gb.updatePosition(nextPosition, pawn);
             }
-        } else {
-            position nextPosition1 = this.fixPosition(this.getNewPosition(nextPosition, directionColumn));
-            if (this.gb.isFree(nextPosition))
-                if (this.gb.isFree(nextPosition1))
-                    this.gb.updatePosition(nextPosition, pawn);
-            if (this.notFriend(nextPosition)) {
-                this.gb.updatePosition(nextPosition, this.pawn);
-                capture(nextPosition1);
+        } else if (this.notFriend(nextPosition)) {
+            position nextPosition1 = this.getNewPosition(nextPosition, directionColumn);
+
+            if (nextPosition1 != null && this.gb.isFree(nextPosition1)) {
+                this.gb.updatePosition(nextPosition, pawn);
+                this.gb.updatePosition(nextPosition1, pawn);
+                if (this.checkDama(nextPosition1))
+                    this.pawn.setMovement(new damaMovement(this.gb, this.pawn));
+
+                position nextPosition2 = this.getNewPosition(nextPosition1, directionColumn);
+                if (nextPosition2 != null && this.notFriend(nextPosition2)) {
+                    this.capture(nextPosition2);
+                } else
+                    this.checkPossibleCapture();
             }
         }
     }
+
+    /**
+     * checks the near left and right position if it's possible call
+     * <code> this.forwardRight()</code> or <code> this.forwardLeft();</code>
+     */
+    private void checkPossibleCapture() {
+        position positionRight = this.getNewPosition(this.gb.getPositionPawn(pawn.getId()), RIGHT);
+        position positionLeft = this.getNewPosition(this.gb.getPositionPawn(pawn.getId()), LEFT);
+        if (this.notFriend(positionRight))
+            if (this.pawn.getType())
+                this.forwardRight();
+            else this.forwardLeft();
+        if (this.notFriend(positionLeft))
+            if (this.pawn.getType())
+                this.forwardLeft();
+            else this.forwardRight();
+
+
+    }
+
 
     /**
      * verify if the pawn is transform to dama
@@ -122,7 +144,7 @@ public class defaultMovements implements movement {
      * @return true if pawn dama else false
      */
     protected boolean checkDama(position positionToCheck) {
-        if (((damaPawn) pawn).getType())
+        if (pawn.getType())
             return positionToCheck.getRow() == 8;
         else
             return positionToCheck.getRow() == 1;
@@ -136,30 +158,13 @@ public class defaultMovements implements movement {
      * @return new correct position
      */
     protected position getNewPosition(position currentPosition, int incrementColum) {
-        position nextPosition = new position(currentPosition.getColumn() + incrementColum, currentPosition.getRow() + this.directionRow);
-        return nextPosition;
-        // return fixPosition(nextPosition);
-
-    }
-
-    /**
-     * fix position when go out board, and update directionColumn
-     *
-     * @param positionToFix position to fix
-     * @return fix position when fix else positionToFix
-     */
-    protected position fixPosition(position positionToFix) {
-        if (positionToFix.getColumn() < 1) {
-            positionToFix.setColumn(2);
-            //invert directionColumn
-            this.directionColumn = LEFT;
+        try {
+            position nextPosition = new position(currentPosition.getColumn() + incrementColum, currentPosition.getRow() + this.directionRow);
+            this.gb.isFree(nextPosition);
+            return nextPosition;
+        } catch (Exception e) {
+            return null;
         }
-        if (positionToFix.getColumn() > 8) {
-            positionToFix.setColumn(7);
-            //invert directionColumn
-            this.directionColumn = RIGHT;
-        }
-        return positionToFix;
     }
 
     @Override
@@ -173,21 +178,28 @@ public class defaultMovements implements movement {
     @Override
     public boolean isAvailableToMove() {
         position currentPosition = this.gb.getPositionPawn(pawn.getId());
-        if (((damaPawn) this.pawn).getType())
+        if (this.pawn.getType())
             return this.checkPosition(currentPosition, LEFT, TOP) || this.checkPosition(currentPosition, RIGHT, TOP);
         else
             return this.checkPosition(currentPosition, LEFT, BOTTOM) || this.checkPosition(currentPosition, RIGHT, BOTTOM);
 
     }
 
+    /**
+     * create the position when parameter and check position is free
+     *
+     * @param p               position to start
+     * @param directionColumn increment column for new position
+     * @param directionRow    increment row for new position
+     * @return <code>true</code> if the new position is empty else <code>false</code>
+     */
     protected boolean checkPosition(position p, int directionColumn, int directionRow) {
         try {
             position nextPosition = new position(p.getColumn() + directionColumn, p.getRow() + directionRow);
-            return this.notFriend(nextPosition) && this.gb.isFree(nextPosition);
+            return this.gb.isFree(nextPosition);
         } catch (Exception e) {
             return false;
         }
-
 
     }
 

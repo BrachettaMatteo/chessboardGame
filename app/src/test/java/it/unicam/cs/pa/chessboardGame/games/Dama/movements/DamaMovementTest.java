@@ -93,8 +93,8 @@ class DamaMovementTest {
         gd.getBoard().addPawn(new position(7, 5), damaPawnWhite1);
         gd.getBoard().addPawn(new position(8, 4), pawnBlack1);
         damaPawnWhite1.getMovement().backRight();
-        assertEquals(new position(7, 3), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
-        assertTrue(this.checkEliminationPawn(pawnBlack1));
+        assertEquals(new position(7, 5), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        assertFalse(this.checkEliminationPawn(pawnBlack1));
     }
 
     @Test
@@ -103,8 +103,8 @@ class DamaMovementTest {
         gd.getBoard().addPawn(new position(2, 5), damaPawnWhite1);
         gd.getBoard().addPawn(new position(1, 4), pawnBlack1);
         damaPawnWhite1.getMovement().backLeft();
-        assertEquals(new position(2, 3), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
-        assertTrue(this.checkEliminationPawn(pawnBlack1));
+        assertEquals(new position(2, 5), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        assertFalse(this.checkEliminationPawn(pawnBlack1));
     }
 
     @Test
@@ -123,6 +123,7 @@ class DamaMovementTest {
         assertEquals(new position(3, 3), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
         assertTrue(this.checkEliminationPawn(pawnBlack1));
     }
+
 
     @Test
     void backLeftFriend() {

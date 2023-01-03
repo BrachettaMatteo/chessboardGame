@@ -106,24 +106,23 @@ class WhiteMovementsTest {
         gd.getBoard().addPawn(new position(4, 2), damaPawnWhite1);
         gd.getBoard().addPawn(new position(3, 3), damaPawnBlack1);
         gd.getBoard().addPawn(new position(1, 5), damaPawnBlack2);
-
         damaPawnWhite1.getMovement().forwardLeft();
-        assertEquals(new position(2, 6), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
-        assertTrue(this.checkEliminationPawn(damaPawnBlack1));
-        assertTrue(this.checkEliminationPawn(damaPawnBlack2));
-        //check eliminated
-        assertTrue(this.checkEliminationPawn(damaPawnBlack1));
-        assertTrue(this.checkEliminationPawn(damaPawnBlack2));
 
-        gd.getBoard().updatePosition(new position(5, 2), damaPawnWhite1);
+        assertEquals(new position(2, 4), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+
+
+        assertTrue(this.checkEliminationPawn(damaPawnBlack1));
+        assertFalse(this.checkEliminationPawn(damaPawnBlack2));
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(5, 2), damaPawnWhite1);
         gd.getBoard().addPawn(new position(6, 3), damaPawnBlack1);
         gd.getBoard().addPawn(new position(8, 5), damaPawnBlack2);
         damaPawnWhite1.getMovement().forwardRight();
 
-        assertEquals(new position(7, 6), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        assertEquals(new position(7, 4), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
         //check eliminated
         assertTrue(this.checkEliminationPawn(damaPawnBlack1));
-        assertTrue(this.checkEliminationPawn(damaPawnBlack2));
+        assertFalse(this.checkEliminationPawn(damaPawnBlack2));
 
     }
 
