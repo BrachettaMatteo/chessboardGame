@@ -9,9 +9,10 @@ import it.unicam.cs.pa.chessboardGame.structure.position;
  * Default Movement of pawn
  *
  * @author Matteo Brachetta
- * @version 0.2
+ * @version 0.3
  */
 public class defaultMovements implements movement {
+    final int MAX_CAPTURE_ONE_MOVE = 3;
     final int RIGHT = 1;
     final int LEFT = -1;
     final int TOP = 1;
@@ -22,16 +23,19 @@ public class defaultMovements implements movement {
     protected int directionColumn;
 
     protected int directionRow;
+    private int counterCapture;
 
 
     public defaultMovements(gameBoard gb, damaPawn pawn) {
         this.gb = gb;
         this.pawn = pawn;
+        this.counterCapture = 0;
     }
 
 
     @Override
     public void forwardRight() {
+        this.counterCapture = 0;
         if (pawn.getType()) {
             this.directionRow = TOP;
             this.directionColumn = RIGHT;
@@ -44,6 +48,7 @@ public class defaultMovements implements movement {
 
     @Override
     public void forwardLeft() {
+        this.counterCapture = 0;
         if (pawn.getType()) {
             this.directionRow = TOP;
             this.directionColumn = LEFT;
@@ -64,8 +69,7 @@ public class defaultMovements implements movement {
         position currentPosition = this.gb.getPositionPawn(pawn.getId());
         position nextPosition = this.getNewPosition(currentPosition, directionColumn);
         try {
-            if (this.gb.isFree(nextPosition))
-                this.gb.updatePosition(nextPosition, this.pawn);
+            if (this.gb.isFree(nextPosition)) this.gb.updatePosition(nextPosition, this.pawn);
             if (this.notFriend(nextPosition)) {
                 this.capture(nextPosition);
             }
@@ -94,25 +98,26 @@ public class defaultMovements implements movement {
      * @param nextPosition position for check new possible capture
      */
     protected void capture(position nextPosition) {
-        if (this.checkDama(nextPosition)) {
-            if (this.gb.isFree(nextPosition)) {
-                this.pawn.setMovement(new damaMovement(this.gb, this.pawn));
-                this.gb.updatePosition(nextPosition, pawn);
-            }
-        } else if (this.notFriend(nextPosition)) {
-            position nextPosition1 = this.getNewPosition(nextPosition, directionColumn);
-
-            if (nextPosition1 != null && this.gb.isFree(nextPosition1)) {
-                this.gb.updatePosition(nextPosition, pawn);
-                this.gb.updatePosition(nextPosition1, pawn);
-                if (this.checkDama(nextPosition1))
+        if (this.counterCapture <= MAX_CAPTURE_ONE_MOVE) {
+            if (this.checkDama(nextPosition)) {
+                if (this.gb.isFree(nextPosition)) {
                     this.pawn.setMovement(new damaMovement(this.gb, this.pawn));
+                    this.gb.updatePosition(nextPosition, pawn);
+                }
+            } else if (this.notFriend(nextPosition)) {
+                position nextPosition1 = this.getNewPosition(nextPosition, directionColumn);
 
-                position nextPosition2 = this.getNewPosition(nextPosition1, directionColumn);
-                if (nextPosition2 != null && this.notFriend(nextPosition2)) {
-                    this.capture(nextPosition2);
-                } else
-                    this.checkPossibleCapture();
+                if (nextPosition1 != null && this.gb.isFree(nextPosition1)) {
+                    this.gb.updatePosition(nextPosition, pawn);
+                    this.gb.updatePosition(nextPosition1, pawn);
+                    this.counterCapture++;
+                    if (this.checkDama(nextPosition1)) this.pawn.setMovement(new damaMovement(this.gb, this.pawn));
+
+                    position nextPosition2 = this.getNewPosition(nextPosition1, directionColumn);
+                    if (nextPosition2 != null && this.notFriend(nextPosition2)) {
+                        this.capture(nextPosition2);
+                    } else this.checkPossibleCapture();
+                }
             }
         }
     }
@@ -124,16 +129,10 @@ public class defaultMovements implements movement {
     private void checkPossibleCapture() {
         position positionRight = this.getNewPosition(this.gb.getPositionPawn(pawn.getId()), RIGHT);
         position positionLeft = this.getNewPosition(this.gb.getPositionPawn(pawn.getId()), LEFT);
-        if (this.notFriend(positionRight))
-            if (this.pawn.getType())
-                this.forwardRight();
-            else this.forwardLeft();
-        if (this.notFriend(positionLeft))
-            if (this.pawn.getType())
-                this.forwardLeft();
-            else this.forwardRight();
-
-
+        if (this.notFriend(positionRight)) if (this.pawn.getType()) this.forwardRight();
+        else this.forwardLeft();
+        if (this.notFriend(positionLeft)) if (this.pawn.getType()) this.forwardLeft();
+        else this.forwardRight();
     }
 
 
@@ -144,10 +143,8 @@ public class defaultMovements implements movement {
      * @return true if pawn dama else false
      */
     protected boolean checkDama(position positionToCheck) {
-        if (pawn.getType())
-            return positionToCheck.getRow() == 8;
-        else
-            return positionToCheck.getRow() == 1;
+        if (pawn.getType()) return positionToCheck.getRow() == 8;
+        else return positionToCheck.getRow() == 1;
     }
 
     /**
@@ -169,10 +166,8 @@ public class defaultMovements implements movement {
 
     @Override
     public void randomMove() {
-        if (Math.random() <= 0.5)
-            this.forwardLeft();
-        else
-            this.forwardRight();
+        if (Math.random() <= 0.5) this.forwardLeft();
+        else this.forwardRight();
     }
 
     @Override
@@ -200,8 +195,5 @@ public class defaultMovements implements movement {
         } catch (Exception e) {
             return false;
         }
-
     }
-
-
 }
