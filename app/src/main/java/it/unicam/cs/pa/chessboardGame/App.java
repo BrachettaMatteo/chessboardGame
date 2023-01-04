@@ -1,9 +1,9 @@
 package it.unicam.cs.pa.chessboardGame;
 
-import it.unicam.cs.pa.chessboardGame.games.Dama.damaGame;
-import it.unicam.cs.pa.chessboardGame.games.Dama.damaPlayer;
+import it.unicam.cs.pa.chessboardGame.games.dama.damaGame;
+import it.unicam.cs.pa.chessboardGame.games.dama.damaPlayer;
 import it.unicam.cs.pa.chessboardGame.structure.game;
-import it.unicam.cs.pa.chessboardGame.games.Dama.defaultBot.easyBotDama;
+import it.unicam.cs.pa.chessboardGame.games.dama.defaultBot.easyBotDama;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 public class App {
 
-    public List<game> games;
+    public final List<game> games;
 
     public App() {
         this.games = new ArrayList<>();

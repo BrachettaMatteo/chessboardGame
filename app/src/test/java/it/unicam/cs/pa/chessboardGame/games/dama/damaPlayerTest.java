@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.chessboardGame.games.Dama;
+package it.unicam.cs.pa.chessboardGame.games.dama;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -5,7 +5,7 @@ Pawn movements depend on the pawn type. The type of the pawn can be one of two t
 The type indicate the position of chessboard (white down and black top).
 The pawn can perform an update when it turns into checkers, to do so the pawn must reach the last row of the chessboard.
 
-## Deafult Movement
+## Default Movement
 It's assign for all pawn to start. This possible movement are `forwardRight()` and `forwardLeft()`. The two movements are influenced by the type of pawn.
 
 The positions of chessBoard are declaration: 

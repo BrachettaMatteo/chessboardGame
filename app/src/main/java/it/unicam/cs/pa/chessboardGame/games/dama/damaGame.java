@@ -1,6 +1,6 @@
-package it.unicam.cs.pa.chessboardGame.games.Dama;
+package it.unicam.cs.pa.chessboardGame.games.dama;
 
-import it.unicam.cs.pa.chessboardGame.games.Dama.defaultBot.easyBotDama;
+import it.unicam.cs.pa.chessboardGame.games.dama.defaultBot.easyBotDama;
 import it.unicam.cs.pa.chessboardGame.structure.game;
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
 import it.unicam.cs.pa.chessboardGame.structure.player;

@@ -1,18 +1,18 @@
-package it.unicam.cs.pa.chessboardGame.games.Dama;
+package it.unicam.cs.pa.chessboardGame.games.dama;
 
-import it.unicam.cs.pa.chessboardGame.games.Dama.defaultBot.easyBotDama;
-import it.unicam.cs.pa.chessboardGame.games.Dama.movements.damaMovement;
+import it.unicam.cs.pa.chessboardGame.games.dama.defaultBot.easyBotDama;
+import it.unicam.cs.pa.chessboardGame.games.dama.movements.damaMovement;
 import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.position;
 
 import java.util.*;
 
 public class damaCLI {
-    protected damaGame dg;
-    protected damaBoard board;
-    protected ArrayList<damaPlayer> order;
+    protected final damaGame dg;
+    protected final damaBoard board;
+    protected final ArrayList<damaPlayer> order;
 
-    protected damaPlayer player;
+    protected final damaPlayer player;
     private final String symbol;
     private final Scanner scanner;
 
@@ -21,7 +21,7 @@ public class damaCLI {
         this.board = (damaBoard) dg.getBoard();
         this.order = new ArrayList<>(dg.getPlayers().stream().map(el -> (damaPlayer) el).toList());
         this.player = this.order.stream().filter(damaPlayer -> !(damaPlayer instanceof easyBotDama)).findFirst().orElse(null);
-        this.symbol = this.board.getPawns().stream().filter(pawn -> pawn.getOwner() == this.player).findFirst().orElse(null).getSymbol();
+        this.symbol = Objects.requireNonNull(this.board.getPawns().stream().filter(pawn -> pawn.getOwner() == this.player).findFirst().orElse(null)).getSymbol();
         scanner = new Scanner(System.in);
         this.startGame();
     }
@@ -107,7 +107,7 @@ public class damaCLI {
         while (!possiblePawnSelect.contains(selectPawn)) {
 
             try {
-                int col = 0, row = 0;
+                int col, row;
                 System.out.println("insert col");
                 while (!scanner.hasNextInt()) {
                     String input = scanner.next();

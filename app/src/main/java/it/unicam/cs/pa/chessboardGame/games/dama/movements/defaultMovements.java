@@ -1,6 +1,6 @@
-package it.unicam.cs.pa.chessboardGame.games.Dama.movements;
+package it.unicam.cs.pa.chessboardGame.games.dama.movements;
 
-import it.unicam.cs.pa.chessboardGame.games.Dama.damaPawn;
+import it.unicam.cs.pa.chessboardGame.games.dama.damaPawn;
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
 import it.unicam.cs.pa.chessboardGame.structure.movement;
 import it.unicam.cs.pa.chessboardGame.structure.position;
@@ -35,30 +35,41 @@ public class defaultMovements implements movement {
 
     @Override
     public void forwardRight() {
-        this.counterCapture = 0;
+        if (!(this.pawn.getMovement() instanceof damaMovement))
+            this.setDirection(RIGHT);
+        if (this.correctMove()) {
+            this.checkBasicMove();
+        } else throw new IllegalArgumentException("movement not correct");
+
+    }
+
+    /**
+     * Setting direction
+     *
+     * @param directionRow reference direction move
+     */
+    private void setDirection(int directionRow) {
         if (pawn.getType()) {
-            this.directionRow = TOP;
+            if (directionRow == RIGHT) {
+                this.directionRow = TOP;
+                this.directionColumn = RIGHT;
+            } else {
+                this.directionRow = TOP;
+                this.directionColumn = LEFT;
+            }
+        } else if (directionRow == LEFT) {
+            this.directionRow = BOTTOM;
             this.directionColumn = RIGHT;
         } else {
             this.directionRow = BOTTOM;
             this.directionColumn = LEFT;
         }
-        if (this.correctMove()) {
-            this.checkBasicMove();
-        } else throw new IllegalArgumentException("movement not correct");
-
     }
 
     @Override
     public void forwardLeft() {
-        this.counterCapture = 0;
-        if (pawn.getType()) {
-            this.directionRow = TOP;
-            this.directionColumn = LEFT;
-        } else {
-            this.directionRow = BOTTOM;
-            this.directionColumn = RIGHT;
-        }
+        if (!(this.pawn.getMovement() instanceof damaMovement))
+            this.setDirection(LEFT);
         if (this.correctMove()) {
             this.checkBasicMove();
         } else throw new IllegalArgumentException("movement not correct");
@@ -66,21 +77,24 @@ public class defaultMovements implements movement {
 
     }
 
+    /**
+     * check the position is correct for move
+     *
+     * @return true if position is correct else false.
+     */
     private boolean correctMove() {
         position current = this.gb.getPositionPawn(this.pawn.getId());
-        position verifyPostion = new position(current.getColumn() + this.directionColumn, current.getRow() + this.directionRow);
+        position verifyPosition = new position(current.getColumn() + this.directionColumn, current.getRow() + this.directionRow);
         try {
-            if (this.gb.isFree(verifyPostion))
-                return true;
-            if (this.notFriend(verifyPostion))
-                return true;
-            else return false;
+            if (this.gb.isFree(verifyPosition)) return true;
+            else if (this.notFriend(verifyPosition)) return true;
+
         } catch (IllegalArgumentException e) {
             return false;
         }
-
-
+        return false;
     }
+
 
     /**
      * check basic movement and if necessary calls for capture
@@ -88,12 +102,20 @@ public class defaultMovements implements movement {
      * @throws IllegalArgumentException if the movement not consent
      */
     protected void checkBasicMove() {
+        this.counterCapture = 0;
         position currentPosition = this.gb.getPositionPawn(pawn.getId());
         position nextPosition = this.getNewPosition(currentPosition, directionColumn);
+
         try {
+            if (this.checkDama(nextPosition)) {
+                this.gb.updatePosition(nextPosition, this.pawn);
+            }
             if (this.gb.isFree(nextPosition)) this.gb.updatePosition(nextPosition, this.pawn);
-            if (this.notFriend(nextPosition))
-                this.capture(nextPosition);
+            else if (this.notFriend(nextPosition)) {
+                position nextPosition1 = this.getNewPosition(nextPosition, directionColumn);
+                if (this.gb.isFree(nextPosition1)) this.capture(nextPosition);
+                else throw new IllegalArgumentException("this movement isn't perms");
+            }
         } catch (Exception e) {
             throw new IllegalArgumentException("movement error");
         }
@@ -130,35 +152,50 @@ public class defaultMovements implements movement {
 
                 if (nextPosition1 != null && this.gb.isFree(nextPosition1)) {
                     this.gb.updatePosition(nextPosition, pawn);
+                    if (this.checkDama(nextPosition1))
+                        this.pawn.setMovement(new damaMovement(this.gb, this.pawn));
+
                     this.gb.updatePosition(nextPosition1, pawn);
                     this.counterCapture++;
-                    if (this.checkDama(nextPosition1)) this.pawn.setMovement(new damaMovement(this.gb, this.pawn));
-
-                    position nextPosition2 = this.getNewPosition(nextPosition1, directionColumn);
-                    if (nextPosition2 != null && this.notFriend(nextPosition2)) {
-                        this.capture(nextPosition2);
-                    } else this.checkPossibleCapture();
+                    this.checkAnotherCapture();
                 }
             }
         }
     }
 
     /**
-     * checks the near left and right position if it's possible call
-     * <code> this.forwardRight()</code> or <code> this.forwardLeft();</code>
+     * check if possible capture other pawn
      */
-    private void checkPossibleCapture() {
-        position positionRight = this.getNewPosition(this.gb.getPositionPawn(pawn.getId()), RIGHT);
-        position positionLeft = this.getNewPosition(this.gb.getPositionPawn(pawn.getId()), LEFT);
-        if (this.notFriend(positionRight))
-            if (this.pawn.getType())
-                this.forwardRight();
-            else this.forwardLeft();
-        if (this.notFriend(positionLeft))
-            if (this.pawn.getType()) this.forwardLeft();
-            else this.forwardRight();
-    }
+    private void checkAnotherCapture() {
+        position currentPosition = this.gb.getPositionPawn(this.pawn.getId());
+        position rigthPosition = this.getNewPosition(currentPosition, RIGHT);
+        position leftPosition = this.getNewPosition(currentPosition, LEFT);
+        try {
+            if (rigthPosition != null)
+                if (!this.gb.isFree(rigthPosition) && this.notFriend(rigthPosition)) {
+                    position next1Right = this.getNewPosition(rigthPosition, RIGHT);
 
+                    if (next1Right != null && this.gb.isFree(next1Right)) {
+                        if (this.pawn.getType())
+                            this.forwardRight();
+                        else this.forwardLeft();
+                    }
+                }
+            if (leftPosition != null)
+                if (!this.gb.isFree(leftPosition) && this.notFriend(leftPosition)) {
+                    position next1 = this.getNewPosition(leftPosition, LEFT);
+                    if (next1 != null && this.gb.isFree(next1)) {
+                        if (this.pawn.getType())
+                            this.forwardLeft();
+                        else this.forwardRight();
+                    }
+
+                }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
 
     /**
      * verify if the pawn is transform to dama
@@ -190,18 +227,20 @@ public class defaultMovements implements movement {
 
     @Override
     public void randomMove() {
-        if (Math.random() <= 0.5) {
-            try {
+        if (this.isAvailableToMove()) {
+            if (Math.random() <= 0.5) {
+                try {
+                    this.forwardRight();
+                } catch (Exception e) {
+                    this.forwardLeft();
+                }
+            } else try {
                 this.forwardLeft();
-            } catch (IllegalArgumentException e) {
+            } catch (Exception e) {
                 this.forwardRight();
             }
+        } else throw new IllegalArgumentException("error  default random Movement");
 
-        } else try {
-            this.forwardRight();
-        } catch (IllegalArgumentException e) {
-            this.forwardLeft();
-        }
     }
 
     @Override
@@ -211,7 +250,6 @@ public class defaultMovements implements movement {
             return this.checkPosition(currentPosition, LEFT, TOP) || this.checkPosition(currentPosition, RIGHT, TOP);
         else
             return this.checkPosition(currentPosition, LEFT, BOTTOM) || this.checkPosition(currentPosition, RIGHT, BOTTOM);
-
     }
 
     /**
@@ -225,7 +263,12 @@ public class defaultMovements implements movement {
     protected boolean checkPosition(position p, int directionColumn, int directionRow) {
         try {
             position nextPosition = new position(p.getColumn() + directionColumn, p.getRow() + directionRow);
-            return this.gb.isFree(nextPosition);
+            if (this.gb.isFree(nextPosition)) return true;
+            if (this.notFriend(nextPosition)) {
+                position nextPosition1 = new position(nextPosition.getColumn() + directionColumn, nextPosition.getRow() + directionRow);
+                return this.gb.isFree(nextPosition1);
+            }
+            return this.gb.isFree(nextPosition) || this.notFriend(nextPosition);
         } catch (Exception e) {
             return false;
         }

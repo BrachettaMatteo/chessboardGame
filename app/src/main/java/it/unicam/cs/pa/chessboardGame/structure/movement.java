@@ -23,9 +23,6 @@ public interface movement {
      *
      * @throws UnsupportedOperationException if the movement not supported for pawn
      */
-    /*default void forwardRight(gameBoard boardGame, pawn pawn) {
-        throw new UnsupportedOperationException("movement is not allowed");
-    }*/
     default void forwardRight() {
         throw new UnsupportedOperationException("movement is not allowed");
     }

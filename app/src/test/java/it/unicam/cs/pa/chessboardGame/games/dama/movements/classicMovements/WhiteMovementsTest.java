@@ -1,8 +1,9 @@
-package it.unicam.cs.pa.chessboardGame.games.Dama.movements.classicMovements;
+package it.unicam.cs.pa.chessboardGame.games.dama.movements.classicMovements;
 
-import it.unicam.cs.pa.chessboardGame.games.Dama.damaGame;
-import it.unicam.cs.pa.chessboardGame.games.Dama.damaPawn;
-import it.unicam.cs.pa.chessboardGame.games.Dama.damaPlayer;
+import it.unicam.cs.pa.chessboardGame.games.dama.damaGame;
+import it.unicam.cs.pa.chessboardGame.games.dama.damaPawn;
+import it.unicam.cs.pa.chessboardGame.games.dama.damaPlayer;
+import it.unicam.cs.pa.chessboardGame.games.dama.movements.damaMovement;
 import it.unicam.cs.pa.chessboardGame.structure.game;
 import it.unicam.cs.pa.chessboardGame.structure.position;
 
@@ -64,7 +65,8 @@ class WhiteMovementsTest {
         //move forward and the forward box is occupation to friend pawn
         gd.getBoard().updatePosition(new position(4, 4), damaPawnWhite1);
         gd.getBoard().addPawn(new position(5, 5), damaPawnWhite2);
-        damaPawnWhite1.getMovement().forwardRight();
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().forwardRight());
+
         assertEquals(new position(4, 4), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
     }
 
@@ -96,7 +98,6 @@ class WhiteMovementsTest {
         assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().forwardLeft());
         assertEquals(new position(4, 6), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
     }
-
 
     @Test
     @DisplayName("Multi forward margin Test")
@@ -219,5 +220,14 @@ class WhiteMovementsTest {
         return this.gd.getBoard().getEliminated().contains(pawnToCheck);
     }
 
+    @Test
+    void damaRandomMove() {
+        gd.getBoard().clearBoard();
+        damaPawnWhite1.setMovement(new damaMovement(gd.getBoard(), damaPawnWhite1));
+        gd.getBoard().addPawn(new position(4, 4), damaPawnWhite1);
+        damaPawnWhite1.getMovement().randomMove();
+
+        damaPawnWhite1.getMovement().randomMove();
+    }
 
 }

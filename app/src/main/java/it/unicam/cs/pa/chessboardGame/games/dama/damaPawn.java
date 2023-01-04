@@ -1,7 +1,8 @@
-package it.unicam.cs.pa.chessboardGame.games.Dama;
+package it.unicam.cs.pa.chessboardGame.games.dama;
 
 
-import it.unicam.cs.pa.chessboardGame.games.Dama.movements.defaultMovements;
+import it.unicam.cs.pa.chessboardGame.games.dama.movements.damaMovement;
+import it.unicam.cs.pa.chessboardGame.games.dama.movements.defaultMovements;
 import it.unicam.cs.pa.chessboardGame.structure.*;
 
 import java.util.Objects;
@@ -18,7 +19,7 @@ public class damaPawn implements pawn {
     private final boolean type;
     private int hierarchy;
     private movement moves;
-    private final String symbol;
+    private String symbol;
     private boolean life;
 
     public damaPawn(int hierarchy, gameBoard board, String symbol, player owner, boolean isWhite) {
@@ -50,6 +51,9 @@ public class damaPawn implements pawn {
         if (movement == null)
             throw new NullPointerException("movement is null");
         this.moves = movement;
+        if (movement instanceof damaMovement)
+            this.symbol = "D";
+
 
     }
 
@@ -105,5 +109,9 @@ public class damaPawn implements pawn {
     public boolean isAvailableToMove() {
         return this.moves.isAvailableToMove();
 
+    }
+
+    public void setSymbol(String d) {
+        this.symbol = d;
     }
 }

@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.chessboardGame.games.Dama;
+package it.unicam.cs.pa.chessboardGame.games.dama;
 
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
 import it.unicam.cs.pa.chessboardGame.structure.pawn;
@@ -163,6 +163,7 @@ public class damaBoard implements gameBoard {
     @Override
     public void clearBoard() {
         this.board.keySet().forEach((position p) -> this.board.put(p, null));
+        this.eliminated.clear();
     }
 
     @Override

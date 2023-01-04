@@ -1,17 +1,15 @@
-package it.unicam.cs.pa.chessboardGame.games.Dama.movements;
+package it.unicam.cs.pa.chessboardGame.games.dama.movements;
 
-import it.unicam.cs.pa.chessboardGame.games.Dama.damaGame;
-import it.unicam.cs.pa.chessboardGame.games.Dama.damaPawn;
-import it.unicam.cs.pa.chessboardGame.games.Dama.damaPlayer;
+import it.unicam.cs.pa.chessboardGame.games.dama.damaGame;
+import it.unicam.cs.pa.chessboardGame.games.dama.damaPawn;
+import it.unicam.cs.pa.chessboardGame.games.dama.damaPlayer;
 import it.unicam.cs.pa.chessboardGame.structure.game;
 import it.unicam.cs.pa.chessboardGame.structure.position;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -80,9 +78,11 @@ class DamaMovementTest {
         gd.getBoard().addPawn(new position(2, 7), damaPawnWhite1);
         gd.getBoard().addPawn(new position(3, 6), pawnBlack1);
         gd.getBoard().addPawn(new position(5, 4), pawnBlack2);
+
         damaPawnWhite1.getMovement().backRight();
 
         assertEquals(new position(6, 3), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+
         assertTrue(this.checkEliminationPawn(pawnBlack1));
         assertTrue(this.checkEliminationPawn(pawnBlack2));
     }
@@ -92,7 +92,7 @@ class DamaMovementTest {
         gd.getBoard().clearBoard();
         gd.getBoard().addPawn(new position(7, 5), damaPawnWhite1);
         gd.getBoard().addPawn(new position(8, 4), pawnBlack1);
-        damaPawnWhite1.getMovement().backRight();
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().backRight());
         assertEquals(new position(7, 5), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
         assertFalse(this.checkEliminationPawn(pawnBlack1));
     }
@@ -102,7 +102,7 @@ class DamaMovementTest {
         gd.getBoard().clearBoard();
         gd.getBoard().addPawn(new position(2, 5), damaPawnWhite1);
         gd.getBoard().addPawn(new position(1, 4), pawnBlack1);
-        damaPawnWhite1.getMovement().backLeft();
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().backLeft());
         assertEquals(new position(2, 5), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
         assertFalse(this.checkEliminationPawn(pawnBlack1));
     }
@@ -120,6 +120,7 @@ class DamaMovementTest {
         gd.getBoard().addPawn(new position(5, 5), damaPawnWhite1);
         gd.getBoard().addPawn(new position(4, 4), pawnBlack1);
         damaPawnWhite1.getMovement().backLeft();
+
         assertEquals(new position(3, 3), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
         assertTrue(this.checkEliminationPawn(pawnBlack1));
     }
@@ -146,6 +147,39 @@ class DamaMovementTest {
         damaPawnWhite1.getMovement().backRight();
         assertEquals(new position(5, 5), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
         assertFalse(this.checkEliminationPawn(pawnWhite2));
+    }
+
+    @Test
+    void multiCaptureBackRightTest() {
+        gd.getBoard().clearBoard();
+
+        gd.getBoard().addPawn(new position(3, 6), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(4, 5), pawnBlack1);
+        gd.getBoard().addPawn(new position(4, 3), pawnBlack2);
+        damaPawnWhite1.getMovement().forwardRight();
+        assertEquals(new position(3, 2), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        assertTrue(this.checkEliminationPawn(pawnBlack1));
+        assertTrue(this.checkEliminationPawn(pawnBlack2));
+
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(2, 4), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(3, 3), pawnBlack1);
+        gd.getBoard().addPawn(new position(3, 1), pawnBlack2);
+        damaPawnWhite1.getMovement().forwardRight();
+
+        assertEquals(new position(4, 2), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        assertTrue(this.checkEliminationPawn(pawnBlack1));
+        assertFalse(this.checkEliminationPawn(pawnBlack2));
+
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(1, 5), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(2, 4), pawnBlack1);
+        gd.getBoard().addPawn(new position(4, 2), pawnBlack2);
+        damaPawnWhite1.getMovement().forwardRight();
+        assertEquals(new position(5, 1), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        assertTrue(this.checkEliminationPawn(pawnBlack1));
+        assertTrue(this.checkEliminationPawn(pawnBlack2));
+
     }
 
     /**
