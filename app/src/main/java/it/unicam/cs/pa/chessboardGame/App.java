@@ -4,6 +4,7 @@ import it.unicam.cs.pa.chessboardGame.games.Dama.damaGame;
 import it.unicam.cs.pa.chessboardGame.games.Dama.damaPlayer;
 import it.unicam.cs.pa.chessboardGame.structure.game;
 import it.unicam.cs.pa.chessboardGame.games.Dama.defaultBot.easyBotDama;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -28,9 +29,18 @@ public class App {
         System.out.println("games available:");
         app.games.forEach((g) -> System.out.println("[" + (app.games.indexOf(g) + 1) + "] " + g.getName()));
         System.out.println("!-----------------------------!");
-        System.out.println("Select game, insert name of game:");
+        System.out.println("Select game, insert number of game:");
         Scanner scanner = new Scanner(System.in);
+        while (!scanner.hasNextInt()) {
+            String input = scanner.next();
+            System.out.printf("\"%s\" is not a valid number.\nInsert correct nu,ber:", input);
+        }
         int a = scanner.nextInt();
+        while (a > app.games.size()) {
+            System.out.println("error select insert correct number");
+            a = scanner.nextInt();
+        }
+
         System.out.println("select game:" + app.games.get(a - 1).getName());
         game game = app.games.get(a - 1);
         System.out.println("!-----------------------------!");

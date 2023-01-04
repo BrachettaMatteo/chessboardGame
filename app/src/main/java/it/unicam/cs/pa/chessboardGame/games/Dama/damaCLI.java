@@ -47,9 +47,9 @@ public class damaCLI {
             listPawnToMove.get(rand.nextInt(listPawnToMove.size())).getMovement().randomMove();
         } else {
             pawn selectPawn = this.requestPawnInput(listPawnToMove);
-            boolean coorectMove = false;
-            while (!coorectMove)
-                coorectMove = this.requestMovementPawn(selectPawn);
+            boolean correctMove = false;
+            while (!correctMove)
+                correctMove = this.requestMovementPawn(selectPawn);
         }
     }
 
@@ -79,10 +79,9 @@ public class damaCLI {
                 if (dp.getMovement() instanceof damaMovement) {
                     dp.getMovement().backRight();
                     return true;
-
                 }
             }
-            case "LR":
+            case "BL":
                 if (dp.getMovement() instanceof damaMovement) {
                     dp.getMovement().backLeft();
                     return true;
@@ -101,16 +100,28 @@ public class damaCLI {
      */
     private pawn requestPawnInput(List<pawn> possiblePawnSelect) {
         pawn selectPawn = null;
-
+        for (pawn p : possiblePawnSelect) {
+            System.out.print(this.board.getPositionPawn(p.getId()) + " ");
+        }
+        System.out.println();
         while (!possiblePawnSelect.contains(selectPawn)) {
 
             try {
+                int col = 0, row = 0;
                 System.out.println("insert col");
-                int col = scanner.nextInt();
+                while (!scanner.hasNextInt()) {
+                    String input = scanner.next();
+                    System.out.printf("\"%s\" is not a valid column position.\nInsert col:", input);
+                }
+                col = scanner.nextInt();
                 System.out.println("insert row");
-                int row = scanner.nextInt();
-                position positionSelect = new position(col, row);
+                while (!scanner.hasNextInt()) {
+                    String input = scanner.next();
+                    System.out.printf("\"%s\" is not a valid column position.\nInsert row:\n", input);
+                }
 
+                row = scanner.nextInt();
+                position positionSelect = new position(col, row);
                 if (this.board.getPawn(positionSelect).getOwner() == player) {
                     if (possiblePawnSelect.contains(this.board.getPawn(positionSelect))) {
                         selectPawn = this.board.getPawn(positionSelect);
@@ -120,9 +131,9 @@ public class damaCLI {
 
                 } else
                     System.out.println("position not correct");
-            } catch (IllegalArgumentException e) {
+            } catch (Exception e) {
                 //do nothing
-                System.out.println(e.getMessage());
+                System.out.println("error position");
             }
 
         }
