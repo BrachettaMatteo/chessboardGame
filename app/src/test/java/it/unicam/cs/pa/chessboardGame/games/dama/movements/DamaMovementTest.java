@@ -135,9 +135,7 @@ class DamaMovementTest {
 
         gd.getBoard().addPawn(new position(5, 5), damaPawnWhite1);
         gd.getBoard().addPawn(new position(4, 4), pawnWhite2);
-
-        damaPawnWhite1.getMovement().backLeft();
-        assertEquals(new position(5, 5), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().backLeft());
         assertFalse(this.checkEliminationPawn(pawnWhite2));
     }
 
@@ -147,8 +145,8 @@ class DamaMovementTest {
 
         gd.getBoard().addPawn(new position(5, 5), damaPawnWhite1);
         gd.getBoard().addPawn(new position(6, 4), pawnWhite2);
-        damaPawnWhite1.getMovement().backRight();
-        assertEquals(new position(5, 5), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().backRight());
         assertFalse(this.checkEliminationPawn(pawnWhite2));
     }
 
@@ -264,6 +262,19 @@ class DamaMovementTest {
         gd.getBoard().addPawn(new position(6, 6), pawnWhite4);
         gd.getBoard().addPawn(new position(3, 3), pawnBlack2);
         assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().randomMove());
+    }
+
+    @Test
+    void errorMove() {
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(3, 8), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(4, 7), pawnWhite2);
+
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().backRight());
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().forwardRight());
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().forwardLeft());
+        damaPawnWhite1.getMovement().backLeft();
+        assertEquals(new position(2, 7), this.gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
     }
 
     /**

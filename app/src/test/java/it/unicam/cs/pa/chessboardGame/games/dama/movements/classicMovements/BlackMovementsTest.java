@@ -237,12 +237,10 @@ class BlackMovementsTest {
         gd.getBoard().addPawn(new position(5, 4), damaPawnWhite1);
         gd.getBoard().addPawn(new position(7, 2), damaPawnWhite2);
         damaPawnBlack1.getMovement().forwardLeft();
-
         assertEquals(new position(8, 1), gd.getBoard().getPositionPawn(damaPawnBlack1.getId()));
         assertTrue(this.checkEliminationPawn(damaPawnWhite1));
         assertTrue(this.checkEliminationPawn(damaPawnWhite2));
         assertTrue(this.damaPawnBlack1.getMovement() instanceof damaMovement);
-
     }
 
     @Test
@@ -267,7 +265,8 @@ class BlackMovementsTest {
     }
 
     @Test
-    void tst() {
+    @DisplayName("tst1")
+    void tst1() {
 
         pawn selectPawn = gd.getBoard().getPawn(new position(1, 3));
         //  WHITE-PAWN move [1-3] -> [2-4]

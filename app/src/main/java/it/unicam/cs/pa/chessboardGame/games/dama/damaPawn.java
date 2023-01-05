@@ -51,8 +51,11 @@ public class damaPawn implements pawn {
         if (movement == null)
             throw new NullPointerException("movement is null");
         this.moves = movement;
-        if (movement instanceof damaMovement)
-            this.symbol = "D";
+        if (movement instanceof damaMovement) {
+            if (this.getType())
+                this.symbol = "D";
+            else this.symbol = "d";
+        }
 
 
     }
@@ -97,7 +100,6 @@ public class damaPawn implements pawn {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof damaPawn damaPawn)) return false;
-
         return Objects.equals(id, damaPawn.id);
     }
 

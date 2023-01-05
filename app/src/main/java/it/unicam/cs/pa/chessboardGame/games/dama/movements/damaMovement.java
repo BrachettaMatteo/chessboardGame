@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * dama Movement of pawn
  *
  * @author Matteo Brachetta
- * @version 0.1
+ * @version 0.1.1
  */
 public class damaMovement extends defaultMovements {
 
@@ -19,61 +19,60 @@ public class damaMovement extends defaultMovements {
 
     @Override
     public void forwardRight() {
-        if (this.pawn.getType()) {
-            this.directionColumn = super.RIGHT;
-            super.directionRow = super.TOP;
-        } else {
-            this.directionColumn = super.LEFT;
-            super.directionRow = super.BOTTOM;
-        }
-
+        this.setDirection(TOP, RIGHT);
         super.forwardRight();
+    }
+
+    /**
+     * Setting direction for movements.
+     *
+     * @param directionColum reference direction move (horizontal)
+     * @param directionRow   reference direction move row (Vertical)
+     */
+    private void setDirection(int directionRow, int directionColum) {
+        if (pawn.getType()) {
+            this.directionColumn = directionColum;
+            this.directionRow = directionRow;
+        } else {
+            this.directionColumn = Math.negateExact(directionColum);
+            this.directionRow = Math.negateExact(directionRow);
+        }
     }
 
     @Override
     public void forwardLeft() {
-        if (this.pawn.getType()) {
-            this.directionColumn = super.LEFT;
-            super.directionRow = super.TOP;
-        } else {
-            this.directionColumn = super.RIGHT;
-            super.directionRow = super.BOTTOM;
-        }
+        this.setDirection(TOP, LEFT);
         super.forwardLeft();
     }
 
     @Override
     public void backRight() {
-        if (pawn.getType()) {
-            super.directionRow = super.BOTTOM;
-            this.directionColumn = super.RIGHT;
-        } else {
-            super.directionRow = super.TOP;
-            this.directionColumn = super.LEFT;
-        }
-
-        this.checkBasicMove();
+        this.setDirection(BOTTOM, RIGHT);
+        if (super.correctMove())
+            this.checkBasicMove();
+        else throw new IllegalArgumentException("back-right error");
     }
 
     @Override
     public void backLeft() {
-        if (pawn.getType()) {
-            super.directionRow = super.BOTTOM;
-            super.directionColumn = super.LEFT;
-        } else {
-            super.directionRow = super.TOP;
-            super.directionColumn = super.RIGHT;
-        }
-
-        this.checkBasicMove();
+        this.setDirection(BOTTOM, LEFT);
+        if (super.correctMove())
+            this.checkBasicMove();
+        else throw new IllegalArgumentException("back-left error");
     }
 
     @Override
     public boolean isAvailableToMove() {
         if (super.isAvailableToMove())
             return true;
-        else return super.checkPosition(super.gb.getPositionPawn(super.pawn.getId()), LEFT, BOTTOM) ||
-                super.checkPosition(super.gb.getPositionPawn(super.pawn.getId()), RIGHT, BOTTOM);
+        else {
+            if (pawn.getType())
+                return super.checkPosition(super.gb.getPositionPawn(super.pawn.getId()), LEFT, BOTTOM) ||
+                        super.checkPosition(super.gb.getPositionPawn(super.pawn.getId()), RIGHT, BOTTOM);
+            else return super.checkPosition(super.gb.getPositionPawn(super.pawn.getId()), LEFT, TOP) ||
+                    super.checkPosition(super.gb.getPositionPawn(super.pawn.getId()), RIGHT, TOP);
+        }
+
     }
 
     @Override
@@ -97,7 +96,6 @@ public class damaMovement extends defaultMovements {
                 } else {
                     this.randomMove();
                 }
-
             } else {
                 if (this.isAvailableToBottomMove()) {
                     if (move == 3) {
@@ -115,22 +113,35 @@ public class damaMovement extends defaultMovements {
                 }
             }
         } else throw new IllegalArgumentException("Random move cannot be executed");
-
-
     }
 
+    /**
+     * Check the backLeft is possible execute.
+     *
+     * @return true if the movement it'll execute else false
+     */
     private boolean checkBackLeftMove() {
         if (this.pawn.getType()) {
             return super.checkPosition(this.gb.getPositionPawn(this.pawn.getId()), LEFT, BOTTOM);
         } else return super.checkPosition(this.gb.getPositionPawn(this.pawn.getId()), RIGHT, TOP);
     }
 
+    /**
+     * Check the backRight is possible execute.
+     *
+     * @return true if the movement it'll execute else false
+     */
     private boolean checkBackRightMove() {
         if (this.pawn.getType()) {
             return super.checkPosition(this.gb.getPositionPawn(this.pawn.getId()), RIGHT, BOTTOM);
         } else return super.checkPosition(this.gb.getPositionPawn(this.pawn.getId()), LEFT, TOP);
     }
 
+    /**
+     * Check the forwardRight is possible move.
+     *
+     * @return true if the movement it'll execute else false
+     */
     private boolean checkForwardRightMove() {
         if (this.pawn.getType()) {
             return super.checkPosition(this.gb.getPositionPawn(this.pawn.getId()), RIGHT, TOP);
@@ -139,9 +150,9 @@ public class damaMovement extends defaultMovements {
     }
 
     /**
-     * check the forwardLeft is possible move
+     * Check the forwardLeft is possible move.
      *
-     * @return true if move is possible else false
+     * @return true if the movement it'll execute else false
      */
     private boolean checkForwardLeftMove() {
         if (this.pawn.getType())
@@ -149,6 +160,11 @@ public class damaMovement extends defaultMovements {
         else return super.checkPosition(this.gb.getPositionPawn(this.pawn.getId()), RIGHT, BOTTOM);
     }
 
+    /**
+     * Check the back movement it'll execute.
+     *
+     * @return true if the movement it'll execute else false
+     */
     private boolean isAvailableToBottomMove() {
         if (this.pawn.getType()) {
             return super.checkPosition(super.gb.getPositionPawn(super.pawn.getId()), LEFT, BOTTOM) ||
@@ -156,9 +172,7 @@ public class damaMovement extends defaultMovements {
         } else
             return super.checkPosition(super.gb.getPositionPawn(super.pawn.getId()), LEFT, TOP) ||
                     super.checkPosition(super.gb.getPositionPawn(super.pawn.getId()), RIGHT, TOP);
-
     }
-
 }
 
 

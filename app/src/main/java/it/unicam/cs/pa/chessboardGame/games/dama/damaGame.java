@@ -3,9 +3,19 @@ package it.unicam.cs.pa.chessboardGame.games.dama;
 import it.unicam.cs.pa.chessboardGame.games.dama.defaultBot.easyBotDama;
 import it.unicam.cs.pa.chessboardGame.structure.game;
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
+import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.player;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Collections;
+import java.util.Collection;
+import java.util.NoSuchElementException;
 
 /**
  * 8x8 checkers:
@@ -24,6 +34,8 @@ public class damaGame implements game {
     private gameBoard board;
 
     private final List<damaPlayer> orderPlayer;
+    HashSet<String> pawnMove = new HashSet<>();
+    int repeatBoard = 0;
 
     public damaGame(String descInformation, damaPlayer player1, damaPlayer player2) {
 
@@ -42,6 +54,8 @@ public class damaGame implements game {
         orderPlayer.add(player2);
 
         this.information = descInformation;
+        this.pawnMove = new HashSet<>(this.board.getPawns().stream().
+                map(pawn::getId).toList());
     }
 
     public damaGame(String descInformation) {
@@ -60,7 +74,7 @@ public class damaGame implements game {
     }
 
     /**
-     * check player of game
+     * Check player of game
      *
      * @return true if game is ready to start else false
      */
@@ -149,15 +163,35 @@ public class damaGame implements game {
     }
 
 
-
     @Override
     public player getWin() {
-        ArrayList<player> lp = new ArrayList<>(this.players.values());
-        if (this.getBoard().getPawns().stream().filter(pawn -> pawn.getOwner() == lp.get(0)).toList().isEmpty())
-            return lp.get(1);
-        if (this.getBoard().getPawns().stream().filter(pawn -> pawn.getOwner() == lp.get(1)).toList().isEmpty())
-            return lp.get(0);
-        return null;
+        if (repeatBoard <= 40) {
+            ArrayList<String> listBoard = new ArrayList<>(this.board.getPawns().stream().
+                    map(pawn::getId).toList());
+            if (this.pawnMove.size() == listBoard.size() && this.pawnMove.containsAll(listBoard)) {
+                repeatBoard++;
+            } else {
+                this.pawnMove = new HashSet<>(listBoard);
+                repeatBoard = 0;
+            }
+            ArrayList<player> lp = new ArrayList<>(this.players.values());
+            if (this.getBoard().getPawns().stream().filter(pawn -> pawn.getOwner() == lp.get(0)).toList().isEmpty()) {
+                return lp.get(1);
+            }
+            if (this.getBoard().getPawns().stream().filter(pawn -> pawn.getOwner() == lp.get(1)).toList().isEmpty()) {
+                return lp.get(0);
+            }
+            if (this.board.getPawns().stream().filter(pawn -> pawn.getOwner() == lp.get(0)).filter(pawn::isAvailableToMove).toList().isEmpty()) {
+
+                return lp.get(1);
+            }
+            if (this.getBoard().getPawnToMove(lp.get(0).getId()).isEmpty()) {
+
+                return lp.get(0);
+            }
+            return null;
+        } else
+            return new damaPlayer("Tied");
     }
 
     @Override

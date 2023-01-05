@@ -5,7 +5,12 @@ import it.unicam.cs.pa.chessboardGame.games.dama.movements.damaMovement;
 import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.position;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 public class damaCLI {
     protected final damaGame dg;
@@ -26,6 +31,9 @@ public class damaCLI {
         this.startGame();
     }
 
+    /**
+     * Initial game, request movement  until there is a winner.
+     */
     private void startGame() {
         System.out.println(this.getLegend());
         System.out.println("START GAME");
@@ -34,17 +42,26 @@ public class damaCLI {
                 this.requestPawnMove(currentPlayer);
 
         }
+        System.out.println("------------");
+        System.out.println("WIN:" + this.dg.getWin());
         System.out.println("END GAME");
+        System.out.println("------------");
     }
 
+    /**
+     * Request pawn to move. It content all action for check and request pawn to move
+     *
+     * @param currentPlayer player turn
+     */
     private void requestPawnMove(damaPlayer currentPlayer) {
-        Random rand = new Random();
+
         List<pawn> listPawnToMove = new ArrayList<>(this.board.getPawnToMove(currentPlayer.getId()));
+        int pawnRand = ThreadLocalRandom.current().nextInt(0, listPawnToMove.size());
         System.out.println("turn->" + currentPlayer.getName());
         System.out.println(this.board);
         if (currentPlayer instanceof easyBotDama) {
             System.out.println("bot move ...");
-            listPawnToMove.get(rand.nextInt(listPawnToMove.size())).getMovement().randomMove();
+            listPawnToMove.get(pawnRand).getMovement().randomMove();
         } else {
             pawn selectPawn = this.requestPawnInput(listPawnToMove);
             boolean correctMove = false;
@@ -53,6 +70,11 @@ public class damaCLI {
         }
     }
 
+    /**
+     * Request move pawn. It content all action for check and request move
+     *
+     * @param selectPawn player select
+     */
     private boolean requestMovementPawn(pawn selectPawn) {
         damaPawn dp = (damaPawn) selectPawn;
         System.out.println("insert movement");
@@ -77,15 +99,24 @@ public class damaCLI {
                 }
             case "BR": {
                 if (dp.getMovement() instanceof damaMovement) {
-                    dp.getMovement().backRight();
-                    return true;
+                    try {
+                        dp.getMovement().backRight();
+                        return true;
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        return false;
+                    }
                 }
             }
             case "BL":
                 if (dp.getMovement() instanceof damaMovement) {
-                    dp.getMovement().backLeft();
-                    return true;
-
+                    try {
+                        dp.getMovement().backLeft();
+                        return true;
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        return false;
+                    }
                 }
             default:
                 return false;
@@ -94,7 +125,7 @@ public class damaCLI {
 
 
     /**
-     * instruction for insert adn verify input
+     * Instruction for insert and verify input position. It checks correct position and verify the pawn is available
      *
      * @return the correct pawn select
      */
@@ -141,7 +172,7 @@ public class damaCLI {
     }
 
     /**
-     * show legend to move and example
+     * Show legend to move and example
      *
      * @return legend to movement and example
      */
