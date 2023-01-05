@@ -7,7 +7,10 @@ import it.unicam.cs.pa.chessboardGame.structure.game;
 import it.unicam.cs.pa.chessboardGame.structure.position;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -156,7 +159,8 @@ class DamaMovementTest {
         gd.getBoard().addPawn(new position(3, 6), damaPawnWhite1);
         gd.getBoard().addPawn(new position(4, 5), pawnBlack1);
         gd.getBoard().addPawn(new position(4, 3), pawnBlack2);
-        damaPawnWhite1.getMovement().forwardRight();
+        damaPawnWhite1.getMovement().backRight();
+
         assertEquals(new position(3, 2), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
         assertTrue(this.checkEliminationPawn(pawnBlack1));
         assertTrue(this.checkEliminationPawn(pawnBlack2));
@@ -165,7 +169,7 @@ class DamaMovementTest {
         gd.getBoard().addPawn(new position(2, 4), damaPawnWhite1);
         gd.getBoard().addPawn(new position(3, 3), pawnBlack1);
         gd.getBoard().addPawn(new position(3, 1), pawnBlack2);
-        damaPawnWhite1.getMovement().forwardRight();
+        damaPawnWhite1.getMovement().backRight();
 
         assertEquals(new position(4, 2), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
         assertTrue(this.checkEliminationPawn(pawnBlack1));
@@ -175,11 +179,101 @@ class DamaMovementTest {
         gd.getBoard().addPawn(new position(1, 5), damaPawnWhite1);
         gd.getBoard().addPawn(new position(2, 4), pawnBlack1);
         gd.getBoard().addPawn(new position(4, 2), pawnBlack2);
-        damaPawnWhite1.getMovement().forwardRight();
+        damaPawnWhite1.getMovement().backRight();
         assertEquals(new position(5, 1), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
         assertTrue(this.checkEliminationPawn(pawnBlack1));
         assertTrue(this.checkEliminationPawn(pawnBlack2));
 
+    }
+
+    @Test
+    @DisplayName("Random move")
+    void randomMove() {
+        gd.getBoard().clearBoard();
+
+        gd.getBoard().addPawn(new position(1, 1), damaPawnWhite1);
+        damaPawnWhite1.getMovement().randomMove();
+        assertEquals(new position(2, 2), this.getPositionPawn(damaPawnWhite1));
+
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(1, 8), damaPawnWhite1);
+        damaPawnWhite1.getMovement().randomMove();
+
+        assertEquals(new position(2, 7), this.getPositionPawn(damaPawnWhite1));
+
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(8, 8), damaPawnWhite1);
+        damaPawnWhite1.getMovement().randomMove();
+        assertEquals(new position(7, 7), this.getPositionPawn(damaPawnWhite1));
+
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(8, 1), damaPawnWhite1);
+        damaPawnWhite1.getMovement().randomMove();
+        assertEquals(new position(7, 2), this.getPositionPawn(damaPawnWhite1));
+
+        gd.getBoard().clearBoard();
+        damaPawn pawnWhite3 = new damaPawn(0, this.gd.getBoard(), "*", playerWhiteTest, true);
+        damaPawn pawnWhite4 = new damaPawn(0, this.gd.getBoard(), "*", playerWhiteTest, true);
+        gd.getBoard().addPawn(new position(5, 5), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(4, 4), pawnBlack1);
+        gd.getBoard().addPawn(new position(6, 4), pawnWhite2);
+        gd.getBoard().addPawn(new position(4, 6), pawnWhite3);
+        gd.getBoard().addPawn(new position(6, 6), pawnWhite4);
+        damaPawnWhite1.getMovement().randomMove();
+        assertEquals(new position(3, 3), this.getPositionPawn(damaPawnWhite1));
+
+        gd.getBoard().clearBoard();
+        damaPawn pawnWhite5 = new damaPawn(0, this.gd.getBoard(), "*", playerWhiteTest, true);
+        gd.getBoard().addPawn(new position(5, 5), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(4, 4), pawnWhite5);
+        gd.getBoard().addPawn(new position(6, 4), pawnWhite2);
+        gd.getBoard().addPawn(new position(4, 6), pawnWhite3);
+        gd.getBoard().addPawn(new position(6, 6), pawnWhite4);
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().randomMove());
+
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(5, 5), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(4, 4), pawnBlack1);
+        gd.getBoard().addPawn(new position(6, 4), pawnWhite2);
+        gd.getBoard().addPawn(new position(4, 6), pawnWhite3);
+        gd.getBoard().addPawn(new position(6, 6), pawnWhite4);
+        gd.getBoard().addPawn(new position(4, 2), pawnBlack2);
+        damaPawnWhite1.getMovement().randomMove();
+        assertEquals(new position(5, 1), this.getPositionPawn(damaPawnWhite1));
+        assertTrue(this.checkEliminationPawn(pawnBlack1));
+        assertTrue(this.checkEliminationPawn(pawnBlack2));
+
+
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(5, 5), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(4, 4), pawnBlack1);
+        gd.getBoard().addPawn(new position(6, 4), pawnWhite2);
+        gd.getBoard().addPawn(new position(4, 6), pawnWhite3);
+        gd.getBoard().addPawn(new position(6, 6), pawnWhite4);
+        gd.getBoard().addPawn(new position(2, 2), pawnBlack2);
+        damaPawnWhite1.getMovement().randomMove();
+        assertEquals(new position(1, 1), this.getPositionPawn(damaPawnWhite1));
+        assertTrue(this.checkEliminationPawn(pawnBlack1));
+        assertTrue(this.checkEliminationPawn(pawnBlack2));
+
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(5, 5), damaPawnWhite1);
+        gd.getBoard().addPawn(new position(4, 4), pawnBlack1);
+        gd.getBoard().addPawn(new position(6, 4), pawnWhite2);
+        gd.getBoard().addPawn(new position(4, 6), pawnWhite3);
+        gd.getBoard().addPawn(new position(6, 6), pawnWhite4);
+        gd.getBoard().addPawn(new position(3, 3), pawnBlack2);
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().randomMove());
+    }
+
+    /**
+     * Returns the board position of the pawn
+     *
+     * @param pawn pawn to research position
+     * @return the position of pawn, if not present generate exception method <code>this.gd.getBoard().getPositionPawn()</code>
+     */
+    private position getPositionPawn(damaPawn pawn) {
+        return this.gd.getBoard().getPositionPawn(pawn.getId());
     }
 
     /**
