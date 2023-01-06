@@ -9,6 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Simulation game test. This test starts the game and moves the players' pawns in random moves, and returns victory to the player.
+ * This Test show all move.
+ *
+ * @author Matteo Brachetta
+ * @version 0.1
+ */
 public class GameDamaExecuteTest {
     damaPlayer damaPlayerWhite = new damaPlayer("white player");
     damaPlayer damaPlayerBlack = new damaPlayer("black player");

@@ -7,6 +7,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * Test of dama Player
+ *
+ * @author Matteo Brachetta
+ * @version 0.1
+ */
 class DamaPlayerTest {
     private static damaPlayer dp = new damaPlayer("test player");
 

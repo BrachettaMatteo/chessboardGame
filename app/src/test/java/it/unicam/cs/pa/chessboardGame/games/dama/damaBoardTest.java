@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,16 +36,14 @@ class DamaBoardTest {
         dg = new damaGame("test", playerPawnWhite, playerPawnBlack);
     }
 
-    @DisplayName("Pawn to position Test")
+    @DisplayName("Get pawn to position Test")
     @Test
     void getPawn() {
-
-        //The position referent on start game when black is top and player button
 
         assertEquals(playerPawnWhite, dg.getBoard().getPawn(new position(1, 3)).getOwner());
         assertEquals(playerPawnBlack, dg.getBoard().getPawn(new position(1, 7)).getOwner());
 
-        assertNull(dg.getBoard().getPawn(new position(2, 1)));
+        assertNull(dg.getBoard().getPawn(new position(4, 4)));
 
         assertThrows(IllegalArgumentException.class, () -> dg.getBoard().getPawn(errorPositionBoard));
 
@@ -88,12 +87,11 @@ class DamaBoardTest {
     @DisplayName("Add Pawn Test")
     @Test
     void addPawn() {
-        //the pawn is insert if only position is free
         assertTrue(dg.getBoard().addPawn(correctPosition, dp));
         damaPawn dp1 = new damaPawn(0, dg.getBoard(), "*", playerPawnWhite, true);
         assertFalse(dg.getBoard().addPawn(correctPosition, dp1));
         assertThrows(IllegalArgumentException.class, () -> dg.getBoard().addPawn(correctPosition, dp));
-        assertThrows(IllegalArgumentException.class, () -> dg.getBoard().addPawn(errorPositionBoard, dp));
+        assertThrows(IllegalArgumentException.class, () -> dg.getBoard().addPawn(errorPositionBoard, dp1));
     }
 
     @DisplayName("Delete pawn to identifier Test")
@@ -120,7 +118,7 @@ class DamaBoardTest {
     @Test
     void clearBoard() {
         dg.getBoard().addPawn(correctPosition, dp);
-
+        assertFalse(dg.getBoard().getPawns().isEmpty());
         dg.getBoard().clearBoard();
         assertTrue(dg.getBoard().getPawns().isEmpty());
     }
@@ -143,6 +141,7 @@ class DamaBoardTest {
         assertThrows(IllegalArgumentException.class, () -> dg.getBoard().freePosition(errorPositionBoard));
 
         dg.getBoard().addPawn(correctPosition, dp);
+        assertEquals(dp, dg.getBoard().getPawn(correctPosition));
         dg.getBoard().freePosition(correctPosition);
 
         assertNull(dg.getBoard().getPawn(correctPosition));
@@ -224,4 +223,29 @@ class DamaBoardTest {
         assertTrue(dg.getBoard().getEliminated().contains(dp));
     }
 
+    @DisplayName("Get pawn to move test")
+    @Test
+    void getPawnToMove() {
+        List<pawn> listPawnWhiteAvailable = new ArrayList<>();
+        listPawnWhiteAvailable.add(dg.getBoard().getPawn(new position(1, 3)));
+        listPawnWhiteAvailable.add(dg.getBoard().getPawn(new position(3, 3)));
+        listPawnWhiteAvailable.add(dg.getBoard().getPawn(new position(5, 3)));
+        listPawnWhiteAvailable.add(dg.getBoard().getPawn(new position(7, 3)));
+
+        assertEquals(listPawnWhiteAvailable.size(), dg.getBoard().getPawnToMove(playerPawnWhite.getId()).size());
+        assertTrue(dg.getBoard().getPawnToMove(playerPawnWhite.getId()).containsAll(listPawnWhiteAvailable));
+
+        List<pawn> listPawnBlackAvailable = new ArrayList<>();
+        listPawnBlackAvailable.add(dg.getBoard().getPawn(new position(2, 6)));
+        listPawnBlackAvailable.add(dg.getBoard().getPawn(new position(4, 6)));
+        listPawnBlackAvailable.add(dg.getBoard().getPawn(new position(6, 6)));
+        listPawnBlackAvailable.add(dg.getBoard().getPawn(new position(8, 6)));
+
+        assertEquals(listPawnBlackAvailable.size(), dg.getBoard().getPawnToMove(playerPawnBlack.getId()).size());
+        assertTrue(dg.getBoard().getPawnToMove(playerPawnBlack.getId()).containsAll(listPawnBlackAvailable));
+
+        assertThrows(IllegalArgumentException.class, () -> dg.getBoard().getPawnToMove(""));
+        damaPlayer playerOther = new damaPlayer("other player");
+        assertThrows(IllegalArgumentException.class, () -> dg.getBoard().getPawnToMove(playerOther.getId()));
+    }
 }
