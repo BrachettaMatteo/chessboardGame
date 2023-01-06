@@ -78,7 +78,7 @@ public class damaGame implements game {
      *
      * @return true if game is ready to start else false
      */
-    private boolean readyToStart() {
+    public boolean readyToStart() {
         List<damaPlayer> players = new ArrayList<>(this.players.values());
         if (players.stream().filter(damaPlayer -> damaPlayer instanceof easyBotDama).toList().size() < 2) {
             if (players.size() == 2) {
@@ -97,6 +97,7 @@ public class damaGame implements game {
 
     @Override
     public void setBoard(gameBoard newBoard) {
+        if (newBoard == null) throw new NullPointerException("The board is null");
         this.board = newBoard;
     }
 

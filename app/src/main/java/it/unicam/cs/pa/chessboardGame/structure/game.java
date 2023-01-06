@@ -20,6 +20,7 @@ public interface game {
      * setting the new board for game
      *
      * @param newBoard new board for game
+     * @throws NullPointerException if the board is null
      */
     void setBoard(gameBoard newBoard);
 
@@ -48,8 +49,8 @@ public interface game {
      * setting player for game
      *
      * @param players new players
-     * @throws NullPointerException     if the player is null
-     * @throws IllegalArgumentException if the player is empty
+     * @throws NullPointerException     if the list of player is null
+     * @throws IllegalArgumentException if the list of player is empty
      */
     void setPlayers(List<player> players);
 
@@ -65,7 +66,7 @@ public interface game {
      *
      * @param idPlayer player identifier
      * @return player player game
-     * @throws IllegalArgumentException if id is empty
+     * @throws IllegalArgumentException if idPlayer is empty
      * @throws NullPointerException     if idPlayer is null
      * @throws IllegalArgumentException if player isn't contained
      */

@@ -4,6 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -17,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 class PositionTest {
     private final int row = 2;
     private final int column = 2;
-    position positionTest;
+    private position positionTest;
 
     @BeforeEach
     void setUp() {
@@ -78,9 +82,9 @@ class PositionTest {
         //check column
         position majorPosition = new position(10, 10);
         position minorPosition = new position(1, 0);
+
         assertEquals(1, positionTest.compareTo(minorPosition));
         assertEquals(-1, positionTest.compareTo(majorPosition));
-
         //check row
         position minorNearPosition = new position(column, row - 1);
         position majorNearPosition = new position(column, row + 1);
@@ -89,5 +93,12 @@ class PositionTest {
 
         //check equal
         assertEquals(0, positionTest.compareTo(new position(column, row)));
+
+        //check in Collections
+        List<position> listPosition = new ArrayList<>();
+        listPosition.add(majorPosition);
+        listPosition.add(minorPosition);
+        assertEquals(minorPosition, Collections.min(listPosition));
+        assertEquals(majorPosition, Collections.max(listPosition));
     }
 }

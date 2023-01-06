@@ -230,9 +230,10 @@ public class damaBoard implements gameBoard {
 
     @Override
     public List<pawn> getPawnToMove(String idPlayer) {
-
-        List<pawn> pp = new ArrayList<>(this.getPawns().stream().filter(pawn -> pawn.getOwner().getId().equals(idPlayer)).toList());
-        return pp.stream().filter(pawn::isAvailableToMove).toList();
-
+        if (idPlayer.isEmpty()) throw new IllegalArgumentException("the player identifier is empty ");
+        if (whitePlayer.getId().equals(idPlayer) || blackPlayer.getId().equals(idPlayer)) {
+            List<pawn> pp = new ArrayList<>(this.getPawns().stream().filter(pawn -> pawn.getOwner().getId().equals(idPlayer)).toList());
+            return pp.stream().filter(pawn::isAvailableToMove).toList();
+        } else throw new IllegalArgumentException("The player does not belong to the board");
     }
 }
