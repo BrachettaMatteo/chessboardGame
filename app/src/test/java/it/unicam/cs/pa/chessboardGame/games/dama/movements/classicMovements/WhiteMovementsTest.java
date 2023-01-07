@@ -1,8 +1,9 @@
-package it.unicam.cs.pa.chessboardGame.games.Dama.movements.classicMovements;
+package it.unicam.cs.pa.chessboardGame.games.dama.movements.classicMovements;
 
-import it.unicam.cs.pa.chessboardGame.games.Dama.damaGame;
-import it.unicam.cs.pa.chessboardGame.games.Dama.damaPawn;
-import it.unicam.cs.pa.chessboardGame.games.Dama.damaPlayer;
+import it.unicam.cs.pa.chessboardGame.games.dama.damaGame;
+import it.unicam.cs.pa.chessboardGame.games.dama.damaPawn;
+import it.unicam.cs.pa.chessboardGame.games.dama.damaPlayer;
+import it.unicam.cs.pa.chessboardGame.games.dama.movements.damaMovement;
 import it.unicam.cs.pa.chessboardGame.structure.game;
 import it.unicam.cs.pa.chessboardGame.structure.position;
 
@@ -10,9 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test of white pawn
@@ -44,6 +43,10 @@ class WhiteMovementsTest {
     @DisplayName("Simple forward right test")
     @Test
     void simpleForwardRightTest() {
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(8, 1), damaPawnWhite1);
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().forwardRight());
+        assertEquals(new position(8, 1), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
 
         gd.getBoard().clearBoard();
 
@@ -62,7 +65,8 @@ class WhiteMovementsTest {
         //move forward and the forward box is occupation to friend pawn
         gd.getBoard().updatePosition(new position(4, 4), damaPawnWhite1);
         gd.getBoard().addPawn(new position(5, 5), damaPawnWhite2);
-        damaPawnWhite1.getMovement().forwardRight();
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().forwardRight());
+
         assertEquals(new position(4, 4), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
     }
 
@@ -70,6 +74,11 @@ class WhiteMovementsTest {
     @DisplayName("Simple forward left test")
     @Test
     void simpleForwardLeftTest() {
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(1, 1), damaPawnWhite1);
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().forwardLeft());
+        assertEquals(new position(1, 1), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+
         gd.getBoard().clearBoard();
 
         //move forward and the forward box is empty
@@ -86,10 +95,9 @@ class WhiteMovementsTest {
         //move forward and the forward box is occupation to friend pawn
         gd.getBoard().updatePosition(new position(4, 6), damaPawnWhite1);
         gd.getBoard().addPawn(new position(3, 7), damaPawnWhite2);
-        damaPawnWhite1.getMovement().forwardLeft();
+        assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().forwardLeft());
         assertEquals(new position(4, 6), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
     }
-
 
     @Test
     @DisplayName("Multi forward margin Test")
@@ -99,24 +107,23 @@ class WhiteMovementsTest {
         gd.getBoard().addPawn(new position(4, 2), damaPawnWhite1);
         gd.getBoard().addPawn(new position(3, 3), damaPawnBlack1);
         gd.getBoard().addPawn(new position(1, 5), damaPawnBlack2);
-
         damaPawnWhite1.getMovement().forwardLeft();
-        assertEquals(new position(2, 6), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
-        assertTrue(this.checkEliminationPawn(damaPawnBlack1));
-        assertTrue(this.checkEliminationPawn(damaPawnBlack2));
-        //check eliminated
-        assertTrue(this.checkEliminationPawn(damaPawnBlack1));
-        assertTrue(this.checkEliminationPawn(damaPawnBlack2));
 
-        gd.getBoard().updatePosition(new position(5, 2), damaPawnWhite1);
+        assertEquals(new position(2, 4), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+
+
+        assertTrue(this.checkEliminationPawn(damaPawnBlack1));
+        assertFalse(this.checkEliminationPawn(damaPawnBlack2));
+        gd.getBoard().clearBoard();
+        gd.getBoard().addPawn(new position(5, 2), damaPawnWhite1);
         gd.getBoard().addPawn(new position(6, 3), damaPawnBlack1);
         gd.getBoard().addPawn(new position(8, 5), damaPawnBlack2);
         damaPawnWhite1.getMovement().forwardRight();
 
-        assertEquals(new position(7, 6), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
+        assertEquals(new position(7, 4), gd.getBoard().getPositionPawn(damaPawnWhite1.getId()));
         //check eliminated
         assertTrue(this.checkEliminationPawn(damaPawnBlack1));
-        assertTrue(this.checkEliminationPawn(damaPawnBlack2));
+        assertFalse(this.checkEliminationPawn(damaPawnBlack2));
 
     }
 
@@ -213,5 +220,14 @@ class WhiteMovementsTest {
         return this.gd.getBoard().getEliminated().contains(pawnToCheck);
     }
 
+    @Test
+    void damaRandomMove() {
+        gd.getBoard().clearBoard();
+        damaPawnWhite1.setMovement(new damaMovement(gd.getBoard(), damaPawnWhite1));
+        gd.getBoard().addPawn(new position(4, 4), damaPawnWhite1);
+        damaPawnWhite1.getMovement().randomMove();
+
+        damaPawnWhite1.getMovement().randomMove();
+    }
 
 }

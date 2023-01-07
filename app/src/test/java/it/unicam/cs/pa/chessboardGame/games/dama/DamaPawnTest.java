@@ -1,6 +1,6 @@
-package it.unicam.cs.pa.chessboardGame.games.Dama;
+package it.unicam.cs.pa.chessboardGame.games.dama;
 
-import it.unicam.cs.pa.chessboardGame.games.Dama.movements.damaMovement;
+import it.unicam.cs.pa.chessboardGame.games.dama.movements.damaMovement;
 import it.unicam.cs.pa.chessboardGame.structure.movement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * pawn test
+ * Test for check functionality dama pawn
  *
  * @author Matteo Brachetta
  * @version 0.1
@@ -23,7 +23,8 @@ class DamaPawnTest {
     private final int hierarchy = 0;
     private final String symbol = "T";
 
-    damaGame dg = new damaGame("test", damaPlayer, null);
+    private damaGame dg = new damaGame("test", damaPlayer, null);
+
 
     @BeforeEach
     void setUp() {

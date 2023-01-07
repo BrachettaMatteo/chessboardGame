@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.chessboardGame.games.Dama;
+package it.unicam.cs.pa.chessboardGame.games.dama;
 
 import it.unicam.cs.pa.chessboardGame.structure.player;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,16 +8,13 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * test of dama Game
  *
  * @author Matteo Brachetta
- * @version 0.1
+ * @version 0.2
  */
 class DamaGameTest {
     private final damaPlayer playerPawnWhite = new damaPlayer("white player test");
@@ -34,6 +31,8 @@ class DamaGameTest {
     @Test
     void getBoard() {
         assertNotNull(dg.getBoard());
+        damaGame damaGame = new damaGame("Test");
+        assertNull(damaGame.getBoard());
     }
 
     @DisplayName("Set Board Test")
@@ -42,8 +41,9 @@ class DamaGameTest {
         damaBoard db = new damaBoard(8, 8, playerPawnWhite, playerPawnBlack);
 
         dg.setBoard(db);
-
         assertEquals(db, dg.getBoard());
+
+        assertThrows(NullPointerException.class, () -> dg.setBoard(null));
     }
 
     @DisplayName("Get name Test")
@@ -71,6 +71,9 @@ class DamaGameTest {
     @Test
     void setPlayers() {
         List<player> lp = new ArrayList<>();
+        assertThrows(NullPointerException.class, () -> dg.setPlayers(null));
+        assertThrows(IllegalArgumentException.class, () -> dg.setPlayers(lp));
+
         lp.add(playerTest);
         lp.add(playerPawnWhite);
         dg.setPlayers(lp);
@@ -78,7 +81,6 @@ class DamaGameTest {
         assertEquals(2, dg.getPlayers().size());
         assertTrue(dg.getPlayers().contains(playerTest));
         assertTrue(dg.getPlayers().contains(playerPawnWhite));
-
     }
 
     @DisplayName("Get players Test")

@@ -1,17 +1,19 @@
-package it.unicam.cs.pa.chessboardGame.games.Dama;
+package it.unicam.cs.pa.chessboardGame.games.dama;
 
-import it.unicam.cs.pa.chessboardGame.games.Dama.defaultBot.easyBotDama;
+import it.unicam.cs.pa.chessboardGame.games.dama.defaultBot.easyBotDama;
 import it.unicam.cs.pa.chessboardGame.structure.game;
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
 import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.player;
 
-import java.util.UUID;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Comparator;
+import java.util.Map;
+import java.util.UUID;
+import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Collections;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
@@ -31,6 +33,10 @@ public class damaGame implements game {
 
     private gameBoard board;
 
+    private final List<damaPlayer> orderPlayer;
+    HashSet<String> pawnMove = new HashSet<>();
+    int repeatBoard = 0;
+
     public damaGame(String descInformation, damaPlayer player1, damaPlayer player2) {
 
         if (player1 == null) player1 = new easyBotDama();
@@ -43,7 +49,45 @@ public class damaGame implements game {
         this.players.put(player2.getId(), player2);
         this.board = new damaBoard(8, 8, player1, player2);
 
+        this.orderPlayer = new ArrayList<>();
+        orderPlayer.add(player1);
+        orderPlayer.add(player2);
+
         this.information = descInformation;
+        this.pawnMove = new HashSet<>(this.board.getPawns().stream().
+                map(pawn::getId).toList());
+    }
+
+    public damaGame(String descInformation) {
+        this.id = UUID.randomUUID();
+        this.name = "Dama";
+        this.information = descInformation;
+        this.players = new HashMap<>();
+        this.orderPlayer = new ArrayList<>();
+    }
+
+    public void start() {
+        if (readyToStart())
+            new damaCLI(this);
+        else
+            throw new IllegalArgumentException("the game isn't ready to start");
+    }
+
+    /**
+     * Check player of game
+     *
+     * @return true if game is ready to start else false
+     */
+    public boolean readyToStart() {
+        List<damaPlayer> players = new ArrayList<>(this.players.values());
+        if (players.stream().filter(damaPlayer -> damaPlayer instanceof easyBotDama).toList().size() < 2) {
+            if (players.size() == 2) {
+                orderPlayer.addAll(players);
+                this.board = new damaBoard(8, 8, players.get(0), players.get(1));
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -53,6 +97,7 @@ public class damaGame implements game {
 
     @Override
     public void setBoard(gameBoard newBoard) {
+        if (newBoard == null) throw new NullPointerException("The board is null");
         this.board = newBoard;
     }
 
@@ -118,7 +163,42 @@ public class damaGame implements game {
         this.board.clearBoard();
     }
 
-    public List<pawn> getSquad(player player) {
-        return this.board.getPawns().stream().filter(pawn -> pawn.getOwner() == player).toList();
+
+    @Override
+    public player getWin() {
+        if (repeatBoard <= 40) {
+            ArrayList<String> listBoard = new ArrayList<>(this.board.getPawns().stream().
+                    map(pawn::getId).toList());
+            if (this.pawnMove.size() == listBoard.size() && this.pawnMove.containsAll(listBoard)) {
+                repeatBoard++;
+            } else {
+                this.pawnMove = new HashSet<>(listBoard);
+                repeatBoard = 0;
+            }
+            ArrayList<player> lp = new ArrayList<>(this.players.values());
+            if (this.getBoard().getPawns().stream().filter(pawn -> pawn.getOwner() == lp.get(0)).toList().isEmpty()) {
+                return lp.get(1);
+            }
+            if (this.getBoard().getPawns().stream().filter(pawn -> pawn.getOwner() == lp.get(1)).toList().isEmpty()) {
+                return lp.get(0);
+            }
+            if (this.board.getPawns().stream().filter(pawn -> pawn.getOwner() == lp.get(0)).filter(pawn::isAvailableToMove).toList().isEmpty()) {
+
+                return lp.get(1);
+            }
+            if (this.getBoard().getPawnToMove(lp.get(0).getId()).isEmpty()) {
+
+                return lp.get(0);
+            }
+            return null;
+        } else
+            return new damaPlayer("Tied");
+    }
+
+    @Override
+    public player nextPlayer() {
+        player p = this.orderPlayer.get(1);
+        Collections.reverse(this.orderPlayer);
+        return p;
     }
 }

@@ -1,11 +1,9 @@
-package it.unicam.cs.pa.chessboardGame.games.Dama;
+package it.unicam.cs.pa.chessboardGame.games.dama;
 
 
-import it.unicam.cs.pa.chessboardGame.games.Dama.movements.defaultMovements;
-import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
-import it.unicam.cs.pa.chessboardGame.structure.movement;
-import it.unicam.cs.pa.chessboardGame.structure.pawn;
-import it.unicam.cs.pa.chessboardGame.structure.player;
+import it.unicam.cs.pa.chessboardGame.games.dama.movements.damaMovement;
+import it.unicam.cs.pa.chessboardGame.games.dama.movements.defaultMovements;
+import it.unicam.cs.pa.chessboardGame.structure.*;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -21,7 +19,7 @@ public class damaPawn implements pawn {
     private final boolean type;
     private int hierarchy;
     private movement moves;
-    private final String symbol;
+    private String symbol;
     private boolean life;
 
     public damaPawn(int hierarchy, gameBoard board, String symbol, player owner, boolean isWhite) {
@@ -53,6 +51,12 @@ public class damaPawn implements pawn {
         if (movement == null)
             throw new NullPointerException("movement is null");
         this.moves = movement;
+        if (movement instanceof damaMovement) {
+            if (this.getType())
+                this.symbol = "D";
+            else this.symbol = "d";
+        }
+
 
     }
 
@@ -96,11 +100,20 @@ public class damaPawn implements pawn {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof damaPawn damaPawn)) return false;
-
         return Objects.equals(id, damaPawn.id);
     }
 
     public boolean getType() {
         return this.type;
+    }
+
+    @Override
+    public boolean isAvailableToMove() {
+        return this.moves.isAvailableToMove();
+
+    }
+
+    public void setSymbol(String d) {
+        this.symbol = d;
     }
 }

@@ -12,7 +12,7 @@ public interface gameBoard {
 
 
     /**
-     * get pawn in to position game
+     * Get pawn in to position game
      *
      * @param position position when located pawn
      * @throws IllegalArgumentException the position not present in board
@@ -20,7 +20,7 @@ public interface gameBoard {
     pawn getPawn(position position);
 
     /**
-     * get pawn to identifier
+     * Get pawn to identifier
      *
      * @param idPawn identifier pawn
      * @return pawn pawn
@@ -30,7 +30,7 @@ public interface gameBoard {
     pawn getPawn(String idPawn);
 
     /**
-     * check the position is empty
+     * Check the position is empty
      *
      * @param position position check is free
      * @return true if box is empty else false
@@ -39,7 +39,7 @@ public interface gameBoard {
     boolean isFree(position position);
 
     /**
-     * insert in select position the pawn
+     * Insert in select position the pawn
      *
      * @param position position update pawn
      * @param pawn     pawn to update
@@ -50,7 +50,7 @@ public interface gameBoard {
     boolean updatePosition(position position, pawn pawn);
 
     /**
-     * adding pawn to board game
+     * Adding pawn to board game
      *
      * @param position position adding pawn
      * @param pawn     pawn to add
@@ -61,7 +61,7 @@ public interface gameBoard {
     boolean addPawn(position position, pawn pawn);
 
     /**
-     * dead pawn,transport to delete pawn. Pawn get identifier
+     * Dead pawn,transport to delete pawn. Pawn get identifier
      *
      * @param idPawn identifier pawn
      * @throws IllegalArgumentException if pawn not present in game
@@ -69,7 +69,7 @@ public interface gameBoard {
     void goDeletionPawn(String idPawn);
 
     /**
-     * dead pawn, transport to delete pawn. Pawn get position
+     * Dead pawn, transport to delete pawn. Pawn get position
      *
      * @param position position for delete pawn
      * @throws IllegalArgumentException if pawn not present in game
@@ -77,12 +77,12 @@ public interface gameBoard {
     void goDeletionPawn(position position);
 
     /**
-     * clear all component on board
+     * Clear all component on board
      */
     void clearBoard();
 
     /**
-     * get board position  for pawn
+     * Get board position  for pawn
      *
      * @param idPawn identifier pawn
      * @return position to pawn
@@ -92,7 +92,7 @@ public interface gameBoard {
     position getPositionPawn(String idPawn);
 
     /**
-     * free position for empty chess
+     * Free position for empty chess.
      *
      * @param position position for free
      * @throws IllegalArgumentException if position not present
@@ -100,7 +100,7 @@ public interface gameBoard {
     void freePosition(position position);
 
     /**
-     * check pawn is present
+     * Check pawn is present
      *
      * @param idPawn identifier pawn
      * @return true if present else false
@@ -108,28 +108,38 @@ public interface gameBoard {
     boolean pawnIsPresent(String idPawn);
 
     /**
-     * get identifier of board
+     * Get identifier of board
      *
      * @return identifier board
      */
     String getId();
 
     /**
-     * get all pawn present on board
+     * Get all pawn present on board
      *
      * @return list of pawn the board
      */
     List<pawn> getPawns();
 
     /**
-     * restart game, position pawn in init position.
+     * Restart game, move pawn in init position.
      */
     void restart();
 
     /**
-     * get deleted pawn
+     * Get deleted pawn
      *
      * @return list content all pawn element.
      */
     List<pawn> getEliminated();
+
+    /**
+     * Get the list of pawns belonging to the player that can move
+     *
+     * @param idPlayer player identifier
+     * @return list of player pawn available to move or <code>null</code> if the player hasn't pawns to move.
+     * @throws IllegalArgumentException if the player identifier is empty.
+     * @throws IllegalArgumentException If the player pawns does not belong to the board
+     */
+    List<pawn> getPawnToMove(String idPlayer);
 }
