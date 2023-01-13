@@ -14,10 +14,17 @@ public class easyBotDama extends damaPlayer {
 
     private final UUID id;
 
+    /**
+     * Constructor for <code>easyBotDama</code>.
+     */
     public easyBotDama() {
         super("easyBot");
         this.id = UUID.randomUUID();
     }
+
+    /**
+     *  {@inheritDoc}
+     */
 
     @Override
     public String getId() {

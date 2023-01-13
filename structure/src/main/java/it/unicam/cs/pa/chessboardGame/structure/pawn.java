@@ -19,7 +19,7 @@ public interface pawn {
      * setting hierarchy pawn
      *
      * @param hierarchy new hierarchy of pawn
-     * @throws IllegalArgumentException the hierarchy is <0
+     * @throws IllegalArgumentException the hierarchy is less than 0
      */
     void setHierarchy(int hierarchy);
 
@@ -71,6 +71,18 @@ public interface pawn {
      */
     player getOwner();
 
+    /**
+     * Determinate if pawn is is Available To Move, so if the pawn can make at least one move.
+     *
+     * @return <code>true</code> if the pawn can move else <code>false</code>.
+     */
 
     boolean isAvailableToMove();
+
+    /**
+     * Get type of pawn. The pawn are two possible type true or false
+     *
+     * @return true if the positive type or false
+     */
+    boolean getType();
 }

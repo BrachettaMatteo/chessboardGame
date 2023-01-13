@@ -75,11 +75,11 @@ public interface game {
     /**
      * add new player for game
      *
-     * @param player new player
+     * @param namePlayer new player
      * @throws IllegalArgumentException If the player is already contained in the game
      * @throws NullPointerException     if the player is null
      */
-    void addPlayer(player player);
+    void addPlayer(String namePlayer);
 
     /**
      * get information for game
@@ -94,7 +94,9 @@ public interface game {
     void restart();
 
     /**
-     * start game
+     * Start game
+     *
+     * @throws IllegalArgumentException if the game can't start
      */
     void start();
 
@@ -105,5 +107,13 @@ public interface game {
      */
     player getWin();
 
-    player nextPlayer();
+    /**
+     * Get list name movement for show in UI.
+     * <p>
+     * The movement accept are:<code>[forward, forwardRight, forwardLeft,back,backRight,backLeft,left,right.]</code>
+     *
+     * @return list content all possible movement.
+     */
+    List<String> getNameAllPossibleMove();
+
 }

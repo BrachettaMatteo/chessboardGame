@@ -8,12 +8,9 @@ import it.unicam.cs.pa.chessboardGame.structure.player;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Collections;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
@@ -29,14 +26,20 @@ public class damaGame implements game {
     private final UUID id;
     private final String name;
 
-    private final Map<String, damaPlayer> players;
+    private final List<damaPlayer> players;
 
     private gameBoard board;
 
-    private final List<damaPlayer> orderPlayer;
     HashSet<String> pawnMove = new HashSet<>();
     int repeatBoard = 0;
 
+    /**
+     * Complete construction for <code>damaGame</code>.
+     *
+     * @param descInformation description of game.
+     * @param player1         first player.
+     * @param player2         second player.
+     */
     public damaGame(String descInformation, damaPlayer player1, damaPlayer player2) {
 
         if (player1 == null) player1 = new easyBotDama();
@@ -44,33 +47,34 @@ public class damaGame implements game {
 
         this.id = UUID.randomUUID();
         this.name = "Dama";
-        this.players = new HashMap<>();
-        this.players.put(player1.getId(), player1);
-        this.players.put(player2.getId(), player2);
-        this.board = new damaBoard(8, 8, player1, player2);
+        this.players = new ArrayList<>();
+        this.players.add(player1);
+        this.players.add(player2);
 
-        this.orderPlayer = new ArrayList<>();
-        orderPlayer.add(player1);
-        orderPlayer.add(player2);
+        this.board = new damaBoard(8, 8, player1, player2);
 
         this.information = descInformation;
         this.pawnMove = new HashSet<>(this.board.getPawns().stream().
                 map(pawn::getId).toList());
     }
 
+    /**
+     * Basic Construct for <code>damaGame</code>
+     *
+     * @param descInformation description game
+     */
     public damaGame(String descInformation) {
         this.id = UUID.randomUUID();
         this.name = "Dama";
         this.information = descInformation;
-        this.players = new HashMap<>();
-        this.orderPlayer = new ArrayList<>();
+        this.players = new ArrayList<>();
     }
 
     public void start() {
-        if (readyToStart())
-            new damaCLI(this);
-        else
-            throw new IllegalArgumentException("the game isn't ready to start");
+        if (!readyToStart()) {
+            this.players.add(new easyBotDama());
+            this.board = new damaBoard(8, 8, this.players.get(0), this.players.get(1));
+        } else throw new IllegalArgumentException("The game can't start, error player");
     }
 
     /**
@@ -79,10 +83,8 @@ public class damaGame implements game {
      * @return true if game is ready to start else false
      */
     public boolean readyToStart() {
-        List<damaPlayer> players = new ArrayList<>(this.players.values());
         if (players.stream().filter(damaPlayer -> damaPlayer instanceof easyBotDama).toList().size() < 2) {
             if (players.size() == 2) {
-                orderPlayer.addAll(players);
                 this.board = new damaBoard(8, 8, players.get(0), players.get(1));
                 return true;
             }
@@ -113,7 +115,7 @@ public class damaGame implements game {
 
     @Override
     public player getLiveWin() {
-        return this.players.values().stream().max(Comparator.comparing(damaPlayer::getScore)).orElseThrow(NoSuchElementException::new);
+        return this.players.stream().max(Comparator.comparing(damaPlayer::getScore)).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
@@ -123,12 +125,12 @@ public class damaGame implements game {
         if (players.size() == 0)
             throw new IllegalArgumentException("players is empty");
         this.players.clear();
-        players.forEach(player -> this.players.put(player.getId(), (damaPlayer) player));
+        players.forEach(player -> this.players.add((damaPlayer) player));
     }
 
     @Override
     public Collection<player> getPlayers() {
-        return new ArrayList<>(this.players.values());
+        return new ArrayList<>(this.players);
     }
 
     @Override
@@ -137,18 +139,40 @@ public class damaGame implements game {
             throw new NullPointerException("players id is null");
         if (idPlayer.isEmpty())
             throw new IllegalArgumentException("players id is empty");
-        if (this.players.containsKey(idPlayer))
-            return this.players.get(idPlayer);
-        else throw new IllegalArgumentException("the player isn't contained");
+        if (this.playerIsPresent(idPlayer)) {
+            return this.players.stream().filter(damaPlayer -> damaPlayer.getId().equals(idPlayer)).toList().get(0);
+        } else throw new IllegalArgumentException("the player isn't contained");
     }
 
+    /**
+     * Check the player is present with id.
+     *
+     * @param idPlayer identifier player
+     * @return true if present else false
+     */
+    private boolean playerIsPresent(String idPlayer) {
+        return !this.getPlayers().stream().filter(player -> player.getId().equals(idPlayer)).toList().isEmpty();
+    }
+
+    /*  @Override
+      public void addPlayer(player player) {
+          if (players == null)
+              throw new NullPointerException("players is null");
+          if (this.players.containsKey(player.getId()))
+              throw new IllegalArgumentException("players is already contained  ");
+          this.players.put(player.getId(), (damaPlayer) player);
+      }
+  */
     @Override
-    public void addPlayer(player player) {
+    public void addPlayer(String namePlayer) {
         if (players == null)
             throw new NullPointerException("players is null");
-        if (this.players.containsKey(player.getId()))
+        if (this.players.stream().filter(damaPlayer -> damaPlayer.getName().equals(namePlayer)).toList().isEmpty()) {
+            damaPlayer dp = new damaPlayer(namePlayer);
+            this.players.add(dp);
+        } else
             throw new IllegalArgumentException("players is already contained  ");
-        this.players.put(player.getId(), (damaPlayer) player);
+
     }
 
     @Override
@@ -158,7 +182,7 @@ public class damaGame implements game {
 
     @Override
     public void restart() {
-        for (damaPlayer p : this.players.values())
+        for (damaPlayer p : this.players)
             p.removeScore(p.getScore());
         this.board.clearBoard();
     }
@@ -175,7 +199,7 @@ public class damaGame implements game {
                 this.pawnMove = new HashSet<>(listBoard);
                 repeatBoard = 0;
             }
-            ArrayList<player> lp = new ArrayList<>(this.players.values());
+            ArrayList<player> lp = new ArrayList<>(this.players);
             if (this.getBoard().getPawns().stream().filter(pawn -> pawn.getOwner() == lp.get(0)).toList().isEmpty()) {
                 return lp.get(1);
             }
@@ -196,9 +220,8 @@ public class damaGame implements game {
     }
 
     @Override
-    public player nextPlayer() {
-        player p = this.orderPlayer.get(1);
-        Collections.reverse(this.orderPlayer);
-        return p;
+    public List<String> getNameAllPossibleMove() {
+        String[] possibleMove = {"forwardRight", "forwardLeft", "BackLeft", "BackRight"};
+        return List.of(possibleMove);
     }
 }

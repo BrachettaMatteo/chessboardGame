@@ -17,14 +17,33 @@ public class defaultMovements implements movement {
     final int LEFT = -1;
     final int TOP = 1;
     final int BOTTOM = -1;
+    /**
+     * Indicate the <code>gameBoard</code> will content pawn.
+     */
     protected final gameBoard gb;
+    /**
+     * Indicate the <code>pawn</code> to apply the move
+     */
     protected final damaPawn pawn;
-
+    /**
+     * Indicate the direction of column, The direction is <code>RIGHT</code> or <code>LEFT</code>
+     */
     protected int directionColumn;
-
+    /**
+     * Indicate the direction of row, The direction is <code>TOP</code> or <code>BOTTOM</code>
+     */
     protected int directionRow;
+    /**
+     * Counts the captures made by the pawn
+     */
     private int counterCapture;
 
+    /**
+     * Construction for <code>default movement</code>
+     *
+     * @param gb   <code>gameBoard</code> to which the pawn belongs.
+     * @param pawn pawn to update movement.
+     */
 
     public defaultMovements(gameBoard gb, damaPawn pawn) {
         this.gb = gb;
@@ -45,7 +64,7 @@ public class defaultMovements implements movement {
     /**
      * Setting direction.
      *
-     * @param directionColumn reference direction move
+     * @param directionColumn reference direction move.
      */
     private void setDirection(int directionColumn) {
         if (pawn.getType()) {
@@ -72,7 +91,7 @@ public class defaultMovements implements movement {
     /**
      * Check the position is correct for move.
      *
-     * @return true if position is correct else false.
+     * @return <code>true</code> if position is correct else <code>false</code>.
      */
     protected boolean correctMove() {
         position current = this.gb.getPositionPawn(this.pawn.getId());
@@ -118,11 +137,11 @@ public class defaultMovements implements movement {
      * Check the position content pawn not friends or friends, two pawns are friends when they have the same type.
      *
      * @param positionToPawn position of pawn to be verified
-     * @return true is not friend else false
+     * @return <code>true</code> is not friend else <code>false</code>
      */
     protected boolean notFriend(position positionToPawn) {
         try {
-            return ((damaPawn) this.gb.getPawn(positionToPawn)).getType() != this.pawn.getType();
+            return this.gb.getPawn(positionToPawn).getType() != this.pawn.getType();
         } catch (Exception e) {
             return false;
         }
@@ -213,7 +232,7 @@ public class defaultMovements implements movement {
     /**
      * Check the pawn is dama or not. It uses the <code>this.pawn</code>.
      *
-     * @return true the pawn is dama else false
+     * @return <code>true</code> the pawn is dama else <code>false</code>
      */
     private boolean checkDamaPawn() {
         return this.pawn.getMovement() instanceof damaMovement;
@@ -223,7 +242,7 @@ public class defaultMovements implements movement {
      * Check the position is position for upgrade the pawn in dama.
      *
      * @param positionToCheck position for check
-     * @return true if pawn dama else false
+     * @return <code>true</code> if pawn dama else <code>false</code>
      */
     protected boolean checkDama(position positionToCheck) {
         if (pawn.getType()) return positionToCheck.getRow() == 8;

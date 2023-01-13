@@ -9,12 +9,16 @@ import java.util.List;
  * @version 0.0
  */
 public interface gameBoard {
-
+    /**
+     * @return dimension of chessboard
+     */
+    int getSize();
 
     /**
      * Get pawn in to position game
      *
      * @param position position when located pawn
+     * @return the pawn present in the position
      * @throws IllegalArgumentException the position not present in board
      */
     pawn getPawn(position position);

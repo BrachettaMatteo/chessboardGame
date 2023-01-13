@@ -17,11 +17,21 @@ public class position implements Comparable<position> {
      */
     private int column;
 
+    /**
+     * Construction for create new position
+     *
+     * @param column colum of position.
+     * @param row    row of position.
+     */
     public position(int column, int row) {
         this.row = row;
         this.column = column;
     }
 
+    /**
+     * Get row of <code>position</code>
+     * @return row
+     */
     public int getRow() {
         return this.row;
     }
@@ -30,7 +40,7 @@ public class position implements Comparable<position> {
      * Setting new position row
      *
      * @param row new position row
-     * @throws IllegalArgumentException row is < 0
+     * @throws IllegalArgumentException row is less than 0
      */
     public void setRow(int row) {
         if (row >= 0)
@@ -44,7 +54,7 @@ public class position implements Comparable<position> {
      * get column
      *
      * @return column
-     * @throws IllegalArgumentException row is < 0
+     * @throws IllegalArgumentException row is less than 0
      */
     public int getColumn() {
         return this.column;
@@ -54,7 +64,7 @@ public class position implements Comparable<position> {
      * Setting new position column
      *
      * @param column new position column
-     * @throws IllegalArgumentException column is < 0
+     * @throws IllegalArgumentException column is less than 0
      */
     public void setColumn(int column) {
         if (column >= 0)

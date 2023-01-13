@@ -106,14 +106,14 @@ class DamaGameTest {
         assertThrows(IllegalArgumentException.class, () -> dg.getPlayer(playerTest.getId()));
     }
 
-    @DisplayName("Add player test")
+/*    @DisplayName("Add player test")
     @Test
     void addPlayer() {
         dg.addPlayer(playerTest);
 
         assertEquals(3, dg.getPlayers().size());
         assertTrue(dg.getPlayers().contains(playerTest));
-    }
+    }*/
 
     @DisplayName("Get information test")
     @Test

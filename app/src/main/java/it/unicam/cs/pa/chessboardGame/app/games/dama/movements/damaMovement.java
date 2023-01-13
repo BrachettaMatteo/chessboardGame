@@ -12,7 +12,12 @@ import java.util.concurrent.ThreadLocalRandom;
  * @version 0.1.1
  */
 public class damaMovement extends defaultMovements {
-
+    /**
+     * Construct for <code>damaMovement</code>.
+     *
+     * @param gb   gameBord that will contain pawn.
+     * @param pawn pawn to which to apply the <code>damaMovement</code>.
+     */
     public damaMovement(gameBoard gb, damaPawn pawn) {
         super(gb, pawn);
     }
@@ -23,21 +28,6 @@ public class damaMovement extends defaultMovements {
         super.forwardRight();
     }
 
-    /**
-     * Setting direction for movements.
-     *
-     * @param directionColum reference direction move (horizontal)
-     * @param directionRow   reference direction move row (Vertical)
-     */
-    private void setDirection(int directionRow, int directionColum) {
-        if (pawn.getType()) {
-            this.directionColumn = directionColum;
-            this.directionRow = directionRow;
-        } else {
-            this.directionColumn = Math.negateExact(directionColum);
-            this.directionRow = Math.negateExact(directionRow);
-        }
-    }
 
     @Override
     public void forwardLeft() {
@@ -118,7 +108,7 @@ public class damaMovement extends defaultMovements {
     /**
      * Check the backLeft is possible execute.
      *
-     * @return true if the movement it'll execute else false
+     * @return <code>true</code> if the movement it'll execute else <code>false</code>
      */
     private boolean checkBackLeftMove() {
         if (this.pawn.getType()) {
@@ -129,7 +119,7 @@ public class damaMovement extends defaultMovements {
     /**
      * Check the backRight is possible execute.
      *
-     * @return true if the movement it'll execute else false
+     * @return <code>true</code> if the movement it'll execute else <code>false</code>
      */
     private boolean checkBackRightMove() {
         if (this.pawn.getType()) {
@@ -140,7 +130,7 @@ public class damaMovement extends defaultMovements {
     /**
      * Check the forwardRight is possible move.
      *
-     * @return true if the movement it'll execute else false
+     * @return <code>true</code> if the movement it'll execute else <code>false</code>
      */
     private boolean checkForwardRightMove() {
         if (this.pawn.getType()) {
@@ -152,7 +142,7 @@ public class damaMovement extends defaultMovements {
     /**
      * Check the forwardLeft is possible move.
      *
-     * @return true if the movement it'll execute else false
+     * @return <code>true</code> if the movement it'll execute else <code>false</code>
      */
     private boolean checkForwardLeftMove() {
         if (this.pawn.getType())
@@ -163,7 +153,7 @@ public class damaMovement extends defaultMovements {
     /**
      * Check the back movement it'll execute.
      *
-     * @return true if the movement it'll execute else false
+     * @return <code>true</code> if the movement it'll execute else <code>false</code>
      */
     private boolean isAvailableToBottomMove() {
         if (this.pawn.getType()) {
@@ -172,6 +162,22 @@ public class damaMovement extends defaultMovements {
         } else
             return super.checkPosition(super.gb.getPositionPawn(super.pawn.getId()), LEFT, TOP) ||
                     super.checkPosition(super.gb.getPositionPawn(super.pawn.getId()), RIGHT, TOP);
+    }
+
+    /**
+     * Setting direction for movements.
+     *
+     * @param directionColum reference direction move (horizontal)
+     * @param directionRow   reference direction move row (Vertical)
+     */
+    private void setDirection(int directionRow, int directionColum) {
+        if (pawn.getType()) {
+            this.directionColumn = directionColum;
+            this.directionRow = directionRow;
+        } else {
+            this.directionColumn = Math.negateExact(directionColum);
+            this.directionRow = Math.negateExact(directionRow);
+        }
     }
 }
 

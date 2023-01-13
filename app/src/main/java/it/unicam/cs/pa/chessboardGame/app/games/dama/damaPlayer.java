@@ -1,14 +1,23 @@
 package it.unicam.cs.pa.chessboardGame.app.games.dama;
 
 import it.unicam.cs.pa.chessboardGame.structure.player;
+
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * <code>player</code> for damaGame
+ */
 public class damaPlayer implements player {
     private final UUID id;
     private final String name;
     private int score;
 
+    /**
+     * Constructor for <code>damaPlayer</code>
+     *
+     * @param name name of player
+     */
     public damaPlayer(String name) {
         this.id = UUID.randomUUID();
         this.name = name;

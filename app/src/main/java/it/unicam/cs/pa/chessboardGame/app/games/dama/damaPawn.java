@@ -22,6 +22,15 @@ public class damaPawn implements pawn {
     private String symbol;
     private boolean life;
 
+    /**
+     * Constructor for <code>damaPawn</code>
+     *
+     * @param hierarchy hierarchy for pawn. It identifies the power respect other.
+     * @param board     <code>gameBoard</code> which contains content.
+     * @param symbol    symbol to identify the pawn.
+     * @param owner     owner of pawn.
+     * @param isWhite   identify the player is white, <code>true</code> if pawn is white else <code>false</code>
+     */
     public damaPawn(int hierarchy, gameBoard board, String symbol, player owner, boolean isWhite) {
         this.id = UUID.randomUUID();
         this.hierarchy = hierarchy;
@@ -103,6 +112,7 @@ public class damaPawn implements pawn {
         return Objects.equals(id, damaPawn.id);
     }
 
+    @Override
     public boolean getType() {
         return this.type;
     }
@@ -113,7 +123,4 @@ public class damaPawn implements pawn {
 
     }
 
-    public void setSymbol(String d) {
-        this.symbol = d;
-    }
 }

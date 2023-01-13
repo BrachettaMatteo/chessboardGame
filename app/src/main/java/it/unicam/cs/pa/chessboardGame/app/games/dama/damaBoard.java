@@ -1,4 +1,5 @@
 package it.unicam.cs.pa.chessboardGame.app.games.dama;
+
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
 import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.player;
@@ -23,21 +24,34 @@ public class damaBoard implements gameBoard {
      */
     private final UUID id;
     /**
-     * Map content all pawn and relative position
+     * Map content all pawn and relative position.
      */
     private final Map<position, pawn> board;
     /**
-     * Map content all eliminated pawn
+     * Map content all eliminated pawn.
      */
     private final Map<String, pawn> eliminated;
-
-
-    private final int size;
-
+    /**
+     * dimension of chessboard.
+     */
+    private int size;
+    /**
+     * White player, position of the player below on the board.
+     */
     private final player whitePlayer;
+    /**
+     * Black player, position of the player below on the board.
+     */
     private final player blackPlayer;
 
-
+    /**
+     * Constructor of <code>damaBoard</code>.
+     *
+     * @param column  number of columns on the chessboard
+     * @param row     number of row on the chessboard.
+     * @param player1 first player for the game.
+     * @param player2 second player for the game.
+     */
     public damaBoard(int column, int row, player player1, player player2) {
         this.id = UUID.randomUUID();
         this.board = new HashMap<>();
@@ -46,52 +60,15 @@ public class damaBoard implements gameBoard {
         this.createChess(column, row);
         this.blackPlayer = player2;
         this.whitePlayer = player1;
-        this.createPawnForPlayers();
-
+        this.createWhitePawn();
+        this.createBlackPawn();
+        this.size = row;
     }
 
     @Override
     public List<pawn> getPawns() {
         return this.board.values().stream().filter(Objects::nonNull).toList();
     }
-
-    private void createPawnForPlayers() {
-        this.createWhitePawn();
-        this.createBlackPawn();
-    }
-
-    private void createBlackPawn() {
-        for (int row = 8; row > 8 - 3; row--) {
-            String symbolBlack = "•";
-            if (row % 2 == 0) for (int column = 2; column <= 8; column += 2)
-                this.addPawn(new position(column, row), new damaPawn(0, this, symbolBlack, this.blackPlayer, false));
-            else for (int column = 1; column <= 8; column += 2)
-                this.addPawn(new position(column, row), new damaPawn(0, this, symbolBlack, this.blackPlayer, false));
-        }
-    }
-
-    private void createWhitePawn() {
-        for (int row = 1; row < 1 + 3; row++) {
-            String symbolWhite = "*";
-            if (row % 2 == 0) for (int column = 2; column <= 8; column += 2)
-                this.addPawn(new position(column, row), new damaPawn(0, this, symbolWhite, this.whitePlayer, true));
-            else for (int column = 1; column <= 8; column += 2)
-                this.addPawn(new position(column, row), new damaPawn(0, this, symbolWhite, this.whitePlayer, true));
-        }
-    }
-
-    /**
-     * create a board column x row
-     *
-     * @param column column of board
-     * @param row    row of board
-     */
-    private void createChess(int column, int row) {
-        for (int c = 1; c <= column; c++)
-            for (int r = 1; r <= row; r++)
-                this.board.put(new position(c, r), null);
-    }
-
 
     @Override
     public pawn getPawn(position position) {
@@ -219,7 +196,8 @@ public class damaBoard implements gameBoard {
     public void restart() {
         this.clearBoard();
         this.createChess(this.size, this.size);
-        this.createPawnForPlayers();
+        this.createWhitePawn();
+        this.createBlackPawn();
     }
 
     @Override
@@ -234,5 +212,49 @@ public class damaBoard implements gameBoard {
             List<pawn> pp = new ArrayList<>(this.getPawns().stream().filter(pawn -> pawn.getOwner().getId().equals(idPlayer)).toList());
             return pp.stream().filter(pawn::isAvailableToMove).toList();
         } else throw new IllegalArgumentException("The player does not belong to the board");
+    }
+
+
+    @Override
+    public int getSize() {
+        return this.size;
+    }
+
+    /**
+     * Creates and places for <code>blackPlayer</code> in the chessboard.
+     */
+    private void createBlackPawn() {
+        for (int row = 8; row > 8 - 3; row--) {
+            String symbolBlack = "•";
+            if (row % 2 == 0) for (int column = 2; column <= 8; column += 2)
+                this.addPawn(new position(column, row), new damaPawn(0, this, symbolBlack, this.blackPlayer, false));
+            else for (int column = 1; column <= 8; column += 2)
+                this.addPawn(new position(column, row), new damaPawn(0, this, symbolBlack, this.blackPlayer, false));
+        }
+    }
+
+    /**
+     * Creates and places <code>whitePlayer</code> in the chessboard.
+     */
+    private void createWhitePawn() {
+        for (int row = 1; row < 1 + 3; row++) {
+            String symbolWhite = "*";
+            if (row % 2 == 0) for (int column = 2; column <= 8; column += 2)
+                this.addPawn(new position(column, row), new damaPawn(0, this, symbolWhite, this.whitePlayer, true));
+            else for (int column = 1; column <= 8; column += 2)
+                this.addPawn(new position(column, row), new damaPawn(0, this, symbolWhite, this.whitePlayer, true));
+        }
+    }
+
+    /**
+     * Creates the free positions for the chessboard and adds to <code>board</code>.
+     *
+     * @param column column of board
+     * @param row    row of board
+     */
+    private void createChess(int column, int row) {
+        for (int c = 1; c <= column; c++)
+            for (int r = 1; r <= row; r++)
+                this.board.put(new position(c, r), null);
     }
 }
