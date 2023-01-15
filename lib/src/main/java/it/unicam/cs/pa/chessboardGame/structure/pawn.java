@@ -1,5 +1,6 @@
 package it.unicam.cs.pa.chessboardGame.structure;
 
+import javafx.scene.image.Image;
 /**
  * Represents the pawn of the game. He is responsible for the proper functioning of the pawn.
  *
@@ -72,7 +73,7 @@ public interface pawn {
     player getOwner();
 
     /**
-     * Determinate if pawn is is Available To Move, so if the pawn can make at least one move.
+     * Determinate if pawn is  Available To Move, so if the pawn can make at least one move.
      *
      * @return <code>true</code> if the pawn can move else <code>false</code>.
      */
@@ -85,4 +86,11 @@ public interface pawn {
      * @return true if the positive type or false
      */
     boolean getType();
+
+    /**
+     * Get image of pawn
+     *
+     * @return image for pawn
+     */
+    Image getImage();
 }

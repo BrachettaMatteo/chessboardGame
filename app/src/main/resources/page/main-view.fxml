@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane id="introPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.pa.chessboardGame.app.App">
+<Pane id="introPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@style/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.pa.chessboardGame.app.controller.mainController">
     <Label layoutX="222.0" layoutY="27.0" text="Chess Board Game" textFill="#fcfcfc">
         <font>
             <Font name="Arial Bold" size="18.0" />
@@ -42,5 +42,5 @@
         </GridPane>
 
     </ScrollPane>
-    <Button id="btnStartGame" fx:id="btnStartGame" layoutX="471.0" layoutY="309.0" mnemonicParsing="false" onAction="#startGame" prefHeight="32.0" prefWidth="92.0" stylesheets="@style.css" text="Start Game" />
+    <Button id="btnStartGame" fx:id="btnStartGame" layoutX="471.0" layoutY="309.0" mnemonicParsing="false" onAction="#startGame" prefHeight="32.0" prefWidth="92.0" stylesheets="@style/style.css" text="Start Game" />
 </Pane>

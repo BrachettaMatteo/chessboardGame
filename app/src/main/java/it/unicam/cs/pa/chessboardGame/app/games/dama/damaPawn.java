@@ -4,7 +4,9 @@ package it.unicam.cs.pa.chessboardGame.app.games.dama;
 import it.unicam.cs.pa.chessboardGame.app.games.dama.movements.damaMovement;
 import it.unicam.cs.pa.chessboardGame.app.games.dama.movements.defaultMovements;
 import it.unicam.cs.pa.chessboardGame.structure.*;
+import javafx.scene.image.Image;
 
+import java.io.File;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -21,6 +23,7 @@ public class damaPawn implements pawn {
     private movement moves;
     private String symbol;
     private boolean life;
+    private File img;
 
     /**
      * Constructor for <code>damaPawn</code>
@@ -39,6 +42,11 @@ public class damaPawn implements pawn {
         this.life = true;
         this.owner = owner;
         this.moves = new defaultMovements(board, this);
+        if (isWhite)
+            this.img = new File("img/pawn/default/whitePawn.png");
+        else
+            this.img = new File("img/pawn/default/blackPawn.png");
+
     }
 
     @Override
@@ -123,4 +131,22 @@ public class damaPawn implements pawn {
 
     }
 
+    /**
+     * Get image of pawn
+     *
+     * @return image for pawn
+     */
+    @Override
+    public Image getImage() {
+        return new Image(this.img.getPath());
+    }
+
+    /**
+     * Setting image for pawn.
+     *
+     * @param img new image.
+     */
+    public void setImg(File img) {
+        this.img = img;
+    }
 }

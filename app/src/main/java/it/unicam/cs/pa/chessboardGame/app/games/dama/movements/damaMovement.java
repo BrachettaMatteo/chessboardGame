@@ -3,6 +3,7 @@ package it.unicam.cs.pa.chessboardGame.app.games.dama.movements;
 import it.unicam.cs.pa.chessboardGame.app.games.dama.damaPawn;
 import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
 
+import java.io.File;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -20,6 +21,12 @@ public class damaMovement extends defaultMovements {
      */
     public damaMovement(gameBoard gb, damaPawn pawn) {
         super(gb, pawn);
+        if (pawn.getType())
+            pawn.setImg(new File("img/pawn/whiteDama.png"));
+        else
+            pawn.setImg(new File("img/pawn/blackDama.png"));
+
+
     }
 
     @Override

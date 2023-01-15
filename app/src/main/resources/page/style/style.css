@@ -12,7 +12,7 @@
 }
 
 #introPane {
-    -fx-background-image: url("img/backgroundMain.jpg");
+    -fx-background-image: url("../../img/backgroundMain.jpg");
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
 
@@ -46,17 +46,5 @@
     -fx-background-insets: 0, 1;
 }
 
-#boardPane {
 
-    -fx-background-color: #3a3b3c;
-}
 
-#gridPaneBoard {
-    -fx-border-width: 12px;
-    -fx-border-style: solid;
-    -fx-border-color: #B48D51;
-}
-#btnGoBack{
-    -fx-background-color: none;
-
-}

@@ -27,7 +27,7 @@ public class GameDamaExecuteTest {
     ArrayList<Integer> numberGenerate = new ArrayList<>();
 
     @Test
-    @DisplayName("simulation game to random move")
+    @DisplayName("simulation and show game to random move")
     void simulationGame() {
         System.out.println("-----------------------");
         System.out.println("START");

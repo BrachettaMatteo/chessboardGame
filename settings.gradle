@@ -8,5 +8,4 @@
  */
 
 rootProject.name = 'chessboardGame'
-include('app', 'structure')
-
+include('app', 'lib')

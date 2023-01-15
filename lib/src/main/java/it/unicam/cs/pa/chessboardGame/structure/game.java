@@ -12,105 +12,106 @@ import java.util.List;
 public interface game {
 
     /**
-     * @return the board game
+     * Get chessboard.
+     *
+     * @return the board game.
      */
     gameBoard getBoard();
 
     /**
-     * setting the new board for game
+     * Setting the new board for game.
      *
      * @param newBoard new board for game
-     * @throws NullPointerException if the board is null
+     * @throws NullPointerException if the {@code board} is {@code null}
      */
     void setBoard(gameBoard newBoard);
 
     /**
-     * get identifier game
+     * Get identifier game.
      *
-     * @return game identifier
+     * @return  game identify.
      */
     String getId();
 
     /**
-     * get name game
+     * Get name game.
      *
-     * @return name game
+     * @return name game.
      */
     String getName();
 
     /**
-     * get live win player
+     * Get live win player.
      *
-     * @return player win
+     * @return player win player;
      */
     player getLiveWin();
 
     /**
-     * setting player for game
+     * Setting player for game
      *
      * @param players new players
-     * @throws NullPointerException     if the list of player is null
+     * @throws NullPointerException     if the list of player is {@code null}
      * @throws IllegalArgumentException if the list of player is empty
      */
     void setPlayers(List<player> players);
 
     /**
-     * get list of player game
+     * Get list of player game.
      *
-     * @return all players for game
+     * @return {@code Collection} content all players for game.
      */
     Collection<player> getPlayers();
 
     /**
-     * get Player game
+     * Get Player game.
      *
      * @param idPlayer player identifier
      * @return player player game
      * @throws IllegalArgumentException if idPlayer is empty
-     * @throws NullPointerException     if idPlayer is null
+     * @throws NullPointerException     if idPlayer is {@code null}
      * @throws IllegalArgumentException if player isn't contained
      */
     player getPlayer(String idPlayer);
 
     /**
-     * add new player for game
+     * Add new player for game.
      *
      * @param namePlayer new player
      * @throws IllegalArgumentException If the player is already contained in the game
-     * @throws NullPointerException     if the player is null
+     * @throws NullPointerException     if the player is {@code null}
      */
     void addPlayer(String namePlayer);
 
     /**
-     * get information for game
+     * Get information for game.
      *
-     * @return the information game
+     * @return the information game.
      */
     String getInformationGame();
 
     /**
-     * restart game, restart board
+     * Restart game, reset score player and restart chessboard.
      */
     void restart();
 
     /**
-     * Start game
+     * Check and start game
      *
      * @throws IllegalArgumentException if the game can't start
      */
     void start();
 
     /**
-     * return the win player
+     * Get win player.
      *
-     * @return the player win or null
+     * @return the player win or {@code null}
      */
     player getWin();
 
     /**
      * Get list name movement for show in UI.
-     * <p>
-     * The movement accept are:<code>[forward, forwardRight, forwardLeft,back,backRight,backLeft,left,right.]</code>
+     * The movement accept are:{@code forward, forwardRight, forwardLeft,back,backRight,backLeft,left,right.}
      *
      * @return list content all possible movement.
      */

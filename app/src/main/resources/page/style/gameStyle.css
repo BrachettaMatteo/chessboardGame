@@ -1,0 +1,24 @@
+#gridPaneBoard {
+    -fx-border-width: 12px;
+    -fx-border-style: solid;
+    -fx-border-color: #B48D51;
+}
+#btnGoBack{
+    -fx-background-color: none;
+
+}
+#pawn{
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+#btnMove{
+    -fx-background-color: none;
+    -fx-text-fill: white;
+    -fx-background-radius: 25px;
+    -fx-border-radius: 25px;
+    -fx-border-style: solid;
+    -fx-border-color: white;
+}
+#boardPane {
+    -fx-background-color: #3a3b3c;
+}

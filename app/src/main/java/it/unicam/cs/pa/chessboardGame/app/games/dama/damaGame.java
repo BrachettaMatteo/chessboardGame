@@ -154,15 +154,6 @@ public class damaGame implements game {
         return !this.getPlayers().stream().filter(player -> player.getId().equals(idPlayer)).toList().isEmpty();
     }
 
-    /*  @Override
-      public void addPlayer(player player) {
-          if (players == null)
-              throw new NullPointerException("players is null");
-          if (this.players.containsKey(player.getId()))
-              throw new IllegalArgumentException("players is already contained  ");
-          this.players.put(player.getId(), (damaPlayer) player);
-      }
-  */
     @Override
     public void addPlayer(String namePlayer) {
         if (players == null)
@@ -221,7 +212,7 @@ public class damaGame implements game {
 
     @Override
     public List<String> getNameAllPossibleMove() {
-        String[] possibleMove = {"forwardRight", "forwardLeft", "BackLeft", "BackRight"};
+        String[] possibleMove = {"forward Right", "forward Left", "backLeft", "backRight"};
         return List.of(possibleMove);
     }
 }

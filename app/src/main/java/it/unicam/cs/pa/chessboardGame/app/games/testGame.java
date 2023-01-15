@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.chessboardGame.app;
+package it.unicam.cs.pa.chessboardGame.app.games;
 
 import it.unicam.cs.pa.chessboardGame.app.games.dama.damaBoard;
 import it.unicam.cs.pa.chessboardGame.app.games.dama.damaPlayer;
