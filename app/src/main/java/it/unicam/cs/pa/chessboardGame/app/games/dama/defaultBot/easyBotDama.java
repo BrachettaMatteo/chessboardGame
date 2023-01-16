@@ -8,7 +8,7 @@ import java.util.UUID;
  * Easy bot, the move is randomly generated.
  *
  * @author Matteo Brachetta
- * @version 0.0
+ * @version 1.0
  */
 public class easyBotDama extends damaPlayer {
 

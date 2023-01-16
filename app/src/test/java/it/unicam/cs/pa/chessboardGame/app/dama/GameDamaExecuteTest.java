@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Simulation game test. This test starts the game and moves the players' pawns in random moves, and returns victory to the player.
+ * Simulation game test. This test starts the game and moves the players' pawns in random moves, and returns victory to the {@code player}.
  * This Test show all move.
  *
  * @author Matteo Brachetta
- * @version 0.1
+ * @version 1.0
  */
 public class GameDamaExecuteTest {
     damaPlayer damaPlayerWhite = new damaPlayer("white player");
@@ -47,9 +47,9 @@ public class GameDamaExecuteTest {
     }
 
     /**
-     * Action for call get random pawn to player
+     * Action for call get random {@code pawn} to {@code player}
      *
-     * @param p player to turn game
+     * @param p {@code player} to turn game
      */
     private void requestPawnToGame(player p) {
         List<pawn> listPawnToMove = new ArrayList<>(dg.getBoard().getPawnToMove(p.getId()));

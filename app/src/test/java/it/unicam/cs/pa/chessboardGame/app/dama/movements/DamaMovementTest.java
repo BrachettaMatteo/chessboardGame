@@ -17,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * Test of dama pawn
+ * Test of dama {@code pawn}
  *
  * @author Matteo Brachetta
- * @version 0.1
+ * @version 1.0
  */
 class DamaMovementTest {
 
@@ -545,20 +545,20 @@ class DamaMovementTest {
     }
 
     /**
-     * Returns the board position of the pawn
+     * Returns the board position of the {@code pawn}
      *
-     * @param pawn pawn to research position
-     * @return the position of pawn, if not present generate exception method <code>this.gd.getBoard().getPositionPawn()</code>
+     * @param pawn {@code pawn} to research position
+     * @return the position of {@code pawn}, if not present generate exception method <code>this.gd.getBoard().getPositionPawn()</code>
      */
     private position getPositionPawn(damaPawn pawn) {
         return this.gd.getBoard().getPositionPawn(pawn.getId());
     }
 
     /**
-     * Check pawn is eliminated
+     * Check {@code pawn} is eliminated
      *
-     * @param pawnToCheck pawn to check eliminated
-     * @return true if pawn is eliminated else false
+     * @param pawnToCheck {@code pawn} to check eliminated
+     * @return {@code true} if {@code pawn} is eliminated else {@code false}
      */
     private boolean checkEliminationPawn(damaPawn pawnToCheck) {
         return this.gd.getBoard().getEliminated().contains(pawnToCheck);

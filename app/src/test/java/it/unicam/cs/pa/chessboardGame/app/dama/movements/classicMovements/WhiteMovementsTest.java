@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test of white pawn
+ * Test of white {@code pawn}
  *
  * @author Matteo Brachetta
- * @version 0.2
+ * @version 1.0
  */
 class WhiteMovementsTest {
     private final damaPlayer playerWhiteTest = new damaPlayer("player white Test");
@@ -62,7 +62,7 @@ class WhiteMovementsTest {
         //check eliminated
         assertTrue(this.checkEliminationPawn(damaPawnBlack1));
 
-        //move forward and the forward box is occupation to friend pawn
+        //move forward and the forward box is occupation to friend {@code pawn}
         gd.getBoard().updatePosition(new position(4, 4), damaPawnWhite1);
         gd.getBoard().addPawn(new position(5, 5), damaPawnWhite2);
         assertThrows(IllegalArgumentException.class, () -> damaPawnWhite1.getMovement().forwardRight());
@@ -211,10 +211,10 @@ class WhiteMovementsTest {
     }
 
     /**
-     * Check pawn is eliminated
+     * Check {@code pawn} is eliminated
      *
-     * @param pawnToCheck pawn to check eliminated
-     * @return true if pawn is eliminated else false
+     * @param pawnToCheck {@code pawn} to check eliminated
+     * @return {@code true} if {@code pawn} is eliminated else {@code false}
      */
     private boolean checkEliminationPawn(damaPawn pawnToCheck) {
         return this.gd.getBoard().getEliminated().contains(pawnToCheck);

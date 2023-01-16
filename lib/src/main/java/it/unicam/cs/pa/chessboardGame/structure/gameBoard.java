@@ -3,71 +3,71 @@ package it.unicam.cs.pa.chessboardGame.structure;
 import java.util.List;
 
 /**
- * Board for pawn, It responsible for correct mange pawn
+ * It represents the chessboard. It will contain all the {@code pawn} with their positions and eliminated {@code pawn}.
  *
  * @author Matteo Brachetta
- * @version 0.0
+ * @version 1.0
  */
 public interface gameBoard {
     /**
      * Get size chessboard.
      *
-     * @return dimension of chessboard.
+     * @return size of chessboard.
      */
     int getSize();
 
     /**
-     * Get pawn in to position game.
+     * Get {@code pawn} in to {@code position} game.
      *
-     * @param position position when located pawn.
-     * @return the pawn present in the position.
-     * @throws IllegalArgumentException the position not present in board.
+     * @param position {@code position} when located {@code pawn}.
+     * @return the {@code pawn} present in the {@code position}.
+     * @throws IllegalArgumentException the {@code position} not present in board.
      */
     pawn getPawn(position position);
 
     /**
-     * Get pawn to identifier.
+     * Get {@code pawn} to identifier.
      *
-     * @param idPawn identifier pawn.
-     * @return the pawn with id present on the board.
-     * @throws IllegalArgumentException if the pawn not present in board.
-     * @throws IllegalArgumentException if the idPawn is empty.
+     * @param idPawn identifier {@code pawn}.
+     * @return the {@code pawn} with id present on the board.
+     * @throws IllegalArgumentException if the {@code pawn} not present in board.
+     * @throws IllegalArgumentException if the {@code idPawn} is empty.
      */
     pawn getPawn(String idPawn);
 
     /**
-     * Check the position is empty.
+     * Check the {@code position} is empty.
      *
-     * @param position position check is {@code free}.
-     * @return true if box is empty else {@code false}.
-     * @throws IllegalArgumentException if position not present in game.
+     * @param position {@code position} to be checked if free.
+     * @return {@code true} if box is empty else {@code false}.
+     * @throws IllegalArgumentException if {@code position} not present in game.
      */
     boolean isFree(position position);
 
     /**
-     * Insert in select position the pawn.
+     * Insert in select {@code position} the {@code pawn}.
      *
-     * @param position position update pawn.
-     * @param pawn     pawn to update.
-     * @return {@code true} the position update.
-     * @throws IllegalArgumentException if position not present in game.
-     * @throws IllegalArgumentException if pawn not present in game.
+     * @param position new {@code position} for the {@code pawn}.
+     * @param pawn     pawn to move.
+     * @return {@code true} the {@code position} update.
+     * @throws IllegalArgumentException if {@code {@code position}} not present in game.
+     * @throws IllegalArgumentException if {@code pawn} not present in game.
      */
     boolean updatePosition(position position, pawn pawn);
 
     /**
-     * Adding pawn to board game.
+     * Adding {@code pawn} to board game.
      *
-     * @param position position adding pawn.
-     * @param pawn     pawn to add.
+     * @param position {@code position} adding {@code pawn}.
+     * @param pawn     {@code pawn} to add.
      * @return {@code true} if added else {@code false}.
-     * @throws IllegalArgumentException if position not present in game.
-     * @throws IllegalArgumentException if pawn present in game.
+     * @throws IllegalArgumentException if {@code position} not present in game.
+     * @throws IllegalArgumentException if {@code pawn} present in game.
      */
     boolean addPawn(position position, pawn pawn);
 
     /**
-     * Dead pawn,transport to delete pawn. Pawn get identifier
+     * eliminates the {@code pawn}.Get {@code pawn} to id
      *
      * @param idPawn identifier pawn.
      * @throws IllegalArgumentException if pawn not present in game.
@@ -75,40 +75,40 @@ public interface gameBoard {
     void goDeletionPawn(String idPawn);
 
     /**
-     * Dead pawn, transport to delete pawn. Pawn get position.
+     * eliminates the {@code pawn}. Get {@code pawn} to {@code position}
      *
-     * @param position position for delete pawn.
+     * @param position {@code position} for delete pawn.
      * @throws IllegalArgumentException if pawn not present in game.
      */
     void goDeletionPawn(position position);
 
     /**
-     * Clear all component on board.
+     * Clear all board. Delete all {@code pawn} to board.
      */
     void clearBoard();
 
     /**
-     * Get board position  for pawn.
+     * Get board {@code position}  for {@code pawn}.
      *
-     * @param idPawn identifier pawn.
-     * @return position to pawn.
-     * @throws IllegalArgumentException if pawn not present.
-     * @throws IllegalArgumentException if identifier pawn is empty.
+     * @param idPawn identifier {@code pawn}.
+     * @return {@code position} to {@code pawn}.
+     * @throws IllegalArgumentException if {@code pawn}. not present.
+     * @throws IllegalArgumentException if identifier {@code pawn}. is empty.
      */
     position getPositionPawn(String idPawn);
 
     /**
-     * Free position for empty chess.
+     * Free {@code position} for empty chess.
      *
-     * @param position position for free
-     * @throws IllegalArgumentException if position not present
+     * @param position {@code position} for free
+     * @throws IllegalArgumentException if {@code position} not present
      */
     void freePosition(position position);
 
     /**
-     * Check pawn is present.
+     * Check {@code pawn} is present.
      *
-     * @param idPawn identifier pawn.
+     * @param idPawn identifier {@code pawn}.
      * @return {@code true} if present else {@code false}
      */
     boolean pawnIsPresent(String idPawn);
@@ -121,31 +121,31 @@ public interface gameBoard {
     String getId();
 
     /**
-     * Get all pawn present on board.
+     * Get all {@code pawn} present on board.
      *
-     * @return list of pawn the board.
+     * @return list of {@code pawn} the board.
      */
     List<pawn> getPawns();
 
     /**
-     * Restart game, move all pawn in init position.
+     * Restart game, move all {@code pawn} in init {@code position}.
      */
     void restart();
 
     /**
-     * Get deleted pawn.
+     * Get deleted {@code pawn}.
      *
-     * @return list content all pawn element.
+     * @return list content all {@code pawn} element.
      */
     List<pawn> getEliminated();
 
     /**
-     * Get the list of pawns belonging to the player that can move.
+     * Get the list of pawns belonging to the {@code player} that can move.
      *
-     * @param idPlayer player identifier
-     * @return list of player pawn available to move or {@code null} if the player hasn't pawns to move.
-     * @throws IllegalArgumentException if the player identifier is empty.
-     * @throws IllegalArgumentException If the player pawns does not belong to the board
+     * @param idPlayer {@code player} identifier
+     * @return list of {@code player} {@code pawn} available to move or {@code null} if the {@code player} hasn't pawns to move.
+     * @throws IllegalArgumentException if the {@code player} identifier is empty.
+     * @throws IllegalArgumentException If the {@code player} pawns does not belong to the board
      */
     List<pawn> getPawnToMove(String idPlayer);
 }

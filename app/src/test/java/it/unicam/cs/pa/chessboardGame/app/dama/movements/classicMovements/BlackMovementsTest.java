@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test of black pawn
+ * Test of black {@code pawn}
  *
  * @author Matteo Brachetta
- * @version 0.2
+ * @version 1.0
  */
 class BlackMovementsTest {
     private final damaPlayer playerBlackTest = new damaPlayer("player black Test");
@@ -322,7 +322,7 @@ class BlackMovementsTest {
      * Check pawn is eliminated
      *
      * @param pawnToCheck pawn to check eliminated
-     * @return true if pawn is eliminated else false
+     * @return {@code true} if pawn is eliminated else {@code true}
      */
     private boolean checkEliminationPawn(damaPawn pawnToCheck) {
         return this.gd.getBoard().getEliminated().contains(pawnToCheck);

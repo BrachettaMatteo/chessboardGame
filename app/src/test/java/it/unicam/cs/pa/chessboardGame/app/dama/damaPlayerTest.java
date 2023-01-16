@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Test of dama Player
  *
  * @author Matteo Brachetta
- * @version 0.1
+ * @version 1.0
  */
 class DamaPlayerTest {
     private static damaPlayer dp = new damaPlayer("test player");

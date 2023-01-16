@@ -1,32 +1,37 @@
 package it.unicam.cs.pa.chessboardGame.structure;
 
 /**
- * player, he's responsible to squad pawn of game
+ * {@code player}, he's responsible to squad {@code pawn} of game
  *
  * @author Matteo Brachetta
+ * @version 1.0
  */
 public interface player {
 
     /**
-     * @return player identifier
+     * Get {@code player} identifier.
+     *
+     * @return {@code player} identifier.
      */
     String getId();
 
     /**
+     * Get {@code player} score.
+     *
      * @return the score of game
      */
     int getScore();
 
     /**
-     * increment player score game
+     * Increment {@code player} score.
      *
-     * @param score score add total score
+     * @param score score to add {@code player} score
      * @throws IllegalArgumentException the score is less than 0
      */
     void addScore(int score);
 
     /**
-     * remove score for score player game
+     * Remove score for score {@code player} game
      *
      * @param score score for remove to total
      * @throws IllegalArgumentException the score is less 0
@@ -34,7 +39,9 @@ public interface player {
     void removeScore(int score);
 
     /**
-     * @return player name
+     * Get {@code player} name.
+     *
+     * @return {@code player} name
      */
     String getName();
 

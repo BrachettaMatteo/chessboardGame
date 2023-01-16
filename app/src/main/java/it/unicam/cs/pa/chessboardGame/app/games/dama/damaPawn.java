@@ -12,7 +12,7 @@ import java.util.UUID;
 
 /**
  * @author Matteo Brachetta
- * @version 0.1.1
+ * @version 1.0
  */
 public class damaPawn implements pawn {
 
@@ -32,7 +32,7 @@ public class damaPawn implements pawn {
      * @param board     <code>gameBoard</code> which contains content.
      * @param symbol    symbol to identify the pawn.
      * @param owner     owner of pawn.
-     * @param isWhite   identify the player is white, <code>true</code> if pawn is white else <code>false</code>
+     * @param isWhite   identify the player is white, {@code true} if pawn is white else {@code false}
      */
     public damaPawn(int hierarchy, gameBoard board, String symbol, player owner, boolean isWhite) {
         this.id = UUID.randomUUID();

@@ -15,7 +15,7 @@ import java.util.Objects;
 
 /**
  * @author Matteo Brachetta
- * @version 0.1
+ * @version 1.0
  */
 public class damaBoard implements gameBoard {
 
@@ -36,11 +36,11 @@ public class damaBoard implements gameBoard {
      */
     private int size;
     /**
-     * White player, position of the player below on the board.
+     * White {@code player}, position of the {@code player} below on the board.
      */
     private final player whitePlayer;
     /**
-     * Black player, position of the player below on the board.
+     * Black {@code player}, position of the {@code player} below on the board.
      */
     private final player blackPlayer;
 

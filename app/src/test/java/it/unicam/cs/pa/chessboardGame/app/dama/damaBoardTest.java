@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
  * Test of dama board
  *
  * @author Matteo Brachetta
- * @version 0.1
+ * @version 1.0
  */
 class DamaBoardTest {
     private final position errorPositionBoard = new position(100, 100);

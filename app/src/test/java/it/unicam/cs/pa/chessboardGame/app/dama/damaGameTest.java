@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * test of dama Game
  *
  * @author Matteo Brachetta
- * @version 0.2
+ * @version 1.0
  */
 class DamaGameTest {
     private final damaPlayer playerPawnWhite = new damaPlayer("white player test");

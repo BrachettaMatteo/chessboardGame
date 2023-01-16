@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * dama Movement of pawn
  *
  * @author Matteo Brachetta
- * @version 0.1.1
+ * @version 1.0
  */
 public class damaMovement extends defaultMovements {
     /**
@@ -115,7 +115,7 @@ public class damaMovement extends defaultMovements {
     /**
      * Check the backLeft is possible execute.
      *
-     * @return <code>true</code> if the movement it'll execute else <code>false</code>
+     * @return {@code true} if the movement it'll execute else {@code false}
      */
     private boolean checkBackLeftMove() {
         if (this.pawn.getType()) {
@@ -126,7 +126,7 @@ public class damaMovement extends defaultMovements {
     /**
      * Check the backRight is possible execute.
      *
-     * @return <code>true</code> if the movement it'll execute else <code>false</code>
+     * @return {@code true} if the movement it'll execute else {@code false}
      */
     private boolean checkBackRightMove() {
         if (this.pawn.getType()) {
@@ -137,7 +137,7 @@ public class damaMovement extends defaultMovements {
     /**
      * Check the forwardRight is possible move.
      *
-     * @return <code>true</code> if the movement it'll execute else <code>false</code>
+     * @return {@code true} if the movement it'll execute else {@code false}
      */
     private boolean checkForwardRightMove() {
         if (this.pawn.getType()) {
@@ -149,7 +149,7 @@ public class damaMovement extends defaultMovements {
     /**
      * Check the forwardLeft is possible move.
      *
-     * @return <code>true</code> if the movement it'll execute else <code>false</code>
+     * @return {@code true} if the movement it'll execute else {@code false}
      */
     private boolean checkForwardLeftMove() {
         if (this.pawn.getType())
@@ -160,7 +160,7 @@ public class damaMovement extends defaultMovements {
     /**
      * Check the back movement it'll execute.
      *
-     * @return <code>true</code> if the movement it'll execute else <code>false</code>
+     * @return {@code true} if the movement it'll execute else {@code false}
      */
     private boolean isAvailableToBottomMove() {
         if (this.pawn.getType()) {

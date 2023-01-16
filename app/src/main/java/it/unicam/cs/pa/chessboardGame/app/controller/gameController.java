@@ -78,15 +78,15 @@ public class gameController implements Initializable {
     @FXML
     public Button btnGoBack;
     /**
-     * List content all possible move for pawn.
+     * List content all possible move for {@code pawn}.
      */
     ObservableList<String> move = FXCollections.observableArrayList(mainController.selectGame.getNameAllPossibleMove());
     /**
-     * Opponent for player
+     * Opponent for {@code player}
      */
     private player opponentPlayer;
     /**
-     * player game
+     * {@code player} game
      */
     private player player;
 

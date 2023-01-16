@@ -9,7 +9,7 @@ import it.unicam.cs.pa.chessboardGame.structure.position;
  * Default Movement of pawn
  *
  * @author Matteo Brachetta
- * @version 0.3
+ * @version 1.0
  */
 public class defaultMovements implements movement {
     final int MAX_CAPTURE_ONE_MOVE = 3;
@@ -91,7 +91,7 @@ public class defaultMovements implements movement {
     /**
      * Check the position is correct for move.
      *
-     * @return <code>true</code> if position is correct else <code>false</code>.
+     * @return {@code true} if position is correct else {@code false}.
      */
     protected boolean correctMove() {
         position current = this.gb.getPositionPawn(this.pawn.getId());
@@ -137,7 +137,7 @@ public class defaultMovements implements movement {
      * Check the position content pawn not friends or friends, two pawns are friends when they have the same type.
      *
      * @param positionToPawn position of pawn to be verified
-     * @return <code>true</code> is not friend else <code>false</code>
+     * @return {@code true} is not friend else {@code false}
      */
     protected boolean notFriend(position positionToPawn) {
         try {
@@ -232,7 +232,7 @@ public class defaultMovements implements movement {
     /**
      * Check the pawn is dama or not. It uses the <code>this.pawn</code>.
      *
-     * @return <code>true</code> the pawn is dama else <code>false</code>
+     * @return {@code true} the pawn is dama else {@code false}
      */
     private boolean checkDamaPawn() {
         return this.pawn.getMovement() instanceof damaMovement;
@@ -242,7 +242,7 @@ public class defaultMovements implements movement {
      * Check the position is position for upgrade the pawn in dama.
      *
      * @param positionToCheck position for check
-     * @return <code>true</code> if pawn dama else <code>false</code>
+     * @return {@code true} if pawn dama else {@code false}
      */
     protected boolean checkDama(position positionToCheck) {
         if (pawn.getType()) return positionToCheck.getRow() == 8;
@@ -254,7 +254,7 @@ public class defaultMovements implements movement {
      *
      * @param currentPosition refer position for create new position
      * @param incrementColum  increment column for new position
-     * @return new correct position or <code>null</code> if the position not correct
+     * @return new correct position or {@code null} if the position not correct
      */
     protected position getNewPosition(position currentPosition, int incrementColum) {
         try {
@@ -301,7 +301,7 @@ public class defaultMovements implements movement {
      * @param p               position to start
      * @param directionColumn increment column for new position
      * @param directionRow    increment row for new position
-     * @return <code>true</code> if the new position is empty else <code>false</code>
+     * @return {@code true} if the new position is empty else {@code false}
      */
     protected boolean checkPosition(position p, int directionColumn, int directionRow) {
         try {

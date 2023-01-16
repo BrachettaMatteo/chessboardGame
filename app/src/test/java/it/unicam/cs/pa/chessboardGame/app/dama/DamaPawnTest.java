@@ -15,10 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * Test for check functionality dama pawn
+ * Test for check functionality dama {@code pawn}
  *
  * @author Matteo Brachetta
- * @version 0.1
+ * @version 1.0
  */
 class DamaPawnTest {
     private damaPawn basicDamaPawn;

@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
  * test positionTest
  *
  * @author Matteo Brachetta
- * @version 0.1
+ * @version 1.0
  */
 class PositionTest {
     private final int row = 2;

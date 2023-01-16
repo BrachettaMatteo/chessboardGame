@@ -19,7 +19,7 @@ import java.util.NoSuchElementException;
  * Italian checkers - It is played on a 8x8 checkerboard, similar to the chess board in chess, with the only difference being that it is rotated ninety degrees (the canton, i.e., the black corner square, goes to the bottom right). There are 12 checkers per players, and the players with the light pieces ('the white') starts. Pawns cannot eat the ladies, nor can they eat backwards. In the case of multiple chances to take, there is an obligation to take in the order of priority: where there are the most pieces, where there are the most valuable pieces (ladies) and where the most valuable pieces meet first. With the same number of pieces, if there is a possibility of taking with both pawn and checkers, it is obligatory to take with checkers. It is played mainly in Italy and some North African countries.
  *
  * @author Matteo Brachetta
- * @version 0.1
+ * @version 1.0
  */
 public class damaGame implements game {
     private final String information;
@@ -37,8 +37,8 @@ public class damaGame implements game {
      * Complete construction for <code>damaGame</code>.
      *
      * @param descInformation description of game.
-     * @param player1         first player.
-     * @param player2         second player.
+     * @param player1         first {@code player}.
+     * @param player2         second {@code player}.
      */
     public damaGame(String descInformation, damaPlayer player1, damaPlayer player2) {
 
@@ -78,9 +78,9 @@ public class damaGame implements game {
     }
 
     /**
-     * Check player of game
+     * Check {@code player} of game
      *
-     * @return true if game is ready to start else false
+     * @return {@code true} if game is ready to start else {@code false}
      */
     public boolean readyToStart() {
         if (players.stream().filter(damaPlayer -> damaPlayer instanceof easyBotDama).toList().size() < 2) {
@@ -148,7 +148,7 @@ public class damaGame implements game {
      * Check the player is present with id.
      *
      * @param idPlayer identifier player
-     * @return true if present else false
+     * @return {@code true} if present else {@code false}
      */
     private boolean playerIsPresent(String idPlayer) {
         return !this.getPlayers().stream().filter(player -> player.getId().equals(idPlayer)).toList().isEmpty();

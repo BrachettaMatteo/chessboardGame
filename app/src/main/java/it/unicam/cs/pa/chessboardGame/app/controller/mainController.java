@@ -2,7 +2,6 @@ package it.unicam.cs.pa.chessboardGame.app.controller;
 
 import it.unicam.cs.pa.chessboardGame.app.App;
 import it.unicam.cs.pa.chessboardGame.app.games.dama.damaGame;
-import it.unicam.cs.pa.chessboardGame.app.games.testGame;
 import it.unicam.cs.pa.chessboardGame.structure.game;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,8 +37,9 @@ public class mainController implements Initializable {
      */
     @FXML
     public Button btnStartGame;
+
     /**
-     * (UI) TextField for insert name player
+     * (UI) TextField for insert name {@code player}
      */
     @FXML
     private TextField namePlayer;
@@ -47,21 +47,14 @@ public class mainController implements Initializable {
      * List content all Game
      */
     public ArrayList<game> listGame = new ArrayList<>(List.of(
-            new damaGame("test"),
-            new testGame("game 1"),
-            new testGame("game 2"),
-            new testGame("game 3"),
-            new testGame("game 4"),
-            new testGame("game 5"),
-            new testGame("game 6"),
-            new testGame("game 7")
+            new damaGame("Customized checkers version. The game implements all the rules of checkers except for the mandatory capture move as the first move and the checker can be eaten by a pawn")
     ));
     /**
      * Identify game select
      */
     public static game selectGame;
     /**
-     * Name of player
+     * Name of {@code player}
      */
     public static String playerName;
 

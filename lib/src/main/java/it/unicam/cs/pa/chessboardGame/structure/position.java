@@ -4,24 +4,24 @@ package it.unicam.cs.pa.chessboardGame.structure;
  * Represent coordinate of chessboard
  *
  * @author Matteo Brachetta
- * @version 0.0
+ * @version 1.0
  */
 public class position implements Comparable<position> {
 
     /**
-     * Represent the position in row
+     * Represent the {@code position} in row.
      */
     private int row;
     /**
-     * Represent the position in column
+     * Represent the {@code position} in column.
      */
     private int column;
 
     /**
-     * Construction for create new position
+     * Construction for create new {@code position}.
      *
-     * @param column colum of position.
-     * @param row    row of position.
+     * @param column colum of {@code position}.
+     * @param row    row of {@code position}.
      */
     public position(int column, int row) {
         this.row = row;
@@ -29,18 +29,19 @@ public class position implements Comparable<position> {
     }
 
     /**
-     * Get row of <code>position</code>
-     * @return row
+     * Get row of {@code position}.
+     *
+     * @return row.
      */
     public int getRow() {
         return this.row;
     }
 
     /**
-     * Setting new position row
+     * Setting new {@code position} row.
      *
-     * @param row new position row
-     * @throws IllegalArgumentException row is less than 0
+     * @param row new {@code position} row.
+     * @throws IllegalArgumentException row is less than 0.
      */
     public void setRow(int row) {
         if (row >= 0)
@@ -51,20 +52,20 @@ public class position implements Comparable<position> {
     }
 
     /**
-     * get column
+     * Get column of {@code position}.
      *
-     * @return column
-     * @throws IllegalArgumentException row is less than 0
+     * @return column.
+     * @throws IllegalArgumentException row is less than 0.
      */
     public int getColumn() {
         return this.column;
     }
 
     /**
-     * Setting new position column
+     * Setting new {@code position} column.
      *
-     * @param column new position column
-     * @throws IllegalArgumentException column is less than 0
+     * @param column new {@code position} column.
+     * @throws IllegalArgumentException column is less than 0.
      */
     public void setColumn(int column) {
         if (column >= 0)

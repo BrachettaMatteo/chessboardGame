@@ -4,55 +4,55 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Represent the game it's responsible to manage the game
+ * Represent the game. The game is composites from board and {@code player}.
  *
  * @author Matteo Brachetta
- * @version 0.1
+ * @version 1.0
  */
 public interface game {
 
     /**
-     * Get chessboard.
+     * Get the chessboard associated with the game.
      *
      * @return the board game.
      */
     gameBoard getBoard();
 
     /**
-     * Setting the new board for game.
+     * Setting the new the chessboard associated with the game.
      *
-     * @param newBoard new board for game
+     * @param board new board to be associated with the game.
      * @throws NullPointerException if the {@code board} is {@code null}
      */
-    void setBoard(gameBoard newBoard);
+    void setBoard(gameBoard board);
 
     /**
      * Get identifier game.
      *
-     * @return  game identify.
+     * @return the game identifier.
      */
     String getId();
 
     /**
      * Get name game.
      *
-     * @return name game.
+     * @return the name of the game.
      */
     String getName();
 
     /**
-     * Get live win player.
+     * Get live win {@code player}.
      *
-     * @return player win player;
+     * @return the winning {@code player}.
      */
     player getLiveWin();
 
     /**
-     * Setting player for game
+     * Setting players for game. Replaces old players.
      *
-     * @param players new players
-     * @throws NullPointerException     if the list of player is {@code null}
-     * @throws IllegalArgumentException if the list of player is empty
+     * @param players new list of {@code player} to add game.
+     * @throws NullPointerException     if the list of {@code player} is {@code null}
+     * @throws IllegalArgumentException if the list of {@code player} is empty
      */
     void setPlayers(List<player> players);
 
@@ -64,24 +64,24 @@ public interface game {
     Collection<player> getPlayers();
 
     /**
-     * Get Player game.
+     * Get {@code player} game.
      *
-     * @param idPlayer player identifier
-     * @return player player game
+     * @param id player identifier
+     * @return Returns the {@code player} present in the game.
      * @throws IllegalArgumentException if idPlayer is empty
      * @throws NullPointerException     if idPlayer is {@code null}
-     * @throws IllegalArgumentException if player isn't contained
+     * @throws IllegalArgumentException if {@code player} isn't contained
      */
-    player getPlayer(String idPlayer);
+    player getPlayer(String id);
 
     /**
-     * Add new player for game.
+     * Create new {@code player} for game.
      *
-     * @param namePlayer new player
-     * @throws IllegalArgumentException If the player is already contained in the game
-     * @throws NullPointerException     if the player is {@code null}
+     * @param name {@code player} name.
+     * @throws IllegalArgumentException If the {@code player} is already contained in the game.
+     * @throws NullPointerException     if the {@code player} is {@code null}
      */
-    void addPlayer(String namePlayer);
+    void addPlayer(String name);
 
     /**
      * Get information for game.
@@ -91,27 +91,27 @@ public interface game {
     String getInformationGame();
 
     /**
-     * Restart game, reset score player and restart chessboard.
+     * Restart game. Reset score {@code player} and board.
      */
     void restart();
 
     /**
-     * Check and start game
+     * Check and start game.
      *
      * @throws IllegalArgumentException if the game can't start
      */
     void start();
 
     /**
-     * Get win player.
+     * Get win {@code player}.
      *
-     * @return the player win or {@code null}
+     * @return the {@code player} win or {@code null}
      */
     player getWin();
 
     /**
      * Get list name movement for show in UI.
-     * The movement accept are:{@code forward, forwardRight, forwardLeft,back,backRight,backLeft,left,right.}
+     * The movement accept are:{@code [forward,forwardRight,forwardLeft,back,backRight,backLeft,left,right].}
      *
      * @return list content all possible movement.
      */

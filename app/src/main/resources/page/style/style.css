@@ -29,9 +29,11 @@
     -fx-text-fill: #E9B470;
     -fx-border-color: #E9B470;
 }
+
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
 }
+
 #scrollPane {
     -fx-background-color: Black;
 
@@ -45,6 +47,7 @@
     -fx-background-color: black;
     -fx-background-insets: 0, 1;
 }
+
 
 
 
