@@ -45,4 +45,21 @@ public interface player {
      */
     String getName();
 
+    /**
+     * Executes the pawn move.
+     *
+     * @param pawnToMove pawn to request move.
+     * @param move       specific execute move.
+     * @throws IllegalArgumentException if the movement isn't correct.
+     */
+    void executeMove(pawn pawnToMove, String move);
+
+    /**
+     * Executes automatic pawn move.
+     *
+     * @param board pawn to request move.
+     * @throws NullPointerException if the pawn is null
+     */
+    void executeAutomaticMove(gameBoard board);
+
 }
