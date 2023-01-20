@@ -27,7 +27,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
-import org.apache.commons.lang3.StringUtils;
 
 
 import java.io.IOException;
@@ -39,7 +38,6 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Optional;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Controller for game screen
@@ -187,113 +185,22 @@ public class gameController implements Initializable {
     public void move() {
         position p = new position(this.spinnerSelectColumn.getValue(), this.spinnerSelectRow.getValue());
         pawn selectPawn = mainController.selectGame.getBoard().getPawn(p);
-        if (selectPawn != null && mainController.selectGame.getBoard().getPawnToMove(player.getId()).contains(selectPawn)) {
+        System.out.println("controller"+this.spinnerSelectMove.getValue().toUpperCase());
+        try {
+            player.executeMove(selectPawn, this.spinnerSelectMove.getValue().toUpperCase());
             this.labelError.setText("");
-            this.checkMove(selectPawn);
-        } else this.labelError.setText("error Position, the position isn't move");
-
-    }
-
-    /**
-     * Check move and execute move
-     *
-     * @param selectPawn pawn to move
-     */
-    private void checkMove(pawn selectPawn) {
-        String movement = StringUtils.deleteWhitespace(spinnerSelectMove.getValue()).toUpperCase();
-        System.out.println(movement);
-        switch (movement) {
-            case "FORWARD" -> {
-                try {
-                    selectPawn.getMovement().forward();
-                    this.finishTurn();
-                } catch (Exception e) {
-                    if (!selectPawn.getId().equals(opponentPlayer.getId()))
-                        this.labelError.setText(e.getMessage());
-                }
-            }
-            case "LEFT" -> {
-                try {
-                    selectPawn.getMovement().left();
-                    this.finishTurn();
-                } catch (Exception e) {
-                    if (!selectPawn.getId().equals(opponentPlayer.getId()))
-                        this.labelError.setText(e.getMessage());
-                }
-            }
-            case "RIGHT" -> {
-                try {
-                    selectPawn.getMovement().right();
-                    this.finishTurn();
-                } catch (Exception e) {
-                    if (!selectPawn.getId().equals(opponentPlayer.getId()))
-                        this.labelError.setText(e.getMessage());
-                }
-            }
-            case "FORWARDLEFT" -> {
-                try {
-                    selectPawn.getMovement().forwardLeft();
-                    this.finishTurn();
-                } catch (Exception e) {
-                    if (!selectPawn.getId().equals(opponentPlayer.getId()))
-                        this.labelError.setText(e.getMessage());
-                }
-            }
-
-            case "FORWARDRIGHT" -> {
-                try {
-                    System.out.println("select FR");
-                    selectPawn.getMovement().forwardRight();
-                    this.finishTurn();
-
-                } catch (Exception e) {
-                    if (!selectPawn.getId().equals(opponentPlayer.getId()))
-                        this.labelError.setText(e.getMessage());
-                }
-            }
-            case "BACK" -> {
-                try {
-                    selectPawn.getMovement().back();
-                    this.finishTurn();
-                } catch (Exception e) {
-                    if (!selectPawn.getId().equals(opponentPlayer.getId()))
-                        this.labelError.setText(e.getMessage());
-                }
-            }
-            case "BACKRIGHT" -> {
-                try {
-                    selectPawn.getMovement().backRight();
-                    this.finishTurn();
-
-                } catch (Exception e) {
-                    if (!selectPawn.getId().equals(opponentPlayer.getId()))
-                        this.labelError.setText(e.getMessage());
-                }
-            }
-            case "BACKLEFT" -> {
-                try {
-                    selectPawn.getMovement().backLeft();
-                    this.finishTurn();
-
-                } catch (Exception e) {
-                    if (!selectPawn.getId().equals(opponentPlayer.getId()))
-                        this.labelError.setText(e.getMessage());
-                }
-            }
-
-            default -> this.labelError.setText("error Movement, the movement is not accepted by the pawn");
+            this.finishTurn();
+        } catch (Exception e) {
+            this.labelError.setText(e.getMessage());
         }
-
     }
 
     /**
      * Executes the opponent's move and checks the win. If he finds the winner, lunch the <code>this.endGame()</code>.
      */
     private void finishTurn() {
-        List<pawn> lp = mainController.selectGame.getBoard().getPawnToMove(opponentPlayer.getId());
         if (mainController.selectGame.getWin() == null) {
-            int rand = ThreadLocalRandom.current().nextInt(0, lp.size());
-            lp.get(rand).getMovement().randomMove();
+           opponentPlayer.executeAutomaticMove(mainController.selectGame.getBoard());
         } else {
             try {
                 this.endGame();
@@ -314,7 +221,7 @@ public class gameController implements Initializable {
         ButtonType buttonNewGame = new ButtonType("new game");
         ButtonType buttonGoBack = new ButtonType("go back");
         alert.setTitle("End Game");
-        alert.setHeaderText("The " + mainController.selectGame.getWin().getName() + "is the winner");
+        alert.setHeaderText("The " + mainController.selectGame.getWin().getName() + " is the winner");
         alert.setContentText("Do you want to Start a new game?");
         alert.getButtonTypes().setAll(buttonNewGame, buttonGoBack);
         Optional<ButtonType> result = alert.showAndWait();

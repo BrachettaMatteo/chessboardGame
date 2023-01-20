@@ -1,9 +1,14 @@
 package it.unicam.cs.pa.chessboardGame.app.games.dama;
 
+import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
+import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.player;
+import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * <code>player</code> for damaGame
@@ -73,5 +78,24 @@ public class damaPlayer implements player {
         return result;
     }
 
+    @Override
+    public void executeMove(pawn pawnToMove, String move) {
+        move = StringUtils.deleteWhitespace(move).toUpperCase();
+        switch (move) {
+            case "FORWARDLEFT" -> pawnToMove.getMovement().forwardLeft();
+            case "FORWARDRIGHT" -> pawnToMove.getMovement().forwardRight();
+            case "BACKRIGHT" -> pawnToMove.getMovement().backRight();
+            case "BACKLEFT" -> pawnToMove.getMovement().backLeft();
+            default -> throw new IllegalArgumentException("move not correct");
+        }
 
+    }
+
+    @Override
+    public void executeAutomaticMove(gameBoard board) {
+        if (board == null) throw new NullPointerException("bard is null");
+        List<pawn> lp = board.getPawnToMove(this.getId());
+        int rand = ThreadLocalRandom.current().nextInt(0, lp.size());
+        lp.get(rand).getMovement().randomMove();
+    }
 }

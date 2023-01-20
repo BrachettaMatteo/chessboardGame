@@ -1,8 +1,11 @@
 package it.unicam.cs.pa.chessboardGame.app.games.dama.defaultBot;
 
 import it.unicam.cs.pa.chessboardGame.app.games.dama.damaPlayer;
+import it.unicam.cs.pa.chessboardGame.structure.gameBoard;
+import it.unicam.cs.pa.chessboardGame.structure.pawn;
 
-import java.util.UUID;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Easy bot, the move is randomly generated.
@@ -12,23 +15,19 @@ import java.util.UUID;
  */
 public class easyBotDama extends damaPlayer {
 
-    private final UUID id;
-
     /**
      * Constructor for <code>easyBotDama</code>.
      */
     public easyBotDama() {
         super("easyBot");
-        this.id = UUID.randomUUID();
     }
 
-    /**
-     *  {@inheritDoc}
-     */
 
     @Override
-    public String getId() {
-        return this.id.toString();
+    public void executeAutomaticMove(gameBoard board) {
+        if (board == null) throw new NullPointerException("bard is null");
+        List<pawn> lp = board.getPawnToMove(this.getId());
+        int rand = ThreadLocalRandom.current().nextInt(0, lp.size());
+        lp.get(rand).getMovement().randomMove();
     }
-
 }
