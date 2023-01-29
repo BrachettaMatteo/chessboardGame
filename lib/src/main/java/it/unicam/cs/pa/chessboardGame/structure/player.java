@@ -51,6 +51,8 @@ public interface player {
      * @param pawnToMove pawn to request move.
      * @param move       specific execute move.
      * @throws IllegalArgumentException if the movement isn't correct.
+     * @throws IllegalArgumentException if the pawn isn't correct.
+     * @throws NullPointerException if the pawn is {@code null}
      */
     void executeMove(pawn pawnToMove, String move);
 

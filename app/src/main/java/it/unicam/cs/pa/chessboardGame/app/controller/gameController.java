@@ -183,9 +183,9 @@ public class gameController implements Initializable {
      */
     @FXML
     public void move() {
+
         position p = new position(this.spinnerSelectColumn.getValue(), this.spinnerSelectRow.getValue());
         pawn selectPawn = mainController.selectGame.getBoard().getPawn(p);
-        System.out.println("controller"+this.spinnerSelectMove.getValue().toUpperCase());
         try {
             player.executeMove(selectPawn, this.spinnerSelectMove.getValue().toUpperCase());
             this.labelError.setText("");
@@ -193,14 +193,16 @@ public class gameController implements Initializable {
         } catch (Exception e) {
             this.labelError.setText(e.getMessage());
         }
+
     }
+
 
     /**
      * Executes the opponent's move and checks the win. If he finds the winner, lunch the <code>this.endGame()</code>.
      */
     private void finishTurn() {
         if (mainController.selectGame.getWin() == null) {
-           opponentPlayer.executeAutomaticMove(mainController.selectGame.getBoard());
+            opponentPlayer.executeAutomaticMove(mainController.selectGame.getBoard());
         } else {
             try {
                 this.endGame();

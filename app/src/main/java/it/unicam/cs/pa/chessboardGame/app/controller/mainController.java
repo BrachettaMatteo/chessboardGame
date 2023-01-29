@@ -125,8 +125,6 @@ public class mainController implements Initializable {
      */
     @FXML
     public void startGame() throws IOException {
-        System.out.println(selectGame.getName());
-        System.out.println(playerName);
         if (!playerName.isEmpty() || selectGame != null) {
             selectGame.start();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/page/game-view.fxml"));

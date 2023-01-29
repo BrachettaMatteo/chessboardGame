@@ -5,6 +5,7 @@ import it.unicam.cs.pa.chessboardGame.structure.pawn;
 import it.unicam.cs.pa.chessboardGame.structure.player;
 import org.apache.commons.lang3.StringUtils;
 
+
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -80,14 +81,18 @@ public class damaPlayer implements player {
 
     @Override
     public void executeMove(pawn pawnToMove, String move) {
-        move = StringUtils.deleteWhitespace(move).toUpperCase();
-        switch (move) {
-            case "FORWARDLEFT" -> pawnToMove.getMovement().forwardLeft();
-            case "FORWARDRIGHT" -> pawnToMove.getMovement().forwardRight();
-            case "BACKRIGHT" -> pawnToMove.getMovement().backRight();
-            case "BACKLEFT" -> pawnToMove.getMovement().backLeft();
-            default -> throw new IllegalArgumentException("move not correct");
-        }
+        if (pawnToMove == null) throw new NullPointerException("the position is empty");
+        if (pawnToMove.getOwner() == this) {
+            move = StringUtils.deleteWhitespace(move).toUpperCase();
+            switch (move) {
+                case "FORWARDLEFT" -> pawnToMove.getMovement().forwardLeft();
+                case "FORWARDRIGHT" -> pawnToMove.getMovement().forwardRight();
+                case "BACKRIGHT" -> pawnToMove.getMovement().backRight();
+                case "BACKLEFT" -> pawnToMove.getMovement().backLeft();
+                default -> throw new IllegalArgumentException("move not correct");
+            }
+        } else throw new IllegalArgumentException("The pawn isn't correct");
+
 
     }
 
