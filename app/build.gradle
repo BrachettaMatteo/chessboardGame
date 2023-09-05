@@ -16,9 +16,22 @@ dependencies {
 }
 javafx {
     version = "19"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    modules = ['javafx.controls', 'javafx.fxml']
 }
 application {
     // Define the main class for the application.
     mainClass = 'it.unicam.cs.pa.chessboardGame.app.App'
+}
+def nameFile = "pollo";
+tasks.register("newGame") {
+    copy {
+        from(project(":lib").file("src/main/java/it/unicam/cs/pa/chessboardGame/structure/game.java"))
+        rename {return  "game"+ nameFile+".java"}
+        into(mkdir("app/src/main/java/it/unicam/cs/pa/chessboardGame/app/games/"+nameFile))
+    }
+    copy {
+        from(project(":lib").file("src/main/java/it/unicam/cs/pa/chessboardGame/structure/pawn.java"))
+        rename {return  nameFile+"Pawn.java"}
+        into(mkdir("app/src/main/java/it/unicam/cs/pa/chessboardGame/app/games/"+nameFile))
+    }
 }
